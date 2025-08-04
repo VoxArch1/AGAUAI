@@ -14,3 +14,19 @@ export function addName(name) {
     }
   }
 }
+
+function animate(name, row, col) {
+  const can = document.getElementById("wallCanvas");
+  const ctx  = can.getContext("2d");
+  // 1-sec full-screen pop
+  const flash = document.createElement("div");
+  flash.textContent = name;
+  flash.style = `position:fixed;inset:0;display:flex;justify-content:center;
+                 align-items:center;font-size:5vw;background:#111;z-index:999`;
+  document.body.appendChild(flash);
+  setTimeout(() => {
+    document.body.removeChild(flash);
+    ctx.fillStyle = wall[row][col];
+    ctx.fillRect(col * SIZE, row * SIZE, SIZE, SIZE);
+  }, 1000);
+}
