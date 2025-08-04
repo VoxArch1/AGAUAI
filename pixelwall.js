@@ -8,7 +8,9 @@ function flagWidth ()  { return COLS * SIZE * scale; }
 function flagHeight()  { return ROWS * SIZE * scale; }
 
 /* Ukraine silhouette path (placeholder hexagon; swap for real SVG later) */
-const ukrainePath = new Path2D("M10 0 L20 10 L20 20 L10 30 L0 20 L0 10 Z");
+const ukrainePath = new Path2D(
+  "M14 1 L26 4 L32 10 L30 18 L24 22 L22 30 L14 33 L6 30 L2 22 L0 12 L6 6 Z"
+);
 
 /* Pan-zoom globals */
 let scale = 1;
