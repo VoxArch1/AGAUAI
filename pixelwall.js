@@ -36,11 +36,11 @@ function animateswirl(name, row, col) {
   const targetY = rect.top  + row * SIZE + SIZE / 2;
 
   /* 3️⃣ Animate with a spiral into the target */
-  const steps = 60;                    // 1 s at 60 fps
+  const steps = 180;                    // 1 s at 60 fps
   let   i = 0;
   (function step() {
     const t = i / steps;               // 0 → 1
-    const turns  = 3;                  // full rotations
+    const turns  = 5;                  // full rotations
     const angle  = 2 * Math.PI * turns * t;
     const radius = 250 * (1 - t);      // start wide, end 0
     const x = targetX + radius * Math.cos(angle);
