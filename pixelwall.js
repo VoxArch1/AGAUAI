@@ -82,8 +82,8 @@ canvas.addEventListener("wheel", e => {
   const newScale   = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
   const appliedZ   = newScale / scale;   // actual factor after clamping
   scale = newScale;
-  offsetX -= mx * (zoom - 1) * scale;
-  offsetY -= my * (zoom - 1) * scale;
+  offsetX -= mx * (appliedZ - 1) * scale;
+  offsetY -= my * (appliedZ - 1) * scale;
   drawWall();
 });
 
