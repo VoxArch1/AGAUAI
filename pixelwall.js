@@ -8,25 +8,52 @@ export function addName(name) {
     for (let c = 0; c < COLS; c++) {
       if (wall[r][c] === "#000") {
         wall[r][c] = r < ROWS / 2 ? "blue" : "yellow";   // crude flag split
-        animate(name, r, c);
+        animateswirl(name, r, c);
         return;
       }
     }
   }
 }
 
-function animate(name, row, col) {
-  const can = document.getElementById("wallCanvas");
-  const ctx  = can.getContext("2d");
-  // 1-sec full-screen pop
-  const flash = document.createElement("div");
-  flash.textContent = name;
-  flash.style = `position:fixed;inset:0;display:flex;justify-content:center;
-                 align-items:center;font-size:5vw;background:#111;z-index:999`;
-  document.body.appendChild(flash);
-  setTimeout(() => {
-    document.body.removeChild(flash);
-    ctx.fillStyle = wall[row][col];
-    ctx.fillRect(col * SIZE, row * SIZE, SIZE, SIZE);
-  }, 1000);
+function animateswirl(name, row, col) {
+  const SIZE   = 6;                                    // must match wall pixel size
+  const canvas = document.getElementById("wallCanvas");
+  const ctx    = canvas.getContext("2d");
+
+  /* 1️⃣  create a floating name element in the middle of the screen */
+  const float = document.createElement("div");
+  float.textContent = name;
+  float.style = `
+    position:fixed;left:50%;top:50%;translate:-50% -50%;
+    font-size:4vw;font-weight:700;color:#ffd700;
+    pointer-events:none;z-index:999;white-space:nowrap;
+    animation: swirl 1s ease-out forwards;
+  `;
+  document.body.appendChild(float);
+
+  /* 2️⃣  calculate where that pixel is on the page */
+  const wallRect = canvas.getBoundingClientRect();
+  const targetX  = wallRect.left + col * SIZE + SIZE / 2;
+  const targetY  = wallRect.top  + row * SIZE + SIZE / 2;
+
+  /* 3️⃣  move the element along a spiral path toward its pixel */
+  const steps = 60;                       // 1 s at 60 fps
+  let   i     = 0;
+  (function step() {
+    const t = i / steps;                  // 0 → 1
+    const angle = 8 * Math.PI * t;        // 4 turns
+    const radius = 200 * (1 - t);         // start wide, end 0
+    const x = targetX + radius * Math.cos(angle);
+    const y = targetY + radius * Math.sin(angle);
+    float.style.left = x + "px";
+    float.style.top  = y + "px";
+    float.style.transform = `translate(-50%,-50%) scale(${1 - 0.9*t})`;
+    if (++i <= steps) requestAnimationFrame(step);
+    else {
+      /* 4️⃣  paint the pixel and remove the floating element */
+      ctx.fillStyle = wall[row][col];
+      ctx.fillRect(col * SIZE, row * SIZE, SIZE, SIZE);
+      document.body.removeChild(float);
+    }
+  })();
 }
