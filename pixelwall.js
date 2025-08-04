@@ -76,6 +76,9 @@ canvas.addEventListener("wheel", e => {
   const MIN_ZOOM = 0.5;
   const MAX_ZOOM = 40;
 
+  const mx=(e.clientX - rect.left - offsetX) / scale;
+  const my=(e.clientY - rect.top - offsetY) / scale;
+
   const newScale   = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
   const appliedZ   = newScale / scale;   // actual factor after clamping
   scale = newScale;
