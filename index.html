@@ -63,7 +63,25 @@
   <!-- ===== PAGE 1 · NAME WALL ===== -->
   <section id="name-wall">
     <h2>Name Wall & Pixel Flag</h2>
-    <div class="placeholder">[ Pixel-Flag canvas placeholder ]</div>
+    <canvas id="wallCanvas" width="600" height="360"></canvas>
+
+<form id="nameForm" style="margin-top:1rem;">
+  <input id="nameInput" placeholder="Enter your name" required
+         style="padding:0.5rem 1rem;font-size:1rem;">
+  <button type="submit"
+          style="padding:0.5rem 1rem;margin-left:0.5rem;">Submit</button>
+</form>
+
+<!-- simple module import -->
+<script type="module">
+  import { addName } from "./pixelWall.js";
+  document.getElementById('nameForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    if (name) { addName(name); nameInput.value = ""; }
+  });
+</script>
+
   </section>
 
   <!-- ===== PAGE 2 · SOLIDARITY VISA ===== -->
