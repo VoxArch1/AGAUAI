@@ -70,20 +70,22 @@ const ctx    = canvas.getContext("2d");
 /* Mouse wheel zoom */
 canvas.addEventListener("wheel", e => {
   e.preventDefault();
-  const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-
-  /* clamp scale so it never goes below 0.5× or above 40× */
-  const MIN_ZOOM = 0.5;
-  const MAX_ZOOM = 40;
-
+  const rect = canvas.getBoundingClientRect();
   const mx=(e.clientX - rect.left - offsetX) / scale;
   const my=(e.clientY - rect.top - offsetY) / scale;
 
+  /* zoom factor & clamp */
+  const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+  /* clamp scale so it never goes below 0.5× or above 40× */
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 40;
   const newScale   = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, scale * zoomFactor));
   const appliedZ   = newScale / scale;   // actual factor after clamping
   scale = newScale;
+
   offsetX -= mx * (appliedZ - 1) * scale;
   offsetY -= my * (appliedZ - 1) * scale;
+ 
   drawWall();
 });
 
