@@ -4,6 +4,9 @@ const COLS = 200, ROWS = 120, SIZE = 6;        // grid 200×120 = 24 000 pixels
 const wall  = Array.from({ length: ROWS }, () => Array(COLS).fill("#000"));
 const names = Array.from({ length: ROWS }, () => Array(COLS).fill(""));
 
+function flagWidth ()  { return COLS * SIZE * scale; }
+function flagHeight()  { return ROWS * SIZE * scale; }
+
 /* Ukraine silhouette path (placeholder hexagon; swap for real SVG later) */
 const ukrainePath = new Path2D("M10 0 L20 10 L20 20 L10 30 L0 20 L0 10 Z");
 
@@ -85,7 +88,13 @@ canvas.addEventListener("wheel", e => {
 
   offsetX -= mx * (appliedZ - 1) * scale;
   offsetY -= my * (appliedZ - 1) * scale;
- 
+
+  /* --- keep within bounds --- */
+const minX = Math.min(0, canvas.width  - flagWidth());
+const minY = Math.min(0, canvas.height - flagHeight());
+offsetX = Math.min(0, Math.max(minX, offsetX));
+offsetY = Math.min(0, Math.max(minY, offsetY));
+
   drawWall();
 });
 
@@ -124,4 +133,10 @@ function drawWall(){
 }
 
 /* first render */
+const minX = Math.min(0, canvas.width  - flagWidth());
+const minY = Math.min(0, canvas.height - flagHeight());
+offsetX = Math.min(0, Math.max(minX, offsetX));
+offsetY = Math.min(0, Math.max(minY, offsetY));
 drawWall();
+
+
