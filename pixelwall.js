@@ -97,7 +97,7 @@ function drawWall(){
   ctx.clearRect(-offsetX/scale,-offsetY/scale,canvas.width/scale,canvas.height/scale);
   for(let r=0;r<ROWS;r++){
     for(let c=0;c<COLS;c++){
-      const color = wall[r][c]; if(color===\"#000\") continue;
+      const color = wall[r][c]; if(color==="#000") continue;
       const x=c*SIZE, y=r*SIZE;
       ctx.save();
       ctx.translate(x,y);
@@ -106,7 +106,7 @@ function drawWall(){
       ctx.fill(ukrainePath);
       ctx.restore();
       if(scale*SIZE>40 && names[r][c]){      // show name when zoomed
-        ctx.fillStyle=\"#fff\"; ctx.font=\"bold 12px Arial\";
+        ctx.fillStyle="#fff"; ctx.font="bold 12px Arial";
         ctx.fillText(names[r][c], x+4, y+SIZE/2+4);
       }
     }
