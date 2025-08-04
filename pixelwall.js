@@ -9,7 +9,7 @@ function flagHeight()  { return ROWS * SIZE * scale; }
 
 /* Ukraine silhouette path (placeholder hexagon; swap for real SVG later) */
 const ukrainePath = new Path2D(
-  "M14 1 L26 4 L32 10 L30 18 L24 22 L22 30 L14 33 L6 30 L2 22 L0 12 L6 6 Z"
+  "M26.7 4.2 30.5 5.9 33.3 9.5 35.6 13.7 35.1 17.9 32.7 21.4 27.2 23.6 25.9 28.3 22.4 31.9 17.8 33.5 11.5 33.0 8.4 30.4 5.6 26.2 3.2 21.5 3.7 17.2 6.1 13.7 7.4 9.5 11.0 6.3 15.6 4.6Z"
 );
 
 /* Pan-zoom globals */
