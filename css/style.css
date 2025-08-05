@@ -26,10 +26,15 @@ nav ul li a {
 
 nav ul li a:hover {
   text-decoration: underline;
+  color: #6cf; /* lighter blue on hover */
 }
 
 h1, h2 {
-  color: #222;
+  color: #fff;
+}
+
+label {
+  color: #ddd;
 }
 
 form input,
@@ -38,6 +43,20 @@ form button {
   margin-top: 0.3rem;
   width: 100%;
   max-width: 400px;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #444;
+}
+form button {
+  background-color: #0bf;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #09f;
 }
 
 form {
