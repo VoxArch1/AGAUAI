@@ -43,11 +43,11 @@
         <li><a href="#hero">Home</a></li>
         <li><a href="sponsors.html">AI Visualization</a></li>
         <li><a href="visa.html">Ukraine</a></li>
-        <li><a href="#festival">Festival 2026</a></li>
+        <li><a href="agauai2026.html">AGAUAI 2026</a></li>
         <li><a href="#appeals">Appeals</a></li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#dev-hub">Build With Us</a></li>
-        <li><a href="/ai.html">AI Perspectives</a></li>
+        <li><a href="/ai.html">AI Perspective</a></li>
       </ul>
     </nav>
   </header>
@@ -65,46 +65,7 @@
     </a>
   </section>
 
-  <!-- ===== PAGE 1 · NAME WALL ===== -->
-  <section id="name-wall">
-    <h2>Name Wall & Pixel Flag</h2>
-      <h3>Let the World know you stand for Sovereignity and discover what it becomes as names multiply</h3> 
-    <canvas id="wallCanvas" width="600" height="360"></canvas>
-
-<form id="nameForm" style="margin-top:1rem;">
-  <input id="nameInput" placeholder="Enter your name" required
-         style="padding:0.5rem 1rem;font-size:1rem;">
-  <button type="submit"
-          style="padding:0.5rem 1rem;margin-left:0.5rem;">Submit</button>
-</form>
-
-<!-- simple module import -->
-<script type="module">
-  import { addName } from "./pixelwall.js";
-  document.getElementById('nameForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const name = nameInput.value.trim();
-    if (name) { addName(name); nameInput.value = ""; }
-  });
-</script>
-
-  </section>
-
-  <!-- ===== PAGE 2 · SOLIDARITY VISA ===== -->
-  <section id="visa">
-    <h2>Global Solidarity Visa</h2>
-    <div class="placeholder">[ Poll widget & FAQ placeholder - Page Mission: allow visitors to voice their opinion of what a Solidarity Visa will become.
-      To be used in an appeal to Ukraine's parliament to provide this globally recognized visa so the world can become more than onlookers. ]</div>
-  </section>
-
-  <!-- ===== PAGE 3 · FESTIVAL 2026 ===== -->
-  <section id="festival">
-    <h2>AGAUAI Festival 2026</h2>
-    <div class="placeholder">[ Festival details & program schedule.  Page Mission:  Invitation to the World. A Festival where art, music, and brotherhood join forces to forge pathways to Peace.
-      Hosted in Ukraine or Russia]</div>
-  </section>
-
-  <!-- ===== PAGE 4 · APPEALS ===== -->
+    <!-- ===== PAGE 4 · APPEALS ===== -->
   <section id="appeals">
     <h2>Appeals & Open Letters</h2>
     <div class="placeholder">[ Appeals content  Page Mission:  To make an appeal to Ukraine for its government to create a Solidarity Visa for the rest of the world.
