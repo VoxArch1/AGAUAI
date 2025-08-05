@@ -84,7 +84,7 @@ form {
 
 /* --- Background image for visa.html --- */
 body.visa-page {
-  background-image: url('images/verkhovna-rada.jpg');
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/5/58/Verkhovna_Rada_of_Ukraine_2020.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
