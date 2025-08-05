@@ -62,3 +62,22 @@ form button:hover {
 form {
   margin-top: 1rem;
 }
+/* Wireframe Earth Background Styling */
+.earth-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: #000;
+}
+
+.earth-background video {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  opacity: 0.15; /* Adjust for visibility */
+  filter: grayscale(100%) contrast(150%);
+}
