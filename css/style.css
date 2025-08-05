@@ -107,7 +107,7 @@ body.visa-page::before {
   backdrop-filter: blur(1px);
   z-index: -1;
 }
-.video-background {
+.gathering-page .video-background {
   position: fixed;
   top: 0;
   left: 0;
@@ -117,7 +117,7 @@ body.visa-page::before {
   overflow: hidden;
 }
 
-.video-background video {
+.gathering-page .video-background video {
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
