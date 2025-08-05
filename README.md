@@ -1,4 +1,4 @@
-# AGAUAI · Harmony Conceptualized  
+# AGAUAI · Solidarity Conceptualized  
 *Construct a world worth being a part of.*
 
 [Live site](https://YOUR-VERCEL-URL.vercel.app) — blank pixels become the Ukrainian flag one name at a time while we count down to **Victory Day, 09 May 2026**.
