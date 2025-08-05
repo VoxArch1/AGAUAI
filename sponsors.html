@@ -77,6 +77,16 @@
     <p>© 2025 AGAUAI</p>
   </footer>
 
+<!-- Slow down background video -->
+  <script>
+    window.onload = function() {
+      const video = document.querySelector(".earth-background video");
+      if (video) {
+        video.playbackRate = 0.5;
+      }
+    };
+  </script>
+
 </body>
 </html>
 
