@@ -84,7 +84,7 @@ form {
 
 /* --- Background image for visa.html --- */
 body.visa-page {
-  background-image: url('images/palace.jpg');
+  background-image: url('images/Palace.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
