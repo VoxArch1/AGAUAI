@@ -107,3 +107,20 @@ body.visa-page::before {
   backdrop-filter: blur(1px);
   z-index: -1;
 }
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.video-background video {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4) contrast(1.2);
+  opacity: 0.5; /* adjust to your taste */
+}
