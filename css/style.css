@@ -121,8 +121,8 @@ body.visa-page::before {
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
-  filter: brightness(0.6) contrast(1.2);
-  opacity: 0.8; /* adjust to your taste */
+  filter: brightness(0.85) contrast(1.1);
+  opacity: 0.9; /* adjust to your taste */
 }
 .gathering-page {
   background-image: url('../images/ai/Gemini250805.png'); /* or .jpg if that's what you have */
@@ -132,6 +132,11 @@ body.visa-page::before {
   background-repeat: no-repeat;
   color: #fff;
 }
+
+.video-background video {
+  transition: opacity 1s ease-in-out;
+}
+
 
 .gathering-page::before {
   content: "";
