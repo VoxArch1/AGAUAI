@@ -137,12 +137,6 @@ body.visa-page::before {
   transition: opacity 1s ease-in-out;
 }
 
-
 .gathering-page::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* dark overlay for readability */
-  z-index: -1;
+  display: none;
 }
