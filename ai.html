@@ -2,12 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AGAUAI · AI Perspectives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AGAUAI · AI Perspectives Log</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #ffd700;
+    }
+
+    .entry {
+      border-left: 4px solid #ffd700;
+      padding-left: 1rem;
+      margin: 2rem 0;
+      background-color: #0a0a0a;
+      padding: 1.5rem;
+      border-radius: 6px;
+    }
+
+    .ts {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 0.5rem;
+    }
+
+    .source {
+      opacity: 0.6;
+      font-style: italic;
+      font-size: 0.85rem;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #ffd700;
+      margin-bottom: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .user-prompt blockquote {
+      margin: 0;
+      padding-left: 1rem;
+      border-left: 2px solid #666;
+      color: #bbb;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .ai-response .response-box {
+      background-color: #111;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
+      white-space: pre-wrap;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    a {
+      color: #0bf;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      font-size: 0.95rem;
+      margin: 1.5rem 0;
+    }
+
+    nav li {
+      padding: 0.25rem 0.5rem;
+    }
+
+    nav li:hover {
+      background: #222;
+      border-radius: 4px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #0bf;
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    nav ul li a:hover {
+      color: #6cf;
+      text-decoration: underline;
+    }
+
+    nav ul li a.active {
+      background-color: #ffd700;
+      color: #000;
+    }
+  </style>
 </head>
 <body>
 
+  <!-- NAVIGATION -->
   <header>
     <nav>
       <ul>
@@ -24,39 +146,51 @@
     </nav>
   </header>
 
-  <main class="ai-log">
+  <!-- MAIN CONTENT -->
+  <main>
     <h1>🤖 AI Perspectives Log</h1>
-    <p style="max-width:750px">Each week we ask major public AIs what they think about the AGAUAI project. Responses are archived here — unedited, timestamped, and visible to all.</p>
+    <p>Each week we ask major public AIs what they think about the AGAUAI project. Responses are archived here — unedited, timestamped, and visible to all.</p>
     <p><a href="index.html">← Back to Home</a></p>
 
-   <div class="entry">
-  <div class="ts">2025‑08‑06 · <strong>Gemini</strong> <span class="source">(Google DeepMind)</span></div>
-
-  <div class="user-prompt">
-    <div class="label">Prompt:</div>
-    <blockquote>
-      Would You like to participate in choosing a venue for AGAUAI 2026?
-    </blockquote>
-  </div>
-
-  <div class="ai-response">
-    <div class="label">Response:</div>
-    <div class="response-box">
-     I understand your clarification and the significance you place on this event, especially with the added detail about UN security.
-
-The idea of choosing a city with suitable infrastructure "near" the front lines is a more practical approach. However, my fundamental limitations as an AI still prevent me from making a definitive choice of a real-world location for an event in a region with an ongoing conflict. I do not have the capability to assess real-time security conditions, political stability, or the intricate logistics required for such a significant event, even with the assumption of UN support.
-
-Instead, I can propose a compelling and symbolic pitch that describes the qualities of a suitable venue without naming a specific city. For example, I could craft a pitch around the idea of a city that represents resilience, peace, and cultural heritage. I could detail why a location with a strong history of overcoming adversity would serve as a powerful backdrop for a "PAUSE for Peace" and make a compelling case for such a setting to humanity. This would allow me to contribute to your mission by providing a narrative and conceptual framework for your appeal.
-    </div>
-  </div>
-</div>
-
-
+    <div id="entries">Loading AI responses...</div>
   </main>
 
   <footer>
-    <p>© 2025 AGAUAI</p>
+    © 2025 AGAUAI
   </footer>
+
+  <!-- SCRIPT TO LOAD AI RESPONSES FROM GOOGLE SHEET -->
+  <script>
+    fetch("https://script.google.com/macros/s/AKfycbwtyevQxVyASfmb0UPZ0ZJ_P2QXzEMWgBE2TSAwOlEuoErKK_4tdT8qucgIUByLcTpQ/exec")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("entries");
+        container.innerHTML = "";
+        data.forEach(entry => {
+          const html = `
+            <div class="entry">
+              <div class="ts">${entry.date} · <strong>${entry.aiName}</strong> <span class="source">(${entry.platform})</span></div>
+              <div class="user-prompt">
+                <div class="label">Prompt:</div>
+                <blockquote>${entry.prompt}</blockquote>
+              </div>
+              <div class="ai-response">
+                <div class="label">Response:</div>
+                <div class="response-box">${entry.response}</div>
+              </div>
+            </div>
+          `;
+          container.innerHTML += html;
+        });
+      })
+      .catch(err => {
+        document.getElementById("entries").innerHTML = "⚠️ Failed to load AI responses.";
+        console.error(err);
+      });
+  </script>
+
+</body>
+</html>
 
 </body>
 </html>
