@@ -127,3 +127,24 @@ body.visa-page::before {
    border: 5px solid lime;
 }
 
+.tagline {
+  text-align: center;
+  font-style: italic;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+form textarea {
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.roast-page {
+  background-color: #000;
+  background-image: linear-gradient(to top left, #111, #000);
+  color: #fff;
+}
