@@ -251,3 +251,54 @@ body.roast-page {
   color: #ccc;
   margin-bottom: 2rem;
 }
+.ukraine-flyin {
+  display: flex;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: bold;
+  margin-top: 3rem;
+  letter-spacing: 1rem;
+}
+
+.ukraine-flyin .letter {
+  opacity: 0;
+  animation-duration: 1.2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  display: inline-block;
+}
+
+/* Animations per letter */
+.u { animation-name: flyInLeft; animation-delay: 0.2s; color: #00ccff; }    /* UN */
+.k { animation-name: flyInTop; animation-delay: 0.4s; color: #ffcc00; }     /* Knowledge */
+.r { animation-name: flyInRight; animation-delay: 0.6s; color: #ff4444; }   /* Resilience */
+.a { animation-name: flyInBottom; animation-delay: 0.8s; color: #0f0; }     /* AI / Alliance */
+.i { animation-name: fadeZoom; animation-delay: 1s; color: #ffffff; }       /* Integrity */
+.n { animation-name: flyInBottom; animation-delay: 1.2s; color: #ccccff; }  /* New World */
+.e { animation-name: fadeZoom; animation-delay: 1.4s; color: #ffccff; }     /* Earth / Enlightenment */
+
+/* Keyframes */
+@keyframes flyInLeft {
+  from { transform: translateX(-200px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes flyInRight {
+  from { transform: translateX(200px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes flyInTop {
+  from { transform: translateY(-200px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes flyInBottom {
+  from { transform: translateY(200px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeZoom {
+  from { transform: scale(4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
