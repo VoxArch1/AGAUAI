@@ -251,6 +251,24 @@ body.roast-page {
   color: #ccc;
   margin-bottom: 2rem;
 }
+
+/* Master letter style */
+.ukraine-flyin .letter {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  display: inline-block;
+}
+
+/* Specific animations per letter (with animation shorthand) */
+.u { animation: flyInLeft 1.2s ease-out 0.2s forwards; color: #00ccff; }
+.k { animation: flyInTop 1.2s ease-out 0.4s forwards; color: #ffcc00; }
+.r { animation: flyInRight 1.2s ease-out 0.6s forwards; color: #ff4444; }
+.a { animation: flyInBottom 1.2s ease-out 0.8s forwards; color: #00ff99; }
+.i { animation: fadeZoom 1.2s ease-out 1.0s forwards; color: #ffffff; }
+.n { animation: flyInBottom 1.2s ease-out 1.2s forwards; color: #ccccff; }
+.e { animation: fadeZoom 1.2s ease-out 1.4s forwards; color: #ffccff; }
+
 .ukraine-flyin {
   display: flex;
   justify-content: center;
