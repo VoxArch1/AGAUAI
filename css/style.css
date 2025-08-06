@@ -127,15 +127,3 @@ body.visa-page::before {
    border: 5px solid lime;
 }
 
-.gathering-page {
-  background-image: url('../images/ai/Gemini250805.png'); /* or .jpg if that's what you have */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  color: #fff;
-}
-
-.gathering-page::before {
-  display: none;
-}
