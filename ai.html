@@ -171,14 +171,23 @@
             <div class="entry">
               <div class="ts">${entry.date} · <strong>${entry.aiName}</strong> <span class="source">(${entry.platform})</span></div>
               <div class="user-prompt">
-                <div class="label">Prompt:</div>
-                <blockquote>${entry.prompt}</blockquote>
-              </div>
-              <div class="ai-response">
-                <div class="label">Response:</div>
-                <div class="response-box">${entry.response}</div>
-              </div>
+              <div class="label">Prompt:</div>
+              <blockquote>${entry.prompt}</blockquote>
             </div>
+
+          <div class="ai-response">
+            <div class="label">Response:</div>
+            <div class="response-box">${entry.response}</div>
+          </div>
+
+          ${entry.devNote ? `
+            <div class="dev-note">
+            <div class="label">Dev Note:</div>
+            <div class="dev-box">${entry.devNote}</div>
+        </div>
+  ` : ""}
+</div>
+
           `;
           container.innerHTML += html;
         });
