@@ -1,15 +1,30 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AGAUAI · Solidarity Conceptualized</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+    body{background:#000;color:#fff;line-height:1.4;}
+    a{color:#ffd700;text-decoration:none;}
+    header,nav,main,section,footer{width:100%;max-width:1200px;margin:auto;padding:1rem;}
+    nav ul{display:flex;gap:1rem;list-style:none;flex-wrap:wrap;justify-content:center;font-size:0.95rem;}
+    nav li{padding:0.25rem 0.5rem;}
+    nav li:hover{background:#222;border-radius:4px;}
+    #hero{display:flex;flex-direction:column;align-items:center;justify-content:center;height:75vh;text-align:center;}
+    .timer{font-weight:700;font-size:clamp(2rem,8vw,6rem);letter-spacing:0.15em;white-space:nowrap;}
+    .subtitle{margin-top:1rem;font-size:clamp(0.9rem,2vw,1.3rem);opacity:0.8;}
+    section{padding:3rem 0;border-top:1px solid #222;}
+    h2{margin-bottom:1.5rem;font-size:1.8rem;text-transform:uppercase;letter-spacing:0.05em;}
+    .placeholder{background:#111;border:1px dashed #333;padding:2rem;border-radius:4px;text-align:center;opacity:0.8;}
+    footer{border-top:1px solid #222;text-align:center;padding:2rem 0;font-size:0.8rem;opacity:0.6;}
+  </style>
 </head>
 <body>
 
-  <!-- ===== NAVBAR ===== -->
+  <!-- NAV -->
   <header>
     <nav>
       <ul>
@@ -26,27 +41,26 @@
     </nav>
   </header>
 
-  <!-- ===== HERO / COUNTDOWN ===== -->
+  <!-- HERO -->
   <section id="hero">
     <div class="timer" id="countdown">Loading…</div>
     <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
     <p style="max-width:700px;margin-top:1.5rem;font-size:1.1rem;line-height:1.5;">
-      <strong>Mission:</strong> AGAUAI - Intelligence for Peace. <br />
-      Civilization - Redefined. <br />
+      <strong>Mission:</strong> AGAUAI - Intelligence for Peace. <br>
+      Civilization - Redefined. <br>
       Intelligence—human and artificial—<em>requires solidarity</em>.
     </p>
-
     <a href="visa.html" style="margin-top:2rem;display:inline-block;padding:0.75rem 1.5rem;border:1px solid #ffd700;border-radius:4px;">
       ADD YOUR NAME
     </a>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- FOOTER -->
   <footer>
     AGAUAI · Construct a world worth being a part of.
   </footer>
 
-  <!-- ===== COUNTDOWN SCRIPT ===== -->
+  <!-- COUNTDOWN SCRIPT -->
   <script>
     const target = new Date(Date.UTC(2026, 4, 9, 0, 0, 0));
     const el = document.getElementById('countdown');
@@ -72,3 +86,4 @@
 
 </body>
 </html>
+
