@@ -150,32 +150,51 @@ body.roast-page {
 }
 
 .entry {
-  border-left: 3px solid #ffd700;
-  padding-left: 0.75rem;
+  border-left: 4px solid #ffd700;
+  padding-left: 1rem;
   margin: 2rem 0;
+  background-color: #0a0a0a;
+  padding: 1.5rem;
+  border-radius: 6px;
 }
 
 .ts {
-  opacity: 0.6;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  color: #ccc;
   margin-bottom: 0.5rem;
 }
 
-.user-prompt blockquote {
-  margin: 0.5rem 0;
-  padding-left: 1rem;
-  border-left: 2px solid #666;
-  color: #ccc;
+.source {
+  opacity: 0.6;
   font-style: italic;
+  font-size: 0.85rem;
 }
 
-.ai-response pre {
-  white-space: pre-wrap;
-  background: #111;
-  padding: 1rem;
-  border-radius: 4px;
-  font-family: inherit;
+.label {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 0.3rem;
   font-size: 0.95rem;
-  border: 1px solid #333;
-  margin-top: 0.75rem;
 }
+
+.user-prompt blockquote {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid #666;
+  color: #bbb;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.ai-response .response-box {
+  background-color: #111;
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ddd;
+  white-space: pre-wrap;
+}
+
