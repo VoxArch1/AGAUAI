@@ -93,4 +93,161 @@ body.visa-page {
 body.visa-page::before {
   content: "";
   position: fixed;
-  to
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(1px);
+  z-index: -1;
+}
+
+.gathering-page .video-background,
+.earth-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.gathering-page .video-background video,
+.earth-background video {
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) contrast(0.8);
+  opacity: 0.5;
+  transition: opacity 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* === SCROLLING QUOTE BANNER === */
+.scroll-banner-wrapper {
+  margin: 2rem 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  padding: 0.5rem 0;
+}
+
+.scroll-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  background-color: #000;
+}
+
+.scroll-banner span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 18s linear infinite;
+  font-style: italic;
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-100%); }
+}
+
+/* === PETTERSON GLOW EFFECT === */
+@keyframes glowfade {
+  0%, 100% {
+    opacity: 0.2;
+    text-shadow: 0 0 4px #fdd835, 0 0 10px #fdd835, 0 0 18px #fbc02d;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 8px #fff176, 0 0 16px #fdd835, 0 0 24px #fbc02d;
+  }
+}
+
+.peterson-glow {
+  animation: glowfade 3s ease-in-out infinite;
+  color: #fff9c4;
+  font-weight: bold;
+}
+
+/* === AI PAGE ENTRIES === */
+.entry {
+  border-left: 4px solid #ffd700;
+  padding-left: 1rem;
+  margin: 2rem 0;
+  background-color: #0a0a0a;
+  padding: 1.5rem;
+  border-radius: 6px;
+}
+
+.ts {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+}
+
+.source {
+  opacity: 0.6;
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.label {
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.user-prompt blockquote {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid #666;
+  color: #bbb;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.ai-response .response-box {
+  background-color: #111;
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ddd;
+  white-space: pre-wrap;
+}
+
+.dev-note {
+  margin-top: 1rem;
+  background-color: #111;
+  padding: 1rem;
+  border: 1px dashed #ff5555;
+  border-radius: 5px;
+  color: #faa;
+}
+
+.dev-note .label {
+  color: #ff7777;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+body.roast-page {
+  background-color: #000;
+  background-image: linear-gradient(to top left, #111, #000);
+  color: #fff;
+}
+
+.tagline {
+  text-align: center;
+  font-style: italic;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
