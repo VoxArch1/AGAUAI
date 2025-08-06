@@ -124,6 +124,7 @@ body.visa-page::before {
   filter: brightness(1.5) contrast(1.2); /* Try lower brightness */
   opacity: 0.9;
   transition: opacity 1s ease-in-out;
+   border: 5px solid lime;
 }
 
 .gathering-page {
