@@ -121,10 +121,10 @@ body.visa-page::before {
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
-  filter: brightness(1.2) contrast(1.1); /* Try lower brightness */
-  opacity: 1.0;
+  filter: brightness(.8) contrast(.8); /* Try lower brightness */
+  opacity: .75;
   transition: opacity 1s ease-in-out;
-   border: 5px solid lime;
+
 }
 
 .tagline {
