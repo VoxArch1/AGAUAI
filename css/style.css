@@ -197,4 +197,18 @@ body.roast-page {
   color: #ddd;
   white-space: pre-wrap;
 }
+.dev-note {
+  margin-top: 1rem;
+  background-color: #111;
+  padding: 1rem;
+  border: 1px dashed #ff5555;
+  border-radius: 5px;
+  color: #faa;
+}
+
+.dev-note .label {
+  color: #ff7777;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
 
