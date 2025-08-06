@@ -121,8 +121,8 @@ body.visa-page::before {
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
-  filter: brightness(.8) contrast(.8); /* Try lower brightness */
-  opacity: .75;
+  filter: brightness(.5) contrast(.8); /* Try lower brightness */
+  opacity: .50;
   transition: opacity 1s ease-in-out;
 
 }
