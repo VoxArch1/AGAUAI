@@ -148,3 +148,34 @@ body.roast-page {
   background-image: linear-gradient(to top left, #111, #000);
   color: #fff;
 }
+
+.entry {
+  border-left: 3px solid #ffd700;
+  padding-left: 0.75rem;
+  margin: 2rem 0;
+}
+
+.ts {
+  opacity: 0.6;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.user-prompt blockquote {
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid #666;
+  color: #ccc;
+  font-style: italic;
+}
+
+.ai-response pre {
+  white-space: pre-wrap;
+  background: #111;
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 1px solid #333;
+  margin-top: 0.75rem;
+}
