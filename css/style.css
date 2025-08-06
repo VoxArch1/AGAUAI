@@ -125,7 +125,7 @@ body.visa-page::before {
   opacity: 0.5; /* adjust to your taste */
 }
 .gathering-page {
-  background-image: url('images/ai/Gemini250805.png'); /* or .jpg if that's what you have */
+  background-image: url('../images/ai/Gemini250805.png'); /* or .jpg if that's what you have */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
