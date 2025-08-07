@@ -366,7 +366,7 @@ body.roast-page {
     transform: scale(1);
   }
   50% {
-    opacity: 0.25;
+    opacity: 0.21;
     transform: scale(1.015); /* subtle zoom */
   }
 }
