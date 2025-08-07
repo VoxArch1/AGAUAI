@@ -370,3 +370,9 @@ body.roast-page {
     transform: scale(1.015); /* subtle zoom */
   }
 }
+.appeals-preamble {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: #eee;
+}
