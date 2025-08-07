@@ -276,49 +276,56 @@ body.roast-page {
 .u {
   animation:
     flyInLeft 1.2s ease-out 0.2s forwards,
-    fadeToBackground 3s ease-in 3.5s forwards;
+    fadeToBackground 3s ease-in 3.5s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #0077d6;
 }
 .k {
   animation:
     flyInTop 1.2s ease-out 0.4s forwards,
-    fadeToBackground 3s ease-in 3.7s forwards;
+    fadeToBackground 3s ease-in 3.7s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #ffcc33;
 }
 .r {
   animation:
     flyInRight 1.2s ease-out 0.6s forwards,
-    fadeToBackground 3s ease-in 3.9s forwards;
+    fadeToBackground 3s ease-in 3.9s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #0077d6;
 }
 .a {
   animation:
     flyInBottom 1.2s ease-out 0.8s forwards,
-    fadeToBackground 3s ease-in 4.1s forwards;
+    fadeToBackground 3s ease-in 4.1s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #ffcc33;
 }
 .i {
   animation:
     fadeZoom 1.2s ease-out 1.0s forwards,
-    fadeToBackground 3s ease-in 4.3s forwards;
+    fadeToBackground 3s ease-in 4.3s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #0077d6;
 }
 .n {
   animation:
     flyInBottom 1.2s ease-out 1.2s forwards,
-    fadeToBackground 3s ease-in 4.5s forwards;
+    fadeToBackground 3s ease-in 4.5s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #ffcc33;
 }
 .e {
   animation:
     fadeZoom 1.2s ease-out 1.4s forwards,
-    fadeToBackground 3s ease-in 4.7s forwards;
+    fadeToBackground 3s ease-in 4.7s forwards,
+    heartbeat 0.857s ease-in-out 6.5s infinite;
   animation-fill-mode: forwards;
   color: #0077d6;
 }
@@ -351,5 +358,15 @@ body.roast-page {
 }
 @keyframes fadeToBackground {
   0%   { opacity: 1; }
-  100% { opacity: 0.15; }
+  100% { opacity: 0.14; }
+}
+@keyframes heartbeat {
+  0%, 100% {
+    opacity: 0.14;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(1.015); /* subtle zoom */
+  }
 }
