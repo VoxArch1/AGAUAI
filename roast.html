@@ -88,6 +88,18 @@
     <p>© 2025 AGAUAI — We Know This is Nuts. That’s Why It Just Might Work.</p>
   </footer>
 
+  <script>
+  // Escape HTML to prevent injection
+  function esc(s) {
+    return (s ?? "").toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+</script>
+
   <!-- Fetch Roasts Script -->
   <script>
   const endpoint = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
