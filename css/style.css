@@ -273,15 +273,48 @@ body.roast-page {
 }
 
 /* Specific animations per letter (with animation shorthand) */
-.u { animation: flyInLeft 1.2s ease-out 0.2s forwards; color: #0077d6; }     /* Strong Blue */
-.k { animation: flyInTop 1.2s ease-out 0.4s forwards; color: #ffcc33; }     /* Muted Gold */
-.r { animation: flyInRight 1.2s ease-out 0.6s forwards; color: #0077d6; }
-.a { animation: flyInBottom 1.2s ease-out 0.8s forwards; color: #e6b800; }  /* Darker Gold */
-.i { animation: fadeZoom 1.2s ease-out 1.0s forwards; color: #0077d6; }
-.n { animation: flyInBottom 1.2s ease-out 1.2s forwards; color: #ffcc33; }
-.e { animation: fadeZoom 1.2s ease-out 1.4s forwards; color: #ffffff; }     /* Spotlight white */
-
-
+.u {
+  animation:
+    flyInLeft 1.2s ease-out 0.2s forwards,
+    fadeToBackground 3s ease-in 3.5s forwards;
+  color: #0077d6;
+}
+.k {
+  animation:
+    flyInTop 1.2s ease-out 0.4s forwards,
+    fadeToBackground 3s ease-in 3.7s forwards;
+  color: #ffcc33;
+}
+.r {
+  animation:
+    flyInRight 1.2s ease-out 0.6s forwards,
+    fadeToBackground 3s ease-in 3.9s forwards;
+  color: #0077d6;
+}
+.a {
+  animation:
+    flyInBottom 1.2s ease-out 0.8s forwards,
+    fadeToBackground 3s ease-in 4.1s forwards;
+  color: #e6b800;
+}
+.i {
+  animation:
+    fadeZoom 1.2s ease-out 1.0s forwards,
+    fadeToBackground 3s ease-in 4.3s forwards;
+  color: #0077d6;
+}
+.n {
+  animation:
+    flyInBottom 1.2s ease-out 1.2s forwards,
+    fadeToBackground 3s ease-in 4.5s forwards;
+  color: #ffcc33;
+}
+.e {
+  animation:
+    fadeZoom 1.2s ease-out 1.4s forwards,
+    fadeToBackground 3s ease-in 4.7s forwards;
+  color: #ffffff;
+}
 
 /* Keyframes */
 @keyframes flyInLeft {
