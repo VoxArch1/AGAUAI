@@ -396,3 +396,16 @@ body.roast-page {
   color: #ccc;
   font-size: 0.95rem;
 }
+.gallery-item {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.caption {
+  font-style: italic;
+  color: #ccc;
+  margin-top: 0.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
