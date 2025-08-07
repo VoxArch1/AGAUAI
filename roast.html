@@ -103,10 +103,11 @@
         const div = document.createElement("div");
         div.className = "roast-entry";
         div.innerHTML = `
-          <div class="roaster-name">${r.name || "Anonymous"}</div>
-          <div class="roast-text">${r.roast || ""}</div>
-          <div class="ai-response">AI Counter-Roast coming soon...</div>
+          <div class="roaster-name">${esc(r.name) || "Anonymous"}</div>
+          <div class="roast-text">${esc(r.roast).replace(/\n/g,"<br>")}</div>
+          <div class="ai-response">${esc(r.counter) || "AI Counter-Roast loading..."}</div>
         `;
+
         container.appendChild(div);
       });
     })
