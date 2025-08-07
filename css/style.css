@@ -158,20 +158,9 @@ body.visa-page::before {
 }
 
 /* === PETTERSON GLOW EFFECT === */
-@keyframes glowfade {
-  0%, 100% {
-    opacity: 0.2;
-    text-shadow: 0 0 4px #fdd835, 0 0 10px #fdd835, 0 0 18px #fbc02d;
-  }
-  50% {
-    opacity: 1;
-    text-shadow: 0 0 8px #fff176, 0 0 16px #fdd835, 0 0 24px #fbc02d;
-  }
-}
-
 .peterson-glow {
-  animation: glowfade 3s ease-in-out infinite;
-  color: #fff9c4;
+  text-shadow: 0 0 6px #ffd700;
+  color: #fff8b0;
   font-weight: bold;
 }
 
