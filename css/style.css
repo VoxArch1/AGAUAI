@@ -351,5 +351,5 @@ body.roast-page {
 }
 @keyframes fadeToBackground {
   0%   { opacity: 1; }
-  100% { opacity: 0.12; }
+  100% { opacity: 0.25; }
 }
