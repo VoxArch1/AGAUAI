@@ -90,28 +90,32 @@
 
   <!-- Fetch Roasts Script -->
   <script>
-    fetch("https://script.google.com/macros/s/AKfycbyFTaafknv_SUowCPv5_OESwX3Ad4rv3lIlXY0QqsZQ-VWy74nVmUH2xYlwzRf61uXc/exec")
-      .then(response => response.json())
-      .then(roasts => {
-        const container = document.getElementById("roast-container");
-        // Show newest first
-        roasts.reverse().forEach(r => {
-          const div = document.createElement("div");
-          div.className = "roast-entry";
-          div.innerHTML = `
-            <div class="roaster-name">${r.name || "Anonymous"}</div>
-            <div class="roast-text">${r.roast || ""}</div>
-            <div class="ai-response">AI Counter-Roast coming soon...</div>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching roasts:", error);
-        document.getElementById("roast-container").innerHTML =
-          "<p>⚠️ Couldn't load roasts. Try again later.</p>";
+  const endpoint = "YOUR_NEW_WEB_APP_URL";
+  fetch(`${endpoint}?t=${Date.now()}`)
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.json();
+    })
+    .then(roasts => {
+      const container = document.getElementById("roast-container");
+      container.innerHTML = "";
+      roasts.reverse().forEach(r => {
+        const div = document.createElement("div");
+        div.className = "roast-entry";
+        div.innerHTML = `
+          <div class="roaster-name">${r.name || "Anonymous"}</div>
+          <div class="roast-text">${r.roast || ""}</div>
+          <div class="ai-response">AI Counter-Roast coming soon...</div>
+        `;
+        container.appendChild(div);
       });
-  </script>
+    })
+    .catch(err => {
+      console.error("Error fetching roasts:", err);
+      document.getElementById("roast-container").innerHTML =
+        "<p>⚠️ Couldn't load roasts. Try again later.</p>";
+    });
+</script>
 
 </body>
 </html>
