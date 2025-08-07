@@ -79,7 +79,25 @@
     <section id="roast-wall">
       <h2>🔥 The Roast Wall</h2>
       <div id="roast-container">
-        <!-- Roasts will appear here -->
+        <script>
+  fetch("YOUR_GOOGLE_SCRIPT_WEB_APP_URL")
+    .then(res => res.json())
+    .then(roasts => {
+      const container = document.getElementById("roast-container");
+      roasts.reverse().forEach(r => {
+        const div = document.createElement("div");
+        div.className = "roast-entry";
+        div.innerHTML = `
+          <div class="roaster-name">${r.name}</div>
+          <div class="roast-text">${r.roast}</div>
+          <div class="ai-response">AI Counter-Roast coming soon...</div>
+        `;
+        container.appendChild(div);
+      });
+    })
+    .catch(err => console.error(err));
+</script>
+
       </div>
     </section>
   </main>
