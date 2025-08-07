@@ -7,7 +7,6 @@ body {
   color: #fff;
 }
 
-
 h1, h2 {
   color: #ffd700;
 }
@@ -123,6 +122,7 @@ body.visa-page::before {
   transition: opacity 1s ease-in-out;
 }
 
+/* === FADE === */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -157,20 +157,19 @@ body.visa-page::before {
   to { transform: translateX(-100%); }
 }
 
-/* === PETTERSON GLOW EFFECT === */
+/* === PETERSON GLOW === */
 .peterson-glow {
   text-shadow: 0 0 6px #ffd700;
   color: #fff8b0;
   font-weight: bold;
 }
 
-/* === AI PAGE ENTRIES === */
+/* === ENTRIES === */
 .entry {
   border-left: 4px solid #ffd700;
-  padding-left: 1rem;
+  padding: 1.5rem 1rem;
   margin: 2rem 0;
   background-color: #0a0a0a;
-  padding: 1.5rem;
   border-radius: 6px;
 }
 
@@ -229,12 +228,14 @@ body.visa-page::before {
   margin-bottom: 0.25rem;
 }
 
+/* === ROAST PAGE === */
 body.roast-page {
   background-color: #000;
   background-image: linear-gradient(to top left, #111, #000);
   color: #fff;
 }
 
+/* === TAGLINE === */
 .tagline {
   text-align: center;
   font-style: italic;
@@ -242,6 +243,7 @@ body.roast-page {
   margin-bottom: 2rem;
 }
 
+/* === UKRAINE LETTER FLYIN === */
 .ukraine-flyin {
   display: flex;
   justify-content: center;
@@ -261,155 +263,59 @@ body.roast-page {
   display: inline-block;
 }
 
-/* Specific animations per letter (with animation shorthand) */
-.u {
+/* === ANIMATION STYLES PER LETTER === */
+.u, .k, .r, .a, .i, .n, .e {
+  animation-fill-mode: forwards;
   animation:
-    flyInLeft 1.2s ease-out 0.2s forwards,
     fadeToBackground 3s ease-in 3.5s forwards,
     heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #0077d6;
-}
-.k {
-  animation:
-    flyInTop 1.2s ease-out 0.4s forwards,
-    fadeToBackground 3s ease-in 3.7s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #ffcc33;
-}
-.r {
-  animation:
-    flyInRight 1.2s ease-out 0.6s forwards,
-    fadeToBackground 3s ease-in 3.9s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #0077d6;
-}
-.a {
-  animation:
-    flyInBottom 1.2s ease-out 0.8s forwards,
-    fadeToBackground 3s ease-in 4.1s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #ffcc33;
-}
-.i {
-  animation:
-    fadeZoom 1.2s ease-out 1.0s forwards,
-    fadeToBackground 3s ease-in 4.3s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #0077d6;
-}
-.n {
-  animation:
-    flyInBottom 1.2s ease-out 1.2s forwards,
-    fadeToBackground 3s ease-in 4.5s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #ffcc33;
-}
-.e {
-  animation:
-    fadeZoom 1.2s ease-out 1.4s forwards,
-    fadeToBackground 3s ease-in 4.7s forwards,
-    heartbeat 4.5s ease-in-out 6.5s infinite;
-  animation-fill-mode: forwards;
-  color: #0077d6;
 }
 
+.u { animation-name: flyInLeft, fadeToBackground, heartbeat; animation-delay: 0.2s, 3.5s, 6.5s; color: #0077d6; }
+.k { animation-name: flyInTop, fadeToBackground, heartbeat; animation-delay: 0.4s, 3.7s, 6.5s; color: #ffcc33; }
+.r { animation-name: flyInRight, fadeToBackground, heartbeat; animation-delay: 0.6s, 3.9s, 6.5s; color: #0077d6; }
+.a { animation-name: flyInBottom, fadeToBackground, heartbeat; animation-delay: 0.8s, 4.1s, 6.5s; color: #ffcc33; }
+.i { animation-name: fadeZoom, fadeToBackground, heartbeat; animation-delay: 1.0s, 4.3s, 6.5s; color: #0077d6; }
+.n { animation-name: flyInBottom, fadeToBackground, heartbeat; animation-delay: 1.2s, 4.5s, 6.5s; color: #ffcc33; }
+.e { animation-name: fadeZoom, fadeToBackground, heartbeat; animation-delay: 1.4s, 4.7s, 6.5s; color: #0077d6; }
 
-/* Keyframes */
+/* === ANIMATION KEYFRAMES === */
 @keyframes flyInLeft {
   from { transform: translateX(-200px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes flyInRight {
   from { transform: translateX(200px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes flyInTop {
   from { transform: translateY(-200px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes flyInBottom {
   from { transform: translateY(200px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes fadeZoom {
   from { transform: scale(4); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
 }
+
 @keyframes fadeToBackground {
   0%   { opacity: 1; }
   100% { opacity: 0.14; }
 }
+
 @keyframes heartbeat {
-  0%, 100% {
-    opacity: 0.14;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.21;
-    transform: scale(1.015); /* subtle zoom */
-  }
-}
-.appeals-preamble {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  color: #eee;
+  0%, 100% { opacity: 0.14; transform: scale(1); }
+  50%      { opacity: 0.21; transform: scale(1.015); }
 }
 
-.gallery-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem 0;
-}
-
-.gallery-item {
-  max-width: 600px;
-  text-align: center;
-}
-
-.gallery-item img {
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item img:hover {
-  transform: scale(1.02);
-}
-
-.caption {
-  margin-top: 0.5rem;
-  font-style: italic;
-  color: #ccc;
-  font-size: 0.95rem;
-}
-.gallery-item {
-  margin-bottom: 3rem;
-  text-align: center;
-}
-
-.caption {
-  font-style: italic;
-  color: #ccc;
-  margin-top: 0.5rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* SAVE UKRAINE Fly-In */
+/* === SAVE UKRAINE Fly-In === */
 .save-ukraine-flyin {
   display: flex;
   justify-content: center;
@@ -443,7 +349,7 @@ body.roast-page {
   }
 }
 
-/* SLAVA UKRAINI Pulse */
+/* === SLAVA PULSE === */
 .slava-ukraine-pulse {
   text-align: center;
   margin-top: 1rem;
@@ -469,6 +375,52 @@ body.roast-page {
     text-shadow: 0 0 10px #0057b7;
   }
 }
+
+/* === APPEALS PAGE INTRO === */
+.appeals-preamble {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: #eee;
+}
+
+/* === GALLERY === */
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.gallery-item {
+  max-width: 600px;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.02);
+}
+
+.caption {
+  font-style: italic;
+  color: #ccc;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* === HERO ANCHOR === */
 #hero a {
   margin-bottom: 3rem;
 }
