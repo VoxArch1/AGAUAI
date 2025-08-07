@@ -365,3 +365,34 @@ body.roast-page {
   margin-bottom: 1.5rem;
   color: #eee;
 }
+
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.gallery-item {
+  max-width: 600px;
+  text-align: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.02);
+}
+
+.caption {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #ccc;
+  font-size: 0.95rem;
+}
