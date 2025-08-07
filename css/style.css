@@ -249,7 +249,7 @@ body.roast-page {
   font-size: 7rem;
   font-weight: bold;
   letter-spacing: 1rem;
-  margin-top: 2rem;
+  margin-top: 4rem;
   margin-bottom: 2rem;
   font-family: 'Courier New', monospace;
 }
@@ -416,7 +416,7 @@ body.roast-page {
   gap: 1rem;
   font-size: 4rem;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: -1rem;
   color: #ffd700;
 }
 
@@ -468,4 +468,7 @@ body.roast-page {
     opacity: 0.35;
     text-shadow: 0 0 10px #0057b7;
   }
+}
+#hero a {
+  margin-bottom: 3rem;
 }
