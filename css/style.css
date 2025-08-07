@@ -273,13 +273,14 @@ body.roast-page {
 }
 
 /* Specific animations per letter (with animation shorthand) */
-.u { animation: flyInLeft 1.2s ease-out 0.2s forwards; color: #00ccff; }
-.k { animation: flyInTop 1.2s ease-out 0.4s forwards; color: #ffcc00; }
-.r { animation: flyInRight 1.2s ease-out 0.6s forwards; color: #ff4444; }
-.a { animation: flyInBottom 1.2s ease-out 0.8s forwards; color: #00ff99; }
-.i { animation: fadeZoom 1.2s ease-out 1.0s forwards; color: #ffffff; }
-.n { animation: flyInBottom 1.2s ease-out 1.2s forwards; color: #ccccff; }
-.e { animation: fadeZoom 1.2s ease-out 1.4s forwards; color: #ffccff; }
+.u { animation: flyInLeft 1.2s ease-out 0.2s forwards; color: #0057b7; } /* Blue */
+.k { animation: flyInTop 1.2s ease-out 0.4s forwards; color: #ffd700; } /* Gold */
+.r { animation: flyInRight 1.2s ease-out 0.6s forwards; color: #0057b7; }
+.a { animation: flyInBottom 1.2s ease-out 0.8s forwards; color: #ffd700; }
+.i { animation: fadeZoom 1.2s ease-out 1.0s forwards; color: #0057b7; }
+.n { animation: flyInBottom 1.2s ease-out 1.2s forwards; color: #ffd700; }
+.e { animation: fadeZoom 1.2s ease-out 1.4s forwards; color: #0057b7; }
+
 
 /* Keyframes */
 @keyframes flyInLeft {
