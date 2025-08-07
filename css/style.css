@@ -308,3 +308,7 @@ body.roast-page {
   from { transform: scale(4); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+@keyframes fadeToBackground {
+  0%   { opacity: 1; }
+  100% { opacity: 0.1; }
+}
