@@ -682,3 +682,33 @@ iframe { width: 100%; max-width: 680px; border: none; }
 /* Each card will still set inline z-index = 1000+z in JS */
 
 #hall .track:hover { animation-play-state: paused; }
+/* Keep the Hall area self-contained */
+#hall {
+  overflow: hidden;                /* <- nothing bleeds outside the panel */
+}
+
+/* Make Hall cards more compact */
+#hall .roast-entry {
+  --cardH: 220px;                  /* <-- adjust this number to taste (200–260px) */
+  padding: .7rem .9rem;
+  border-radius: 10px;
+  max-height: var(--cardH);        /* cap vertical height */
+  overflow: hidden;                /* clip inside the card */
+}
+
+/* Slightly smaller text so cards stay tidy */
+#hall .roast-entry .roaster-name { font-size: .9rem; }
+#hall .roast-entry .roast-text     { font-size: clamp(.86rem, 1.4vw, .98rem); line-height: 1.35; }
+#hall .roast-entry .ai-clapback    { font-size: .92rem; line-height: 1.35; }
+#hall .roast-entry .tone-hint      { font-size: .78rem; }
+
+/* Line clamp (truncate gracefully) */
+#hall .roast-entry .roast-text,
+#hall .roast-entry .ai-clapback {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+#hall .roast-entry .roast-text  { -webkit-line-clamp: 7; }  /* adjust lines to fit your --cardH */
+#hall .roast-entry .ai-clapback { -webkit-line-clamp: 3; }
