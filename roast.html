@@ -237,7 +237,13 @@
     nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
   }
 
-  const speed = 0.55; // radians/sec
+  const baseSpeed = 0.50;   // a hair slower looks nicer
+  let paused = false;
+
+  // pause on hover
+  const wrap = document.getElementById('hall-3d');
+  wrap.addEventListener('pointerenter', () => paused = true);
+  wrap.addEventListener('pointerleave', () => paused = false);
 
   function frame(ts){
     // center on the TURKEY
@@ -246,13 +252,14 @@
     const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
     const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50;
 
-    // cylinder radii (clamped = compact)
+    // compact cylinder radii
     const tw = tkRect.width;
-    const R = Math.min(260, Math.max(180, tw * 0.62)); // horizontal radius
-    const D = Math.min(220, Math.max(140, R  * 0.75)); // depth radius
+    const R = Math.min(260, Math.max(180, tw * 0.62));
+    const D = Math.min(220, Math.max(140, R  * 0.75));
     const Y = 0;
 
-    const t = (ts / 1000); // time in seconds
+    const speed = paused ? 0 : baseSpeed;
+    const t = ts / 1000;
 
     for (const n of nodes){
       const a = n.baseAngle + t * speed;
@@ -260,11 +267,9 @@
       const z = D * Math.sin(a);
       const y = Y;
 
-      // keep cards facing viewer
-      const rotY = 0;
+      const rotY = 0;  // always face viewer
 
-      // depth styling (smaller/dimmer when behind)
-      const zNorm = (z + D) / (2 * D);       // 0..1
+      const zNorm = (z + D) / (2*D);    // 0..1
       const scale = 0.88 + zNorm * 0.30;
       const opacity = 0.50 + zNorm * 0.50;
 
