@@ -734,3 +734,39 @@ iframe { width: 100%; max-width: 680px; border: none; }
   }
 }
 
+.video-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background: #000;
+}
+
+/* --- Appeals video tuning (force override) --- */
+.video-background {
+  position: absolute;
+  top: 50%; left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto; height: auto;
+  transform: translate(-50%, -50%) scale(0.88); /* start wider: shows more */
+  object-fit: cover;
+  object-position: 50% 78%;                    /* <-- push view down to show paper */
+  animation: slowZoomAppeals 18s ease-in-out forwards;
+}
+
+@keyframes slowZoomAppeals {
+  0%   { transform: translate(-50%, -50%) scale(0.88); }
+  100% { transform: translate(-50%, -50%) scale(1.02); } /* gentler zoom so paper stays */
+}
+
+/* Tall/narrow screens: show whole video (no crop) */
+@media (max-aspect-ratio: 16/9) {
+  .video-background {
+    object-fit: contain;
+    transform: translate(-50%, -50%) scale(1);
+    animation: none;
+    background: #000;
+  }
+}
+
