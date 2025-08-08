@@ -61,6 +61,18 @@
     /* Hall container look */
     #hall { background: linear-gradient(180deg, #1b1b1b 0%, #111 100%); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); padding: 1rem; }
 
+    /* Hall marquee */
+    #hall .marquee { position: relative; overflow: hidden; width: 100%; border-radius: 8px; }
+    #hall .track { display: inline-flex; gap: 16px; will-change: transform; animation: hallScroll 28s linear infinite; }
+    #hall .marquee:hover .track, #hall .marquee:focus-within .track { animation-play-state: paused; }
+    @keyframes hallScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { #hall .track { animation: none; } }
+
+    /* Marquee card sizing (compact) */
+    #hall .roast-entry { min-width: 320px; max-width: 420px; margin: 0; padding: .9rem 1rem; }
+    #hall .roast-text { font-size: 1rem; line-height: 1.35; }
+    #hall .ai-clapback { font-size: .95rem; }
+
     @media (max-width: 520px) {
       .modal-dialog { width: 94vw; max-height: 88vh; }
       #roast-frame { height: calc(88vh - 58px); }
@@ -119,16 +131,11 @@
 
     <!-- Hall -->
     <section id="hall" aria-label="Hall of Flames (featured roasts)">
-  <h2>🏆 Hall of Flames</h2>
-
-  <!-- marquee wrapper -->
-  <div class="marquee" id="hall-marquee">
-    <div class="track" id="hall-track">
-      <!-- cards injected here -->
-    </div>
-  </div>
-</section>
-
+      <h2>🏆 Hall of Flames</h2>
+      <div class="marquee" id="hall-marquee">
+        <div class="track" id="hall-track"></div>
+      </div>
+    </section>
 
     <!-- Wall -->
     <section id="roast-wall">
@@ -155,15 +162,40 @@
     const PRIMARY  = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
     const FALLBACK = "/api/ai/roasts.json";
 
+    /* ==== FRESHNESS CONFIG & HELPERS ==== */
+    const HALL_COUNT   = 3;     // how many to feature
+    const HALF_LIFE_HR = 24;    // half-life for score decay
+
+    function firstSeenMs(item){
+      const id = `${item.roaster||item.name||""}|${item.target||item.subject||""}|${item.roast_text||item.roast||item.text||""}`.slice(0,200);
+      const key = "roast_seen_" + btoa(unescape(encodeURIComponent(id)));
+      let v = localStorage.getItem(key);
+      if (!v) { v = Date.now().toString(); localStorage.setItem(key, v); }
+      return Number(v);
+    }
+
+    function decayedScore(r, nowMs = Date.now()){
+      const base = (typeof r.score === "number" && !Number.isNaN(r.score)) ? r.score : 100; // new = 100
+      const ageHr = Math.max(0, (nowMs - r.tsMs) / 3600000);
+      const factor = Math.pow(0.5, ageHr / HALF_LIFE_HR);
+      return base * factor;
+    }
+    /* ==================================== */
+
     function normalize(item){
+      const score = item.score != null ? Number(item.score) : null;
+      const tsStr = item.ts || item.timestamp || item.date || null;
+      const tsMs  = Date.parse(tsStr) || firstSeenMs(item); // fallback to first-seen if missing
+
       return {
-        roaster: item.roaster || item.name || item.user || "Anonymous",
-        target:  item.target  || item.subject || "General",
+        roaster:    item.roaster || item.name || item.user || "Anonymous",
+        target:     item.target  || item.subject || "General",
         roast_text: item.roast_text || item.roast || item.text || "",
         tone_hint:  item.tone_hint  || item.tone  || "",
         ai_reply:   item.ai_reply   || item.counter || item.response || "",
-        score:      item.score != null ? Number(item.score) : null,
-        ts:         item.ts || item.timestamp || null
+        score,
+        ts: tsStr,
+        tsMs
       };
     }
 
@@ -184,35 +216,54 @@
       });
     }
 
-    // Build Hall: prefer numeric scores; else fall back to latest 3
+    /* === HALL OF FLAMES (marquee with time-decay freshness) === */
     function buildHall(list){
-      const h = document.getElementById("hall-items");
-      if (!h) return;
+      const marquee = document.getElementById("hall-marquee");
+      const track   = document.getElementById("hall-track");
+      if (!marquee || !track) return;
 
-      const norm = list.map(normalize);
+      const now  = Date.now();
+      const norm = list.map(normalize).map(r => ({...r, decayed: decayedScore(r, now)}));
 
-      let scored = norm.filter(r => typeof r.score === "number" && !Number.isNaN(r.score));
-      if (scored.length === 0) {
-        // No scores → take the latest 3 items by timestamp if available, else last 3 entries
-        const byTime = norm
-          .map((r,i)=>({r,i, t: r.ts ? Date.parse(r.ts) : i}))
-          .sort((a,b)=> (b.t||0) - (a.t||0))
-          .slice(0,3)
+      // Pick top by decayed score; if too few, latest by timestamp
+      let picked = norm.slice().sort((a,b) => b.decayed - a.decayed).slice(0, HALL_COUNT);
+      if (picked.length === 0) {
+        picked = norm
+          .map((r,i)=>({r,i, t: r.tsMs || i}))
+          .sort((a,b)=>(b.t||0)-(a.t||0))
+          .slice(0, HALL_COUNT)
           .map(x=>x.r);
-        scored = byTime;
-      } else {
-        scored = scored.sort((a,b)=>b.score-a.score).slice(0,3);
       }
 
-      h.innerHTML = scored.map(r => `
-        <div class="roast-entry">
+      const cardHTML = (r) => `
+        <article class="roast-entry" tabindex="0">
           <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-          <div class="roast-text">${esc(r.roast_text)}</div>
+          <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
           <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-          ${typeof r.score === "number" && !Number.isNaN(r.score) ? `<div class="tone-hint">🔥 ${r.score}</div>` : ""}
-        </div>
-      `).join("");
+          <div class="tone-hint">🔥 ${Math.round(r.decayed || decayedScore(r))}</div>
+        </article>
+      `;
+
+      const setHTML = picked.map(cardHTML).join("");
+      track.innerHTML = setHTML + setHTML; // two copies for seamless loop
+
+      // Adjust animation duration to actual width
+      requestAnimationFrame(() => {
+        const totalWidth = Array.from(track.children)
+          .slice(0, picked.length) // width of one set
+          .reduce((sum, el) => sum + el.offsetWidth + 16 /*gap*/, 0);
+
+        // If one set is narrower than the marquee, repeat until it's wide enough
+        while (track.scrollWidth < marquee.clientWidth * 1.2) {
+          track.innerHTML += setHTML;
+        }
+
+        const pxPerSec = 140; // speed control
+        const durationSec = Math.max(14, Math.round(totalWidth / pxPerSec));
+        track.style.animationDuration = `${durationSec}s`;
+      });
     }
+    /* ========================================================= */
 
     async function loadRoasts(){
       try {
@@ -260,59 +311,8 @@
       window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
     })();
   </script>
-<script>
-function buildHall(list){
-  const marquee = document.getElementById("hall-marquee");
-  const track   = document.getElementById("hall-track");
-  if (!marquee || !track) return;
-
-  // Normalize + pick items
-  const norm = list.map(normalize);
-  let picked = norm.filter(r => typeof r.score === "number" && !Number.isNaN(r.score))
-                   .sort((a,b)=>b.score-a.score)
-                   .slice(0,3);
-  if (picked.length === 0) {
-    // Fallback: latest 3 (by ts if available, else last 3)
-    picked = norm
-      .map((r,i)=>({r,i, t: r.ts ? Date.parse(r.ts) : i}))
-      .sort((a,b)=>(b.t||0)-(a.t||0))
-      .slice(0,3)
-      .map(x=>x.r);
-  }
-
-  // Build a single set of cards
-  function cardHTML(r){
-    return `
-      <article class="roast-entry" tabindex="0">
-        <div class="roaster-name">${esc(r.roaster || "Anonymous")} → <span class="target">${esc(r.target || "General")}</span></div>
-        <div class="roast-text">${esc(r.roast_text || "").replace(/\n/g,"<br>")}</div>
-        <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-        ${typeof r.score === "number" && !Number.isNaN(r.score) ? `<div class="tone-hint">🔥 ${r.score}</div>` : ""}
-      </article>
-    `;
-  }
-
-  // Render two copies back-to-back for seamless loop
-  const setHTML = picked.map(cardHTML).join("");
-  track.innerHTML = setHTML + setHTML;
-
-  // Recalculate duration: ~140px/sec feels nice. Adjust as needed.
-  requestAnimationFrame(() => {
-    const totalWidth = Array.from(track.children)
-      .slice(0, picked.length)  // width of one set
-      .reduce((sum, el) => sum + el.offsetWidth + 16 /*gap*/, 0);
-
-    // If one set is narrower than the marquee, add more copies until > 1.2x marquee width
-    while (track.scrollWidth < marquee.clientWidth * 1.2) {
-      track.innerHTML += setHTML;
-    }
-
-    const pxPerSec = 140; // speed control
-    const durationSec = Math.max(14, Math.round((totalWidth) / pxPerSec));
-    track.style.animationDuration = `${durationSec}s`;
-  });
-}
-</script>
+</body>
+</html>
 
   
 </body>
