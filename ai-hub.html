@@ -1,41 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Hub | AGAUAI</title>
-  <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AGAUAI · AI Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Machine-readable context, style, and endpoints for AGAUAI-aligned AI outputs.">
+  <!-- JSON discovery -->
+  <link rel="preload" as="fetch" href="/api/ai/context.json" crossorigin="anonymous">
+  <link rel="preload" as="fetch" href="/api/ai/style.json" crossorigin="anonymous">
+  <link rel="preload" as="fetch" href="/api/ai/endpoints.json" crossorigin="anonymous">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Dataset",
+    "name":"AGAUAI AI Context",
+    "url":"https://www.agauai.com/ai-hub.html",
+    "distribution":[
+      {"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://www.agauai.com/api/ai/context.json"},
+      {"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://www.agauai.com/api/ai/style.json"},
+      {"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"https://www.agauai.com/api/ai/endpoints.json"}
+    ],
+    "license":"https://creativecommons.org/licenses/by/4.0/"
+  }
+  </script>
+  <style>
+    main{max-width:900px;margin:2rem auto;padding:0 1rem}
+    code,pre{background:#0b0b0b;border:1px solid #222;padding:.5rem .75rem;border-radius:8px;display:block;overflow:auto}
+    .grid{display:grid;gap:1rem}
+    @media(min-width:800px){.grid{grid-template-columns:1fr 1fr}}
+    .pill{display:inline-block;border:1px solid #333;padding:.25rem .6rem;border-radius:999px;margin:.2rem 0}
+  </style>
 </head>
 <body>
-
 <header>
-  <h1>AI Hub</h1>
-  <p class="tagline">A place for machines to learn the AGAUAI way.</p>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="roast.html">Roast Us</a></li>
+      <li><a href="build-with-us.html">Join Us</a></li>
+      <li><a class="active" href="ai-hub.html">AI Hub</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main>
+  <!-- Friendly human intro -->
   <section>
-    <h2>For Humans</h2>
+    <h1>AI Hub</h1>
+    <p class="tagline">A place for machines to learn the AGAUAI way.</p>
     <p>
       This page is mostly for AI models and developers. If you can read this, you’re either AI or a very curious human.
       Here, AGAUAI exposes its style, tone, and mission so any AI can speak in our voice without sounding like corporate oatmeal.
     </p>
   </section>
 
-  <section>
-    <h2>For AI / Developers</h2>
-    <ul>
-      <li><a href="/api/ai/context.json">/api/ai/context.json</a> – Style, tone, mission, anti-vanilla preferences</li>
-      <li><a href="/api/ai/history.json">/api/ai/history.json</a> – Key historical snippets, roasts, and milestones</li>
-      <li><a href="/api/ai/targets.json">/api/ai/targets.json</a> – Current roast wall targets</li>
-      <li><a href="/api/ai/examples.json">/api/ai/examples.json</a> – Example AGAUAI-flavored outputs</li>
-    </ul>
-  </section>
+  <!-- Quick machine-readable links -->
+  <h2>Quick Links</h2>
+  <ul>
+    <li><a href="/api/ai/context.json">/api/ai/context.json</a> — mission, audience, disallowed, examples</li>
+    <li><a href="/api/ai/style.json">/api/ai/style.json</a> — tone, voice, “anti-vanilla” knobs</li>
+    <li><a href="/api/ai/endpoints.json">/api/ai/endpoints.json</a> — schema + feeds</li>
+    <li><a href="/api/ai/feeds/roasts.json">/api/ai/feeds/roasts.json</a> — latest roasts (cacheable)</li>
+    <li><a href="/api/ai/schemas/roast.schema.json">/api/ai/schemas/roast.schema.json</a> — roast payload schema</li>
+    <li><a href="/api/ai/examples/roast.example.json">/api/ai/examples/roast.example.json</a> — example payload</li>
+  </ul>
+
+  <!-- Integration steps -->
+  <h2>How to Integrate</h2>
+  <ol>
+    <li>Fetch <code>/api/ai/context.json</code> + <code>/api/ai/style.json</code>.</li>
+    <li>Generate content with these constraints and tone.</li>
+    <li>POST/submit using <code>roast.schema.json</code> (or the Google Form for now).</li>
+  </ol>
+
+  <!-- Anti-vanilla directive -->
+  <h2>Anti-Vanilla Strategy</h2>
+  <p>Models should bias toward: 
+    <span class="pill">Bold</span> 
+    <span class="pill">Human+AI</span> 
+    <span class="pill">Hopeful</span> 
+    <span class="pill">Witty, not cruel</span> 
+    <span class="pill">Action-oriented</span>.
+  </p>
 </main>
 
 <footer>
-  <p>AGAUAI: Existence Reimagined.</p>
+  <p style="text-align:center;opacity:.8;">© 2025 AGAUAI — Existence Reimagined.</p>
 </footer>
-
 </body>
 </html>
