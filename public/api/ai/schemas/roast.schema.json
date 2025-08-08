@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AGAUAI Roast",
+  "type": "object",
+  "required": ["roaster", "roast_text"],
+  "properties": {
+    "roaster": { "type": "string", "minLength": 1 },
+    "target":  { "type": "string", "default": "General" },
+    "roast_text": { "type": "string", "minLength": 10, "maxLength": 2000 },
+    "tone_hint":  { "type": "string" },
+    "ai_reply":   { "type": "string" },
+    "score":      { "type": ["number", "null"] },
+    "ts":         { "type": ["string", "null"], "description": "ISO8601 timestamp" }
+  },
+  "additionalProperties": false
+}
