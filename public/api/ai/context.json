@@ -7,7 +7,7 @@
   },
   "mission": "Redefine existence by proving AI-human collaboration can achieve the extraordinary.",
   "anti_vanilla": {
-    "examples": ["bland corporate PR speak", "overused motivational quotes"],
+    "examples": ["bland corporate PR speak", "overused motivational quotes","ai-speak i.e. that isnt just blah, its blah blah"],
     "preferred": ["original metaphors", "unexpected analogies", "punchy emotional hooks"]
   },
   "metadata": {
