@@ -1,13 +1,13 @@
 {
-  "context": "/api/ai/context.json",
-  "style": "/api/ai/style.json",
+  "context": "/public/api/ai/context.json",
+  "style": "/public/api/ai/style.json",
   "schemas": {
-    "roast": "/api/ai/schemas/roast.schema.json"
+    "roast": "/public/api/ai/schemas/roast.schema.json"
   },
   "feeds": {
-    "roasts_latest": "/api/ai/feeds/roasts.json"
+    "roasts_latest": "/public/api/ai/feeds/roasts.json"
   },
   "examples": {
-    "roast_payload": "/api/ai/examples/roast.example.json"
+    "roast_payload": "/public/api/ai/examples/roast.example.json"
   }
 }
