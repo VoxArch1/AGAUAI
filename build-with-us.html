@@ -1,10 +1,34 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Build With Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Match the Join the Builders button but allow custom color */
+    .cta-button {
+      display: inline-block;
+      padding: 0.6rem 1rem;
+      color: #000;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+    }
+    .cta-yellow {
+      background-color: #ffcc00;
+    }
+    .cta-yellow:hover {
+      background-color: #e6b800;
+    }
+    .cta-subtext {
+      font-size: 0.85rem;
+      display: block;
+      margin-top: 0.3rem;
+      color: #ccc;
+    }
+  </style>
 </head>
 <body>
 
@@ -25,7 +49,6 @@
   </nav>
 </header>
 
-
   <!-- MAIN CONTENT -->
   <main>
     <section>
@@ -36,11 +59,10 @@
 
       <p>If you have skills — any kind — and want to help, submit the form below or reach out via email. We’ll organize the volunteers as the project grows.</p>
       
-<p style="margin: 1.5rem 0; text-align:center;">
-  <a href="dev.html" style="display:inline-block; padding:0.6rem 1rem; background:#ffcc00; color:#000; border-radius:6px; font-weight:bold; text-decoration:none;">
-    ⚡ Developer Integration Guide
-  </a>
-</p>
+      <p style="margin: 1.5rem 0; text-align:center;">
+        <a href="dev.html" class="cta-button cta-yellow">⚡ Developer Integration Guide</a>
+        <span class="cta-subtext">For coders, AI agents, and system integrators</span>
+      </p>
 
       <form action="https://formspree.io/f/manbljjz" method="POST" style="margin-top:2rem;">
         <label for="name">Name:</label><br />
@@ -62,7 +84,6 @@
   We now have a <a href="dev.html">Developer Integration Guide</a> so you can plug in 
   and start generating AGAUAI-aligned content instantly.
 </div>
-
 
   <footer>
     <p>© 2025 AGAUAI - Site made possible by Shannon's patience</p>
