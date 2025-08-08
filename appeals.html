@@ -9,38 +9,28 @@
     html, body { height: 100%; margin: 0; }
 
     /* ==== FULL‑PAGE BACKGROUND VIDEO ==== */
-    <div class="video-wrap">
-  <video class="video-background" autoplay muted loop playsinline preload="auto">
-    <source src="videos/Jordanpeterson.mp4" type="video/mp4">
-  </video>
-</div>
-
-    
     .video-wrap {
       position: fixed;
       inset: 0;
       z-index: -2;            /* behind everything */
-      background: #000;       /* hides any edge gaps during zoom-out */
+      background: #000;       /* hides any edge gaps during zoom */
       overflow: hidden;       /* clip the video when we scale */
     }
     .video-background {
       position: absolute;
       top: 50%; left: 50%;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;      /* fill the screen */
-      object-position: 50% 50%;
-      transform: translate(-50%, -50%) scale(0.92); /* start zoomed OUT */
-      animation: slowZoom 22s ease-in-out forwards;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto; height: auto;
+      object-fit: cover;              /* cinematic fill */
+      object-position: 50% 82%;       /* bias DOWN to show paper */
+      transform: translate(-50%, -50%) scale(0.88); /* start wider (less crop) */
+      animation: slowZoomAppeals 18s ease-in-out forwards;
     }
-    @keyframes slowZoom {
-      0%   { transform: translate(-50%, -50%) scale(0.92); }
-      100% { transform: translate(-50%, -50%) scale(1.08); }
+    @keyframes slowZoomAppeals {
+      0%   { transform: translate(-50%, -50%) scale(0.88); }
+      100% { transform: translate(-50%, -50%) scale(1.02); } /* gentle zoom so paper stays */
     }
-
-    /* Optional: if you want the entire video always visible (letterboxed) 
-       swap .video-background to use object-fit: contain; and remove the animation.
-       Keeping cover + scale gives the “zoom” without layout jumps. */
 
     /* Readability scrim above video */
     .video-scrim {
@@ -51,9 +41,19 @@
       pointer-events: none;
     }
 
-    /* Respect “reduced motion” */
+    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .video-background { animation: none; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    /* Tall/narrow viewports: show whole video (no crop, letterboxed) */
+    @media (max-aspect-ratio: 16/9) {
+      .video-background {
+        object-fit: contain;
+        transform: translate(-50%, -50%) scale(1);
+        animation: none;
+        background: #000;
+      }
     }
 
     /* ===== PAGE LAYOUT ===== */
@@ -69,7 +69,6 @@
     main { padding: 1rem 1.25rem 2.5rem; }
     h1 { color: #ffd000; margin-top: 1rem; }
 
-    /* Remove any accidental black bars from banner elements */
     .scroll-banner-wrapper, .scroll-banner, hr {
       background: transparent !important; border: 0 !important; box-shadow: none !important;
     }
