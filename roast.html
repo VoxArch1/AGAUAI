@@ -6,10 +6,12 @@
   <title>Roast Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* minimal helpers so this works immediately; move to style.css when ready */
+    /* minimal helpers; move to style.css whenever */
     .container{max-width:960px;margin:2rem auto;padding:0 1rem}
     .btn{border:none;border-radius:999px;padding:.7rem 1.1rem;font-weight:700;cursor:pointer}
     .btn.primary{background:#0bf;color:#001018}
+
+    /* Roast cards (theme‑friendly) */
     .roast-entry{border-left:4px solid #ff5555;background:linear-gradient(180deg,#121212,#0f0f0f);border-radius:10px;padding:1rem 1.1rem;box-shadow:0 6px 20px rgba(0,0,0,.28);margin:1.25rem 0 2rem}
     .roaster-name{color:#0bf;font-weight:700;font-size:.95rem}
     .roast-text{color:#ffd700;font-size:1.1rem;margin:.5rem 0 .35rem;line-height:1.45}
@@ -26,15 +28,30 @@
 
     /* Hall container */
     #hall{background:linear-gradient(180deg,#1b1b1b,#111);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);padding:1rem}
+
     /* 3D cylinder */
     #hall-3d{position:relative;perspective:1100px;perspective-origin:50% 45%}
-    #hall-stage{position:relative;transform-style:preserve-3d;height:460px}
-    #hall-3d .centerpiece{position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);width:min(32vmin,320px);z-index:1200;filter:drop-shadow(0 10px 25px rgba(0,0,0,.6))}
+    #hall-stage{position:relative;transform-style:preserve-3d;z-index:5;height:460px}
+    #hall-3d .centerpiece{
+      position:absolute;left:50%;top:50%;
+      transform: translate(-50%,-55%) translateZ(-150px); /* behind */
+      z-index:1; pointer-events:none;
+      width:min(32vmin,320px);
+      filter:drop-shadow(0 8px 18px rgba(0,0,0,.55));
+    }
     .card{position:absolute;transform-origin:center center;will-change:transform,opacity}
+
+    /* Slightly smaller text inside the Hall only */
+    #hall .roast-entry { padding:.8rem .9rem; }
+    #hall .roast-entry .roaster-name { font-size:.9rem; }
+    #hall .roast-entry .roast-text { font-size:clamp(.90rem,1.6vw,1.02rem); line-height:1.4; }
+    #hall .roast-entry .ai-clapback { font-size:.95rem; }
+    #hall .roast-entry .tone-hint { font-size:.80rem; }
 
     /* Marquee fallback */
     #hall .marquee{position:relative;overflow:hidden;border-radius:8px}
     #hall .track{display:inline-flex;gap:16px;will-change:transform;animation:hallScroll 28s linear infinite}
+    #hall .track:hover{animation-play-state:paused;} /* pause on hover */
     @keyframes hallScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
     /* Auto-fallback */
@@ -121,7 +138,7 @@
     <p style="text-align:center;opacity:.8;">© 2025 AGAUAI — We Know This is Nuts. That’s Why It Just Might Work.</p>
   </footer>
 
-  <!-- ==== JS (single, clean script block) ==== -->
+  <!-- ==== JS ==== -->
   <script>
     /* Utils */
     function esc(s){
@@ -199,91 +216,88 @@
 
     /* ---- 3D CYLINDER (centered on the turkey) ---- */
     function buildHall3D(items){
-  const wrap   = document.getElementById('hall-3d');
-  const stage  = document.getElementById('hall-stage');
-  const mq     = document.getElementById('hall-marquee');
-  const turkey = wrap?.querySelector('.centerpiece');
-  if (!wrap || !stage || !turkey) return;
+      const wrap   = document.getElementById('hall-3d');
+      const stage  = document.getElementById('hall-stage');
+      const mq     = document.getElementById('hall-marquee');
+      const turkey = wrap?.querySelector('.centerpiece');
+      if (!wrap || !stage || !turkey) return;
 
-  // show 3D, hide marquee
-  wrap.style.display = 'block';
-  if (mq) mq.hidden = true;
+      // show 3D, hide marquee
+      wrap.style.display = 'block';
+      if (mq) mq.hidden = true;
 
-  // reset stage
-  stage.innerHTML = '';
-  stage.style.position = 'relative';
-  stage.style.transformStyle = 'preserve-3d';
+      // reset stage
+      stage.innerHTML = '';
+      stage.style.position = 'relative';
+      stage.style.transformStyle = 'preserve-3d';
 
-  // reasonable stage height (compact)
-  const tH = turkey.naturalHeight || turkey.clientHeight || 320;
-  const desired = Math.min(420, Math.max(320, Math.round(tH * 0.95)));
-  stage.style.height = desired + 'px';
+      // compact stage height
+      const tH = turkey.naturalHeight || turkey.clientHeight || 320;
+      const desired = Math.min(420, Math.max(320, Math.round(tH * 0.95)));
+      stage.style.height = desired + 'px';
 
-  // build cards
-  const N = Math.max(1, items.length);
-  const nodes = [];
-  for (let i = 0; i < N; i++){
-    const r = items[i];
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="roast-entry">
-        <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-        <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-        <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-        <div class="tone-hint">🔥 ${Math.round(r.decayed ?? 100)}</div>
-      </div>`;
-    stage.appendChild(card);
-    nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
-  }
+      // build cards
+      const N = Math.max(1, items.length);
+      const nodes = [];
+      for (let i=0;i<N;i++){
+        const r = items[i];
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="roast-entry">
+            <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+            <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+            <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+            <div class="tone-hint">🔥 ${Math.round(r.decayed ?? 100)}</div>
+          </div>`;
+        stage.appendChild(card);
+        nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
+      }
 
-  const baseSpeed = 0.50;   // a hair slower looks nicer
-  let paused = false;
+      const baseSpeed = 0.50;      // smooth
+      let paused = false;
+      wrap.addEventListener('pointerenter', () => paused = true);
+      wrap.addEventListener('pointerleave', () => paused = false);
 
-  // pause on hover
-  const wrap = document.getElementById('hall-3d');
-  wrap.addEventListener('pointerenter', () => paused = true);
-  wrap.addEventListener('pointerleave', () => paused = false);
+      function frame(ts){
+        // center on the TURKEY
+        const stRect = stage.getBoundingClientRect();
+        const tkRect = turkey.getBoundingClientRect();
+        const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
+        const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50;
 
-  function frame(ts){
-    // center on the TURKEY
-    const stRect = stage.getBoundingClientRect();
-    const tkRect = turkey.getBoundingClientRect();
-    const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
-    const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50;
+        // cylinder radii (clamped = compact)
+        const tw = tkRect.width;
+        const R = Math.min(260, Math.max(180, tw * 0.62)); // horizontal radius
+        const D = Math.min(220, Math.max(140, R  * 0.75)); // depth radius
+        const Y = 0;
 
-    // compact cylinder radii
-    const tw = tkRect.width;
-    const R = Math.min(260, Math.max(180, tw * 0.62));
-    const D = Math.min(220, Math.max(140, R  * 0.75));
-    const Y = 0;
+        const speed = paused ? 0 : baseSpeed;
+        const t = ts / 1000;
 
-    const speed = paused ? 0 : baseSpeed;
-    const t = ts / 1000;
+        for (const n of nodes){
+          const a = n.baseAngle + t * speed;
+          const x = R * Math.cos(a);
+          const z = D * Math.sin(a);
+          const y = Y;
 
-    for (const n of nodes){
-      const a = n.baseAngle + t * speed;
-      const x = R * Math.cos(a);
-      const z = D * Math.sin(a);
-      const y = Y;
+          const rotY = 0; // face viewer
 
-      const rotY = 0;  // always face viewer
+          const zNorm = (z + D) / (2*D);    // 0..1
+          const scale = 0.88 + zNorm * 0.30;
+          const opacity = 0.50 + zNorm * 0.50;
 
-      const zNorm = (z + D) / (2*D);    // 0..1
-      const scale = 0.88 + zNorm * 0.30;
-      const opacity = 0.50 + zNorm * 0.50;
+          n.el.style.transform =
+            `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scale})`;
+          n.el.style.opacity = opacity.toFixed(3);
+          n.el.style.zIndex = String(1000 + Math.round(z));
+          n.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
+        }
 
-      n.el.style.transform =
-        `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scale})`;
-      n.el.style.opacity = opacity.toFixed(3);
-      n.el.style.zIndex = String(1000 + Math.round(z));
-      n.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     }
-
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
 
     /* ---- Marquee fallback ---- */
     function buildHallMarquee(items){
