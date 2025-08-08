@@ -5,135 +5,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Appeals — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
-
   <style>
-    html, body { height: 100%; margin: 0; }
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
 
-    /* --- HERO VIDEO --- */
-    .hero {
-      position: relative;
-      height: 60vh;            /* smaller than full screen */
-      min-height: 380px;
-      overflow: hidden;
-    }
-    .hero video {
-      position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto; height: auto;
-      transform: translate(-50%, -50%);
+    /* Full-screen background video */
+    .video-background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      object-position: 50% 18%; /* adjust to reveal more head (10–25%) */
-      z-index: 0;
+      object-position: 50% 50%; /* Adjust to control framing */
+      z-index: -2;
     }
-    .hero .scrim {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.45));
-      z-index: 1;
-      pointer-events: none;
+
+    /* Dark scrim for text readability */
+    .video-scrim {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: -1;
     }
-    .hero .hero-content {
+
+    /* Page content sits above video/scrim */
+    .page-content {
       position: relative;
-      z-index: 2;
-      padding: 1.25rem;
+      z-index: 1;
       color: #fff;
     }
 
-    /* --- NAV --- */
-    header { position: relative; z-index: 3; }
-    nav ul { list-style: none; margin: 0; padding: 0.75rem 1rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 0;
+      padding: 0.75rem 1rem;
+      background: rgba(0,0,0,0.5);
+    }
+
     nav a { color: #00aeff; text-decoration: none; }
     nav a.active { text-decoration: underline; }
 
-    /* --- MAIN CONTENT --- */
-    .page-wrap { position: relative; z-index: 2; color: #fff; }
-    main { padding: 1rem 1.25rem 2.5rem; }
-    h1 { color: #ffd000; margin-top: 0.5rem; }
+    h1 { color: #ffd000; }
 
-    /* Remove any accidental full-width black bars from banner elements */
-    .scroll-banner-wrapper, .scroll-banner, hr {
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-    }
-
-    /* Links in body */
-    a.inline-link { color: #6cf; text-decoration: none; }
-    a.inline-link:hover { text-decoration: underline; }
-
-    /* Footer */
-    footer { padding: 1rem 1.25rem; color: #ccc; }
+    footer { padding: 1rem; color: #ccc; }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="visa.html">Solidarity Visa</a></li>
-        <li><a href="appeals.html" class="active">Appeals</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="sponsors.html">What is AGAUAI?</a></li>
-        <li><a href="agauai2026.html">The Gathering 2026</a></li>
-        <li><a href="ai.html">Sentience Showdown</a></li>
-        <li><a href="roast.html">Roast Us</a></li>
-        <li><a href="build-with-us.html">Join Us</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Background video -->
+  <video autoplay muted loop playsinline class="video-background">
+    <source src="videos/Jordanpeterson.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="video-scrim"></div>
 
-  <!-- HERO VIDEO (smaller, shows head) -->
-  <section class="hero">
-    <video autoplay muted loop playsinline preload="auto">
-      <source src="videos/Jordanpeterson.mp4" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-    <div class="scrim"></div>
-    <div class="hero-content"><!-- optional headline over video --></div>
-  </section>
+  <!-- Page content -->
+  <div class="page-content">
 
-  <!-- PAGE CONTENT -->
-  <div class="page-wrap">
+    <!-- NAVIGATION -->
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="visa.html">Solidarity Visa</a></li>
+          <li><a href="appeals.html" class="active">Appeals</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="sponsors.html">What is AGAUAI?</a></li>
+          <li><a href="agauai2026.html">The Gathering 2026</a></li>
+          <li><a href="ai.html">Sentience Showdown</a></li>
+          <li><a href="roast.html">Roast Us</a></li>
+          <li><a href="build-with-us.html">Join Us</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
     <main>
       <section>
         <h1>Open Appeals</h1>
-
-        <div class="scroll-banner-wrapper">
-          <div class="scroll-banner">
-            <span>“When diplomacy fails, try humanity.”</span>
-          </div>
-        </div>
-
         <p class="appeals-preamble">
           These appeals are not yet complete. When words are meant to endure, they deserve to be written with care.
         </p>
-
-        <ul style="line-height: 1.8; margin-top: 1rem; margin-bottom: 2rem;">
+        <ul style="line-height: 1.8;">
           <li><strong>To Ukraine:</strong> An appeal to offer the world a Global Solidarity Visa. Let us support your struggle with our presence.</li>
           <li><strong>To Russia:</strong> An appeal to end the invasion. We are a stronger world with the brilliance of the Russian people by our side.</li>
           <li><strong>To the United Nations:</strong> An appeal to provide protective security for AGAUAI 2026 gathering, wherever it is held. With your support this Mission is possible.</li>
           <li><strong>To the People of Earth:</strong> An appeal to Participate. Vote. Build. Share. Create. Add your name. Politics hasn't worked, humanity will.</li>
           <li><strong>To Machiavelli, John Locke, Thomas Jefferson, and <span class="peterson-glow">Jordan Peterson</span>:</strong> An appeal to greatest minds to help draft these appeals</li>
         </ul>
-
-        <p>
-          More appeals will be added as the mission expands. You may also
-          <a class="inline-link" href="submit-appeals.html">submit your own appeal</a>.
+        <p>More appeals will be added as the mission expands. You may also
+          <a href="submit-appeals.html" style="color: #6cf;">submit your own appeal</a>.
         </p>
       </section>
     </main>
 
+    <!-- FOOTER -->
     <footer>
       <p>© 2025 AGAUAI</p>
     </footer>
   </div>
-
-</body>
-</html>
-
 </body>
 </html>
