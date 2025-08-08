@@ -171,39 +171,45 @@
 
     // ORBIT builder
     function buildHallOrbit(items){
-      const wrap = document.getElementById('hall-orbit');
-      const track = document.getElementById('hall-orbit-track');
-      const marquee = document.getElementById('hall-marquee');
-      if (!wrap || !track) return;
+  const wrap = document.getElementById('hall-orbit');
+  const track = document.getElementById('hall-orbit-track');
+  const marquee = document.getElementById('hall-marquee');
+  if (!wrap || !track) return;
 
-      wrap.style.display = 'grid';
-      if (marquee) marquee.hidden = true;
+  wrap.style.display = 'grid';
+  if (marquee) marquee.hidden = true;
 
-      track.innerHTML = '';
-      const N = Math.max(1, items.length);
-      const radiusPct = 35;
+  track.innerHTML = '';
+  const N = Math.max(1, items.length);
+  const radiusPct = 35;
 
-      for (let i=0;i<N;i++){
-        const r = items[i];
-        const angle = (i / N) * 2 * Math.PI;
-        const card = document.createElement('div');
-        card.className = 'orbit-card';
-        const x = 50 + radiusPct * Math.cos(angle);
-        const y = 50 + radiusPct * Math.sin(angle);
-        card.style.left = x + '%';
-        card.style.top  = y + '%';
-        card.innerHTML = `
-          <div class="roast-entry">
-            <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-            <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-            <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-            <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
-          </div>`;
-        track.appendChild(card);
-      }
+  for (let i=0;i<N;i++){
+    const r = items[i];
+    const angleDeg = (i / N) * 360;
 
-      track.style.animationDuration = (items.length <= 3) ? '40s' : '28s';
-    }
+    // Orbit card container (positioned on ring)
+    const cardWrap = document.createElement('div');
+    cardWrap.className = 'orbit-card';
+    cardWrap.style.left = (50 + radiusPct * Math.cos(angleDeg * Math.PI/180)) + '%';
+    cardWrap.style.top  = (50 + radiusPct * Math.sin(angleDeg * Math.PI/180)) + '%';
+
+    // Inner card that counter-rotates
+    const inner = document.createElement('div');
+    inner.className = 'roast-entry';
+    inner.style.transform = `rotate(${-angleDeg}deg)`;
+    inner.innerHTML = `
+      <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+      <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+      <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter-Roast loading…</em>"}</div>
+      <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
+    `;
+
+    cardWrap.appendChild(inner);
+    track.appendChild(cardWrap);
+  }
+
+  track.style.animationDuration = (items.length <= 3) ? '40s' : '28s';
+}
 
     // MARQUEE builder
     function buildHallMarquee(items){
