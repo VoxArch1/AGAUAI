@@ -520,3 +520,23 @@ iframe { width: 100%; max-width: 680px; border: none; }
 }
 #hall { max-width: 960px; margin: 2rem auto 0; padding: 0 1rem; }
 #hall h2 { margin-bottom: .5rem; }
+.modal-dialog {
+  background: #0a0a0a;
+  border: 1px solid #222;
+}
+.modal-title {
+  color: #ffd700;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.modal-x {
+  font-weight: bold;
+}
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
+  50% { box-shadow: 0 0 12px rgba(0,187,255,.8), 0 0 24px rgba(0,187,255,.5); }
+  100% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
+}
+#open-roast {
+  animation: pulseGlow 2s infinite;
+}
