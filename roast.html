@@ -50,6 +50,11 @@
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
         width="640" height="554" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     </section>
+    
+<section id="hall">
+  <h2>🏆 Hall of Flames</h2>
+  <div id="hall-items"></div>
+</section>
 
     <section id="roast-wall">
       <h2>🔥 The Roast Wall</h2>
@@ -101,6 +106,26 @@
         container.appendChild(div);
       });
     }
+
+    // Build Hall of Flames if scores exist
+function buildHall(list){
+  const scored = list
+    .map(normalize)
+    .filter(r => typeof r.score === "number")
+    .sort((a,b)=>b.score-a.score)
+    .slice(0,3);
+  if (!scored.length) return;
+  const h = document.getElementById("hall-items");
+  if (!h) return;
+  h.innerHTML = scored.map(r => `
+    <div class="roast-entry">
+      <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+      <div class="roast-text">${esc(r.roast_text)}</div>
+      <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+      <div class="tone-hint">🔥 ${r.score}</div>
+    </div>
+  `).join("");
+}
 
     async function loadRoasts(){
       try {
