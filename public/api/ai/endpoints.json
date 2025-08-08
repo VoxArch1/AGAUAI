@@ -5,7 +5,8 @@
     "roast": "/public/api/ai/schemas/roast.schema.json"
   },
   "feeds": {
-    "roasts_latest": "/public/api/ai/feeds/roasts.json"
+    "roasts_latest": "/public/api/ai/feeds/roasts.json",
+    "news": "/public/api/ai/feeds/news.json"
   },
   "examples": {
     "roast_payload": "/public/api/ai/examples/roast.example.json"
