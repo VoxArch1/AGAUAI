@@ -653,3 +653,11 @@ iframe { width: 100%; max-width: 680px; border: none; }
 #hall-3d .centerpiece { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-55%); z-index: 1200; }
 #hall-stage { position: relative; transform-style: preserve-3d; }
 .card { position: absolute; transform-origin: center center; }
+
+/* Trophy sits *behind* the orbit, can't steal clicks */
+#hall-3d .centerpiece{
+  z-index: 850;                    /* lower than cards (1000+z) */
+  pointer-events: none;
+  transform: translate(-50%,-55%) translateZ(-120px); /* push it back in 3D */
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.55));
+}
