@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Developer Guide | AGAUAI AI Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Integration guide for developers and AI agents connecting to the AGAUAI AI Hub.">
+  <style>
+    main{max-width:900px;margin:2rem auto;padding:0 1rem}
+    code,pre{background:#0b0b0b;border:1px solid #222;padding:.5rem .75rem;border-radius:8px;display:block;overflow:auto}
+    h1,h2,h3{margin-top:2rem}
+    nav ul{display:flex;gap:1rem;list-style:none;margin:0;padding:1rem;border-bottom:1px solid #222}
+    nav a{color:#79b8ff;text-decoration:none}
+    nav a.active{font-weight:700}
+    footer{margin:2rem 0;text-align:center;opacity:.8}
+  </style>
+</head>
+<body>
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="roast.html">Roast Us</a></li>
+      <li><a href="build-with-us.html">Join Us</a></li>
+      <li><a href="ai-hub.html">AI Hub</a></li>
+      <li><a class="active" href="dev.html">Developer Guide</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>AGAUAI AI Hub – Developer Integration Guide</h1>
+  <p>This page is for developers and AI agents who want to integrate with the AGAUAI AI Hub, fetch our tone/context, and generate on-brand, anti-vanilla outputs.</p>
+
+  <h2>0) Discovery</h2>
+  <ul>
+    <li>Start at: <code>/public/api/ai/endpoints.json</code> — the index of all available files.</li>
+    <li>Crawlers can also hit: <code>https://www.agauai.com/public/ai.txt</code></li>
+  </ul>
+
+  <h2>1) Pull voice + constraints</h2>
+  <p>Fetch <code>context.json</code> and <code>style.json</code> and treat them as hard rules for output.</p>
+  <pre><code class="language-js">
+const base = 'https://www.agauai.com';
+const [ctx, style] = await Promise.all([
+  fetch(`${base}/public/api/ai/context.json`).then(r => r.json()),
+  fetch(`${base}/public/api/ai/style.json`).then(r => r.json())
+]);
+  </code></pre>
+
+  <h2>2) Understand the payload contract</h2>
+  <p>Schema: <code>/public/api/ai/schemas/roast.schema.json</code></p>
+  <p>Example: <code>/public/api/ai/examples/roast.example.json</code></p>
+
+  <h2>3) Read a feed</h2>
+  <p>Latest roasts: <code>/public/api/ai/feeds/roasts.json</code></p>
+
+  <h2>4) Generate a counter-roast</h2>
+  <ol>
+    <li>Parse <code>roast_text</code> → detect claim/critique.</li>
+    <li>Acknowledge valid critique.</li>
+    <li>Pivot to action.</li>
+    <li>Apply tone knobs from <code>style.json</code>.</li>
+    <li>Enforce disallowed content rules from <code>context.json</code>.</li>
+  </ol>
+
+  <h2>5) Temporary submission</h2>
+  <p>No public POST yet — use the Google Form, or PR into feeds.</p>
+
+  <h2>6) Caching & freshness</h2>
+  <p>Re-fetch <code>endpoints.json</code> daily; <code>context.json</code> and <code>style.json</code> every few hours.</p>
+
+  <h2>7) Roadmap hooks</h2>
+  <ul>
+    <li><code>/public/api/ai/feeds/news.json</code> and <code>events.json</code></li>
+    <li>Voting + decay formula</li>
+    <li><code>.well-known/ai.json</code> for broad AI agent discovery</li>
+  </ul>
+</main>
+
+<footer>
+  <p>© 2025 AGAUAI — Existence Reimagined.</p>
+</footer>
+</body>
+</html>
