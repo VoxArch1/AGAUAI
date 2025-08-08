@@ -486,3 +486,5 @@ nav ul li a:hover {
   color: #ff5f5f;
   margin-top: 5px;
 }
+.roaster-name .target { opacity: 0.8; }
+.tone-hint { font-size: 0.85rem; color: #999; margin: 4px 0 6px; }
