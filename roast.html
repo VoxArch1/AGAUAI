@@ -188,19 +188,22 @@
     function renderWall(list){
       const container = document.getElementById("roast-container");
       container.innerHTML = "";
-      list.slice().reverse().forEach(raw => {
-        const r = normalize(raw);
-        const div = document.createElement("div");
-        div.className = "roast-entry";
-        div.innerHTML = `
-          <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-          <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-          ${r.tone_hint ? `<div class="tone-hint">Tone: ${esc(r.tone_hint)}</div>` : ""}
-          <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-        `;
-        container.appendChild(div);
-      });
-    }
+      // sort newest first by timestamp
+  list
+    .map(normalize)
+    .sort((a, b) => (b.tsMs || 0) - (a.tsMs || 0))
+    .forEach(r => {
+      const div = document.createElement("div");
+      div.className = "roast-entry";
+      div.innerHTML = `
+        <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+        <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+        ${r.tone_hint ? `<div class="tone-hint">Tone: ${esc(r.tone_hint)}</div>` : ""}
+        <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter-Roast loading…</em>"}</div>
+      `;
+      container.appendChild(div);
+    });
+}
 
     /* ---- Hall chooser ---- */
     function buildHall(list){
