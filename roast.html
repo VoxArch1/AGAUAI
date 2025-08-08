@@ -6,41 +6,65 @@
   <title>Roast Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    #roast-wall { max-width: 800px; margin: 3rem auto; padding: 1rem; color: #fff; }
-    .roast-entry { border-left: 4px solid #ff5555; margin-bottom: 2rem; background:#111; border-radius:5px; padding:1rem; }
-    .roaster-name { color:#0bf; font-size:.9rem; font-weight:700; }
-    .roast-text { font-size:1.2rem; color:#ffd700; margin:.5rem 0; }
-    .ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.95rem; }
+    /* Layout containers */
+    #hall, #roast-wall { max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #fff; }
+
+    /* Roast cards */
+    .roast-entry {
+      border-left: 4px solid #ff5555;
+      margin: 1.25rem 0 2rem;
+      background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%);
+      border-radius: 10px;
+      padding: 1rem 1.1rem 1.1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+    }
+    .roaster-name { color:#0bf; font-size:.92rem; font-weight:700; letter-spacing:.2px; }
+    .roast-text { font-size:1.15rem; color:#ffd700; margin:.5rem 0 .35rem; line-height:1.45; }
+    .ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.975rem; }
     .roaster-name .target { opacity:.8; }
-    .tone-hint { font-size:.85rem; color:#999; margin:4px 0 6px; }
-    /* button fallback (in case global .btn styles aren’t loaded) */
-.btn { border-radius: 999px; padding: .7rem 1.1rem; font-weight: 700; cursor: pointer; }
-.btn.primary { background: #0bf; color: #001018; border: none; box-shadow: 0 10px 30px rgba(0,187,255,.25); }
-.btn.primary:hover { transform: translateY(-2px); transition: transform 150ms ease; }
+    .tone-hint { font-size:.85rem; color:#9aa; margin:4px 0 6px; }
 
-/* modal */
-.modal[hidden] { display: none !important; }
-.modal { position: fixed; inset: 0; z-index: 9999; }
-.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(2px); }
-.modal-dialog {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-  width: min(92vw, 760px); max-height: 85vh; background: #0e0e0e;
-  border: 1px solid #222; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
-  display: flex; flex-direction: column; overflow: hidden;
-}
-.modal-title { margin: 0; padding: .9rem 1.1rem; border-bottom: 1px solid #1a1a1a; }
-.modal-x {
-  position: absolute; right: 8px; top: 6px; width: 36px; height: 36px;
-  border: 0; background: transparent; color: #ccc; font-size: 1.6rem; cursor: pointer;
-}
-.modal-x:hover { color: #fff; }
-#roast-frame { border: 0; width: 100%; height: calc(85vh - 58px); background: #111; }
+    /* Section headings */
+    h2 { margin-bottom: .6rem; }
 
-@media (max-width: 520px) {
-  .modal-dialog { width: 94vw; max-height: 88vh; }
-  #roast-frame { height: calc(88vh - 58px); }
-}
+    /* Button (if global .btn missing) */
+    .btn { border-radius: 999px; padding: .7rem 1.1rem; font-weight: 700; cursor: pointer; border: none; }
+    .btn.primary { background: #0bf; color: #001018; box-shadow: 0 10px 30px rgba(0,187,255,.25); }
+    .btn.primary:hover { transform: translateY(-2px); transition: transform 150ms ease; }
 
+    /* Invite attention to the CTA */
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
+      50% { box-shadow: 0 0 12px rgba(0,187,255,.8), 0 0 24px rgba(0,187,255,.5); }
+      100% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
+    }
+    #open-roast { animation: pulseGlow 2s infinite; }
+
+    /* Modal */
+    .modal[hidden] { display: none !important; }
+    .modal { position: fixed; inset: 0; z-index: 9999; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(2px); }
+    .modal-dialog {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      width: min(92vw, 760px); max-height: 85vh; background: #0a0a0a;
+      border: 1px solid #222; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .modal-title { margin: 0; padding: .9rem 1.1rem; border-bottom: 1px solid #1a1a1a; color:#ffd700; font-weight:700; }
+    .modal-x {
+      position: absolute; right: 8px; top: 6px; width: 36px; height: 36px;
+      background: transparent; color: #ccc; font-size: 1.6rem; cursor: pointer; border:0; font-weight:700;
+    }
+    .modal-x:hover { color: #fff; }
+    #roast-frame { border: 0; width: 100%; height: calc(85vh - 58px); background: #111; }
+
+    /* Hall container look */
+    #hall { background: linear-gradient(180deg, #1b1b1b 0%, #111 100%); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); padding: 1rem; }
+
+    @media (max-width: 520px) {
+      .modal-dialog { width: 94vw; max-height: 88vh; }
+      #roast-frame { height: calc(88vh - 58px); }
+    }
   </style>
 </head>
 <body class="roast-page">
@@ -64,7 +88,7 @@
 
   <!-- MAIN -->
   <main>
-    <section>
+    <section style="max-width:960px;margin:2rem auto;padding:0 1rem;">
       <h1>The Roast Chamber 🔥</h1>
       <p class="tagline"><strong>“What kind of lunatic thinks they can end a war with a website?”</strong></p>
       <p>You do. Or maybe you don’t. Either way — welcome.</p>
@@ -73,32 +97,33 @@
       <p><strong>So roast us. Seriously. But know this:</strong> For every roast, we will reply with a Counter‑Roast. And if you’ve got a heart underneath all that sarcasm — you are still welcome.</p>
     </section>
 
-    <section>
-  <h2>Leave Your Roast</h2>
-  <button class="btn primary" id="open-roast">Enter your Roast</button>
-</section>
+    <section style="max-width:960px;margin:0 auto;padding:0 1rem;">
+      <h2>Leave Your Roast</h2>
+      <button class="btn primary" id="open-roast">Enter your Roast</button>
+    </section>
 
-<!-- Modal -->
-<div id="roast-modal" class="modal" hidden>
-  <div class="modal-backdrop" id="modal-close"></div>
-  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="roastTitle">
-    <button class="modal-x" id="modal-x" aria-label="Close">×</button>
-    <h3 id="roastTitle" class="modal-title">Submit a Roast</h3>
-    <iframe
-      id="roast-frame"
-      src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
-      loading="lazy"
-      title="Roast form">
-    </iframe>
-  </div>
-</div>
+    <!-- Modal -->
+    <div id="roast-modal" class="modal" hidden>
+      <div class="modal-backdrop" id="modal-close"></div>
+      <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="roastTitle">
+        <button class="modal-x" id="modal-x" aria-label="Close">×</button>
+        <h3 id="roastTitle" class="modal-title">Submit a Roast</h3>
+        <iframe
+          id="roast-frame"
+          src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
+          loading="lazy"
+          title="Roast form">
+        </iframe>
+      </div>
+    </div>
 
-    
-<section id="hall">
-  <h2>🏆 Hall of Flames</h2>
-  <div id="hall-items"></div>
-</section>
+    <!-- Hall -->
+    <section id="hall">
+      <h2>🏆 Hall of Flames</h2>
+      <div id="hall-items"></div>
+    </section>
 
+    <!-- Wall -->
     <section id="roast-wall">
       <h2>🔥 The Roast Wall</h2>
       <div id="roast-container">Loading…</div>
@@ -106,7 +131,7 @@
   </main>
 
   <footer>
-    <p>© 2025 AGAUAI — We Know This is Nuts. That’s Why It Just Might Work.</p>
+    <p style="text-align:center;opacity:.8;">© 2025 AGAUAI — We Know This is Nuts. That’s Why It Just Might Work.</p>
   </footer>
 
   <!-- Utils -->
@@ -118,7 +143,7 @@
     }
   </script>
 
-  <!-- Roast Loader -->
+  <!-- Loader -->
   <script defer>
     const PRIMARY  = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
     const FALLBACK = "/api/ai/roasts.json";
@@ -129,14 +154,16 @@
         target:  item.target  || item.subject || "General",
         roast_text: item.roast_text || item.roast || item.text || "",
         tone_hint:  item.tone_hint  || item.tone  || "",
-        ai_reply:   item.ai_reply   || item.counter || item.response || ""
+        ai_reply:   item.ai_reply   || item.counter || item.response || "",
+        score:      item.score != null ? Number(item.score) : null,
+        ts:         item.ts || item.timestamp || null
       };
     }
 
     function render(list){
       const container = document.getElementById("roast-container");
       container.innerHTML = "";
-      list.reverse().forEach(raw => {
+      list.slice().reverse().forEach(raw => {
         const r = normalize(raw);
         const div = document.createElement("div");
         div.className = "roast-entry";
@@ -150,25 +177,35 @@
       });
     }
 
-    // Build Hall of Flames if scores exist
-function buildHall(list){
-  const scored = list
-    .map(normalize)
-    .filter(r => typeof r.score === "number")
-    .sort((a,b)=>b.score-a.score)
-    .slice(0,3);
-  if (!scored.length) return;
-  const h = document.getElementById("hall-items");
-  if (!h) return;
-  h.innerHTML = scored.map(r => `
-    <div class="roast-entry">
-      <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-      <div class="roast-text">${esc(r.roast_text)}</div>
-      <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-      <div class="tone-hint">🔥 ${r.score}</div>
-    </div>
-  `).join("");
-}
+    // Build Hall: prefer numeric scores; else fall back to latest 3
+    function buildHall(list){
+      const h = document.getElementById("hall-items");
+      if (!h) return;
+
+      const norm = list.map(normalize);
+
+      let scored = norm.filter(r => typeof r.score === "number" && !Number.isNaN(r.score));
+      if (scored.length === 0) {
+        // No scores → take the latest 3 items by timestamp if available, else last 3 entries
+        const byTime = norm
+          .map((r,i)=>({r,i, t: r.ts ? Date.parse(r.ts) : i}))
+          .sort((a,b)=> (b.t||0) - (a.t||0))
+          .slice(0,3)
+          .map(x=>x.r);
+        scored = byTime;
+      } else {
+        scored = scored.sort((a,b)=>b.score-a.score).slice(0,3);
+      }
+
+      h.innerHTML = scored.map(r => `
+        <div class="roast-entry">
+          <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+          <div class="roast-text">${esc(r.roast_text)}</div>
+          <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+          ${typeof r.score === "number" && !Number.isNaN(r.score) ? `<div class="tone-hint">🔥 ${r.score}</div>` : ""}
+        </div>
+      `).join("");
+    }
 
     async function loadRoasts(){
       try {
@@ -185,9 +222,8 @@ function buildHall(list){
           const r2 = await fetch(`${FALLBACK}?t=${Date.now()}`);
           const data2 = await r2.json();
           const arr2 = Array.isArray(data2) ? data2 : [];
-            render(arr2);
-            buildHall(arr2);
-
+          render(arr2);
+          buildHall(arr2);
         } catch (e2) {
           console.error("Fallback failed:", e2);
           document.getElementById("roast-container").innerHTML =
@@ -195,26 +231,27 @@ function buildHall(list){
         }
       }
     }
-
     loadRoasts();
   </script>
 
+  <!-- Modal behavior -->
   <script>
-(function(){
-  const modal = document.getElementById('roast-modal');
-  const openBtn = document.getElementById('open-roast');
-  const closeBtn = document.getElementById('modal-x');
-  const backdrop = document.getElementById('modal-close');
+    (function(){
+      const modal = document.getElementById('roast-modal');
+      const openBtn = document.getElementById('open-roast');
+      const closeBtn = document.getElementById('modal-x');
+      const backdrop = document.getElementById('modal-close');
 
-  function openModal(){ modal.removeAttribute('hidden'); document.body.style.overflow='hidden'; }
-  function closeModal(){ modal.setAttribute('hidden',''); document.body.style.overflow=''; }
+      if (!modal || !openBtn || !closeBtn || !backdrop) return;
 
-  openBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
-})();
-</script>
+      function openModal(){ modal.removeAttribute('hidden'); document.body.style.overflow='hidden'; }
+      function closeModal(){ modal.setAttribute('hidden',''); document.body.style.overflow=''; }
+
+      openBtn.addEventListener('click', openModal);
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', closeModal);
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+    })();
+  </script>
 </body>
 </html>
-
