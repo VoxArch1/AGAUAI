@@ -292,9 +292,11 @@ function frame(ts){
 
     const rotY = 0; // face viewer
     const zNorm = (z + D) / (2*D);
-    const scaleX = 0.88 + zNorm * 0.30;      // tweak 0.30 if you want more/less width swing
+
+    // WIDTH varies with depth; HEIGHT stays constant
+    const scaleX = 0.88 + zNorm * 0.30;
     const scaleY = 1;
-    const scaleY = 0.88 + zNorm * 0.30;
+
     const opacity = 0.50 + zNorm * 0.50;
 
     n.el.style.transform =
