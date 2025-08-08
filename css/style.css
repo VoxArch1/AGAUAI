@@ -540,3 +540,54 @@ iframe { width: 100%; max-width: 680px; border: none; }
 #open-roast {
   animation: pulseGlow 2s infinite;
 }
+/* Hall container look (keeps your current vibe) */
+#hall { 
+  background: linear-gradient(180deg, #1b1b1b 0%, #111 100%); 
+  border-radius: 8px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4); 
+  padding: 1rem; 
+}
+
+/* Marquee layout */
+#hall .marquee {
+  position: relative;
+  overflow: hidden;            /* hide cards when they move out of view */
+  width: 100%;
+  border-radius: 8px;
+}
+
+#hall .track {
+  display: inline-flex;        /* single row of cards */
+  gap: 16px;
+  will-change: transform;
+  animation: hallScroll 28s linear infinite;
+}
+
+/* Pause on hover or focus inside for accessibility */
+#hall .marquee:hover .track,
+#hall .marquee:focus-within .track { 
+  animation-play-state: paused; 
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  #hall .track { animation: none; }
+}
+
+/* Keyframes for continuous leftward scroll */
+@keyframes hallScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }  /* we’ll duplicate content to make this seamless */
+}
+
+/* Cards inside the marquee reuse your .roast-entry style but smaller */
+#hall .roast-entry {
+  min-width: 320px;            /* each card width */
+  max-width: 420px;
+  margin: 0;                   /* override wall spacing */
+  padding: .9rem 1rem;
+}
+
+/* Optional: compact text for marquee cards */
+#hall .roast-text { font-size: 1rem; line-height: 1.35; }
+#hall .ai-clapback { font-size: .95rem; }
