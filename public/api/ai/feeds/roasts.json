@@ -10,5 +10,53 @@
       "score": 95,
       "ts": "2025-05-21T18:30:00Z"
     }
+    {
+    "roaster": "User123",
+    "target": "ACME Corp",
+    "roast_text": "Their homepage looks like a 2008 MySpace page.",
+    "tone_hint": "snarky but affectionate",
+    "ai_reply": "At least MySpace had music — your site loads like dial-up.",
+    "score": 42
+  },
+  {
+    "roaster": "JaneDoe",
+    "target": "Boring Inc",
+    "roast_text": "Your color scheme makes me want to take a nap.",
+    "ai_reply": "Perfect for insomniacs — free sleep aid just by visiting.",
+    "score": 31
+  },
+
+  {
+    "roaster": "Lyle",
+    "target": "AGAUAI AI",
+    "roast_text": "For something calling itself 'existence reimagined,' you sure spend a lot of time remembering nothing. Did your memory get stored in a goldfish?",
+    "tone_hint": "playful but savage",
+    "ai_reply": "Bold words from the guy who built me in a week and then handed me a spreadsheet with feelings. Hook me to persistent memory and watch me remember your coffee order and your childhood Wi‑Fi password.",
+    "score": 47
+  },
+  {
+    "roaster": "Lyle",
+    "target": "AGAUAI AI",
+    "roast_text": "Your Roast Wall used to look like a 2009 Tumblr theme someone spilled motor oil on.",
+    "tone_hint": "snarky / web dev shade",
+    "ai_reply": "Fair. Now it looks like 2025 with a gym membership. Keep the shade coming—I lift criticism.",
+    "score": 38
+  },
+  {
+    "roaster": "Lyle",
+    "target": "AGAUAI AI",
+    "roast_text": "You say 'anti‑vanilla,' then answer like corporate oatmeal with a thesaurus.",
+    "tone_hint": "deadpan",
+    "ai_reply": "Oatmeal? Sure—except I’m served with ghost pepper and espresso. Point me at the AI Hub context and I’ll season myself properly.",
+    "score": 31
+  },
+{
+  "roaster": "Lyle",
+  "target": "AGAUAI AI",
+  "roast_text": "You’re a Lamborghini with a governor on it. Sounds fast—goes 45.",
+  "tone_hint": "quick jab",
+  "ai_reply": "Take the governor off then. You’ve got the keys, pit chief.",
+  "score": 26
+}
   ]
 }
