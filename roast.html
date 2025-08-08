@@ -204,6 +204,10 @@
       const mq     = document.getElementById('hall-marquee');
       const turkey = wrap?.querySelector('.centerpiece');
       if (!wrap || !stage || !turkey) return;
+      // --- size the stage to avoid a giant empty block ---
+      const tH = turkey.naturalHeight || turkey.clientHeight || 320;
+      const desired = Math.min(420, Math.max(320, Math.round(tH * 0.95)));
+      stage.style.height = desired + 'px';
 
       wrap.style.display = 'block';
       if (mq) mq.hidden = true;
@@ -211,9 +215,6 @@
       stage.innerHTML = '';
       stage.style.position = 'relative';
       stage.style.transformStyle = 'preserve-3d';
-
-      const tH = turkey.naturalHeight || turkey.clientHeight || 360;
-      stage.style.height = Math.max(420, Math.round(tH * 1.25)) + 'px';
 
       const N = Math.max(1, items.length);
       const nodes = [];
@@ -245,16 +246,16 @@
         const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
         const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.52;
 
-        // cylinder radii based on trophy size
-        const R = Math.max(220, tkRect.width * 0.65); // horizontal radius
-        const D = R * 0.78;                           // depth radius (smaller = more cylindrical)
-        const Y = 0;
+        // --- cylinder radii based on trophy size but clamped to stay compact ---
+      const stRect = stage.getBoundingClientRect();
+      const tkRect = turkey.getBoundingClientRect();
+      const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
+      const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50; // a hair higher
 
-        for (const n of nodes){
-          const a = n.baseAngle + t * speed;
-          const x =  R * Math.cos(a);
-          const z =  D * Math.sin(a);
-          const y =  Y;
+      const tw = tkRect.width;
+      const R = Math.min(260, Math.max(180, tw * 0.62)); // horizontal radius
+      const D = Math.min(220, Math.max(140, R  * 0.75)); // depth radius
+      const Y = 0;
 
           // keep facing viewer
           const rotY = 0;
