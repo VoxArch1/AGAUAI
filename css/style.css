@@ -518,3 +518,5 @@ iframe { width: 100%; max-width: 680px; border: none; }
 @media (max-width: 768px) {
   #roast-wall { margin-top: 2rem; }
 }
+#hall { max-width: 960px; margin: 2rem auto 0; padding: 0 1rem; }
+#hall h2 { margin-bottom: .5rem; }
