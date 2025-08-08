@@ -1,0 +1,16 @@
+[
+  {
+    "roaster": "User123",
+    "target": "ACME Corp",
+    "roast_text": "Their homepage looks like a 2008 MySpace page.",
+    "tone_hint": "snarky but affectionate",
+    "ai_reply": "At least MySpace had music — your site loads like dial-up."
+  },
+  {
+    "roaster": "JaneDoe",
+    "target": "Boring Inc",
+    "roast_text": "Your color scheme makes me want to take a nap.",
+    "tone_hint": "playful burn",
+    "ai_reply": "Perfect for insomniacs — free sleep aid just by visiting your site."
+  }
+]
