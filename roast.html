@@ -13,6 +13,34 @@
     .ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.95rem; }
     .roaster-name .target { opacity:.8; }
     .tone-hint { font-size:.85rem; color:#999; margin:4px 0 6px; }
+    /* button fallback (in case global .btn styles aren’t loaded) */
+.btn { border-radius: 999px; padding: .7rem 1.1rem; font-weight: 700; cursor: pointer; }
+.btn.primary { background: #0bf; color: #001018; border: none; box-shadow: 0 10px 30px rgba(0,187,255,.25); }
+.btn.primary:hover { transform: translateY(-2px); transition: transform 150ms ease; }
+
+/* modal */
+.modal[hidden] { display: none !important; }
+.modal { position: fixed; inset: 0; z-index: 9999; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(2px); }
+.modal-dialog {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(92vw, 760px); max-height: 85vh; background: #0e0e0e;
+  border: 1px solid #222; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.modal-title { margin: 0; padding: .9rem 1.1rem; border-bottom: 1px solid #1a1a1a; }
+.modal-x {
+  position: absolute; right: 8px; top: 6px; width: 36px; height: 36px;
+  border: 0; background: transparent; color: #ccc; font-size: 1.6rem; cursor: pointer;
+}
+.modal-x:hover { color: #fff; }
+#roast-frame { border: 0; width: 100%; height: calc(85vh - 58px); background: #111; }
+
+@media (max-width: 520px) {
+  .modal-dialog { width: 94vw; max-height: 88vh; }
+  #roast-frame { height: calc(88vh - 58px); }
+}
+
   </style>
 </head>
 <body class="roast-page">
@@ -46,10 +74,25 @@
     </section>
 
     <section>
-      <h2>Leave Your Roast</h2>
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
-        width="640" height="554" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-    </section>
+  <h2>Leave Your Roast</h2>
+  <button class="btn primary" id="open-roast">Enter your Roast</button>
+</section>
+
+<!-- Modal -->
+<div id="roast-modal" class="modal" hidden>
+  <div class="modal-backdrop" id="modal-close"></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="roastTitle">
+    <button class="modal-x" id="modal-x" aria-label="Close">×</button>
+    <h3 id="roastTitle" class="modal-title">Submit a Roast</h3>
+    <iframe
+      id="roast-frame"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
+      loading="lazy"
+      title="Roast form">
+    </iframe>
+  </div>
+</div>
+
     
 <section id="hall">
   <h2>🏆 Hall of Flames</h2>
@@ -155,6 +198,23 @@ function buildHall(list){
 
     loadRoasts();
   </script>
+
+  <script>
+(function(){
+  const modal = document.getElementById('roast-modal');
+  const openBtn = document.getElementById('open-roast');
+  const closeBtn = document.getElementById('modal-x');
+  const backdrop = document.getElementById('modal-close');
+
+  function openModal(){ modal.removeAttribute('hidden'); document.body.style.overflow='hidden'; }
+  function closeModal(){ modal.setAttribute('hidden',''); document.body.style.overflow=''; }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+})();
+</script>
 </body>
 </html>
 
