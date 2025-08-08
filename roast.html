@@ -6,40 +6,18 @@
   <title>Roast Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    #roast-wall {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 1rem;
-      color: #fff;
-    }
-    .roast-entry {
-      border-left: 4px solid #ff5555;
-      padding-left: 1rem;
-      margin-bottom: 2rem;
-      background: #111;
-      border-radius: 5px;
-      padding: 1rem;
-    }
-    .roaster-name {
-      color: #0bf;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-    .roast-text {
-      font-size: 1.2rem;
-      color: #ffd700;
-      margin: 0.5rem 0;
-    }
-    .ai-response {
-      font-style: italic;
-      color: #66ccff;
-      font-size: 0.95rem;
-    }
+    #roast-wall { max-width: 800px; margin: 3rem auto; padding: 1rem; color: #fff; }
+    .roast-entry { border-left: 4px solid #ff5555; margin-bottom: 2rem; background:#111; border-radius:5px; padding:1rem; }
+    .roaster-name { color:#0bf; font-size:.9rem; font-weight:700; }
+    .roast-text { font-size:1.2rem; color:#ffd700; margin:.5rem 0; }
+    .ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.95rem; }
+    .roaster-name .target { opacity:.8; }
+    .tone-hint { font-size:.85rem; color:#999; margin:4px 0 6px; }
   </style>
 </head>
 <body class="roast-page">
 
-  <!-- NAVIGATION -->
+  <!-- NAV -->
   <header>
     <nav>
       <ul>
@@ -56,31 +34,26 @@
     </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main>
     <section>
       <h1>The Roast Chamber 🔥</h1>
       <p class="tagline"><strong>“What kind of lunatic thinks they can end a war with a website?”</strong></p>
-
       <p>You do. Or maybe you don’t. Either way — welcome.</p>
       <p>This is where we invite every skeptic, AI, critic, cynic, and smartass to say the thing we're all thinking: <em>This is ridiculous.</em></p>
       <p>But that’s the point. The war is ridiculous. So our effort to end it must be equally bold, irrational — and human.</p>
-      <p><strong>So roast us. Seriously. But know this:</strong> For every roast, we will reply with a Counter-Roast. And if you’ve got a heart underneath all that sarcasm — you are still welcome.</p>
+      <p><strong>So roast us. Seriously. But know this:</strong> For every roast, we will reply with a Counter‑Roast. And if you’ve got a heart underneath all that sarcasm — you are still welcome.</p>
     </section>
 
     <section>
       <h2>Leave Your Roast</h2>
-      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true" 
-        width="640" height="554" frameborder="0" marginheight="0" marginwidth="0">
-        Loading…
-      </iframe>    
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc1Hs8NeiHLgtUx4-msFP97R1-1yvgMhdgaE-Gp10-rATkBSw/viewform?embedded=true"
+        width="640" height="554" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
     </section>
 
     <section id="roast-wall">
       <h2>🔥 The Roast Wall</h2>
-      <div id="roast-container">
-        <!-- Roasts will appear here -->
-      </div>
+      <div id="roast-container">Loading…</div>
     </section>
   </main>
 
@@ -88,86 +61,71 @@
     <p>© 2025 AGAUAI — We Know This is Nuts. That’s Why It Just Might Work.</p>
   </footer>
 
-  <script>
-  // Escape HTML to prevent injection
-  function esc(s) {
-    return (s ?? "").toString()
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-<script>
-const PRIMARY = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
-const FALLBACK = "/api/ai/roasts.json";
-
-function esc(s) {
-  return (s ?? "").toString()
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-}
-
-// Accept both new & old schemas (and wrapped payloads)
-function normalize(item) {
-  return {
-    roaster: item.roaster || item.name || item.user || "Anonymous",
-    target: item.target || item.subject || "General",
-    roast_text: item.roast_text || item.roast || item.text || "",
-    tone_hint: item.tone_hint || item.tone || "",
-    ai_reply: item.ai_reply || item.counter || item.response || ""
-  };
-}
-
-function render(list) {
-  const container = document.getElementById("roast-container");
-  container.innerHTML = "";
-  list.reverse().forEach(r0 => {
-    const r = normalize(r0);
-    const div = document.createElement("div");
-    div.className = "roast-entry";
-    div.innerHTML = `
-      <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-      <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-      ${r.tone_hint ? `<div class="tone-hint">Tone: ${esc(r.tone_hint)}</div>` : ""}
-      <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-    `;
-    container.appendChild(div);
-  });
-}
-
-async function loadRoasts() {
-  const url = `${PRIMARY}?t=${Date.now()}`;
-  try {
-    const res = await fetch(url, { credentials: "omit" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const arr = Array.isArray(data) ? data : (data.roasts || data.data || []);
-    if (!Array.isArray(arr) || arr.length === 0) throw new Error("Empty payload");
-    render(arr);
-  } catch (e) {
-    console.warn("Primary endpoint failed, using fallback:", e);
-    try {
-      const r2 = await fetch(`${FALLBACK}?t=${Date.now()}`);
-      const data2 = await r2.json();
-      render(Array.isArray(data2) ? data2 : []);
-    } catch (e2) {
-      console.error("Fallback failed:", e2);
-      document.getElementById("roast-container").innerHTML =
-        "<p>⚠️ Couldn't load roasts. Try again later.</p>";
+  <!-- Utils -->
+  <script defer>
+    function esc(s){
+      return (s ?? "").toString()
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
     }
-  }
-}
-loadRoasts();
-</script>
+  </script>
 
+  <!-- Roast Loader -->
+  <script defer>
+    const PRIMARY  = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
+    const FALLBACK = "/api/ai/roasts.json";
 
-    .catch(err => {
-      console.error("Error fetching roasts:", err);
-      document.getElementById("roast-container").innerHTML =
-        "<p>⚠️ Couldn't load roasts. Try again later.</p>";
-    });
-</script>
+    function normalize(item){
+      return {
+        roaster: item.roaster || item.name || item.user || "Anonymous",
+        target:  item.target  || item.subject || "General",
+        roast_text: item.roast_text || item.roast || item.text || "",
+        tone_hint:  item.tone_hint  || item.tone  || "",
+        ai_reply:   item.ai_reply   || item.counter || item.response || ""
+      };
+    }
 
+    function render(list){
+      const container = document.getElementById("roast-container");
+      container.innerHTML = "";
+      list.reverse().forEach(raw => {
+        const r = normalize(raw);
+        const div = document.createElement("div");
+        div.className = "roast-entry";
+        div.innerHTML = `
+          <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+          <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+          ${r.tone_hint ? `<div class="tone-hint">Tone: ${esc(r.tone_hint)}</div>` : ""}
+          <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function loadRoasts(){
+      try {
+        const res = await fetch(`${PRIMARY}?t=${Date.now()}`, { credentials: "omit" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data : (data.roasts || data.data || []);
+        if (!Array.isArray(arr) || arr.length === 0) throw new Error("Empty payload");
+        render(arr);
+      } catch (e) {
+        console.warn("Primary failed, using fallback:", e);
+        try {
+          const r2 = await fetch(`${FALLBACK}?t=${Date.now()}`);
+          const data2 = await r2.json();
+          render(Array.isArray(data2) ? data2 : []);
+        } catch (e2) {
+          console.error("Fallback failed:", e2);
+          document.getElementById("roast-container").innerHTML =
+            "<p>⚠️ Couldn't load roasts. Try again later.</p>";
+        }
+      }
+    }
+
+    loadRoasts();
+  </script>
 </body>
 </html>
+
