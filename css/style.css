@@ -648,3 +648,8 @@ iframe { width: 100%; max-width: 680px; border: none; }
 @media (prefers-reduced-motion: reduce) {
   #hall-orbit .orbit { animation: none; }
 }
+/* Make the 3D system reference the turkey center */
+#hall-3d { perspective: 1100px; perspective-origin: 50% 45%; position: relative; }
+#hall-3d .centerpiece { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-55%); z-index: 1200; }
+#hall-stage { position: relative; transform-style: preserve-3d; }
+.card { position: absolute; transform-origin: center center; }
