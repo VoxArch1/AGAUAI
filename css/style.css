@@ -488,3 +488,13 @@ nav ul li a:hover {
 }
 .roaster-name .target { opacity: 0.8; }
 .tone-hint { font-size: 0.85rem; color: #999; margin: 4px 0 6px; }
+
+/* ensure both classes are styled */
+.ai-clapback, .ai-response { 
+  font-style: italic; 
+  color: #66ccff; 
+  font-size: 0.95rem; 
+}
+
+.roaster-name .target { opacity: 0.8; }
+.tone-hint { font-size: 0.85rem; color: #999; margin: 4px 0 6px; }
