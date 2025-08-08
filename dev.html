@@ -72,6 +72,14 @@ const [ctx, style] = await Promise.all([
   <h2>6) Caching & freshness</h2>
   <p>Re-fetch <code>endpoints.json</code> daily; <code>context.json</code> and <code>style.json</code> every few hours.</p>
 
+  <h2>Contributing</h2>
+  <p>
+    PRs welcome. To add new agents/feeds, update files under 
+    <code>/public/api/ai/</code> (e.g., <code>/feeds/*.json</code>, 
+    <code>/schemas/*.json</code>, <code>/examples/*.json</code>) and extend 
+    <code>/public/api/ai/endpoints.json</code>. Keep payloads small and cache‑friendly.
+  </p>
+
   <h2>7) Roadmap hooks</h2>
   <ul>
     <li><code>/public/api/ai/feeds/news.json</code> and <code>events.json</code></li>
