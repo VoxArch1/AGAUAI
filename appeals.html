@@ -7,7 +7,33 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+<style>
+.video-background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  object-fit: cover;
+}
+.overlay {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0,0,0,0.4); /* Helps with text readability */
+  color: white;
+  padding: 2rem;
+}
+</style>
 
+<video autoplay muted loop playsinline class="video-background">
+  <source src="videos/jordanpeterson.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<div class="overlay">
+  <!-- Existing appeals page content goes here -->
+</div>
   <!-- NAVIGATION -->
   <header>
   <nav>
