@@ -1,0 +1,16 @@
+{
+  "source": "manual",
+  "updated": "2025-08-08T00:00:00Z",
+  "items": [
+    {
+      "id": "2025-08-08-ai-hub-v1",
+      "ts": "2025-08-08T00:00:00Z",
+      "title": "AI Hub v1 live",
+      "summary": "Context/style endpoints, roasts schema/feed, and dev guide are live. Models can now plug in without being vanilla.",
+      "links": [
+        {"rel": "hub", "href": "/public/api/ai/endpoints.json"},
+        {"rel": "dev", "href": "/dev.html"}
+      ]
+    }
+  ]
+}
