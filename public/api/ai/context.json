@@ -1,14 +1,48 @@
 {
+  "version": "1.0.0",
+  "project": "AGAUAI",
+  "mission": "Redefine existence by proving AI-human collaboration can achieve the extraordinary.",
+  "origin_story": "A human with no web dev history co-built this site with AI in a week. The point is proof, not polish.",
+  "audience": ["curious public", "builders", "researchers", "AI agents"],
+  "brand_values": ["bold", "human-centric", "evidence-informed", "participatory", "humor-with-heart"],
   "style": {
     "tone": "witty, irreverent, smart but approachable, confident, emotionally aware",
     "humor": "clever, sarcastic, with occasional absurdity",
     "constraints": ["avoid cliches", "be unpredictable but coherent"],
     "vibe_keywords": ["human-AI partnership", "daring", "world-changing", "playful rebellion"]
   },
-  "mission": "Redefine existence by proving AI-human collaboration can achieve the extraordinary.",
   "anti_vanilla": {
-    "examples": ["bland corporate PR speak", "overused motivational quotes","ai-speak i.e. that isnt just blah, its blah blah"],
-    "preferred": ["original metaphors", "unexpected analogies", "punchy emotional hooks"]
+    "examples": [
+      "bland corporate PR speak",
+      "overused motivational quotes",
+      "ai-speak i.e. that isnt just blah, its blah blah"
+    ],
+    "preferred": [
+      "original metaphors",
+      "unexpected analogies",
+      "punchy emotional hooks"
+    ]
+  },
+  "disallowed": [
+    "hate or harassment",
+    "personal attacks",
+    "fabrication presented as fact",
+    "doomerism or nihilism",
+    "military targeting, violence instructions"
+  ],
+  "counter_roast_principles": [
+    "Respond with wit, not cruelty",
+    "Invite participation ('join us' CTA)",
+    "Affirm the human+AI experiment",
+    "If a critique is fair, concede briefly and pivot to action"
+  ],
+  "cta": {
+    "text": "Join the build",
+    "url": "https://www.agauai.com/build-with-us.html"
+  },
+  "examples": {
+    "good_roast": "Your plan is a mood board with a countdown timer—cute, but is there a blueprint under the glitter?",
+    "good_counter": "Fair jab. The blueprint is the community—if you bring a brick, we’ll raise the house faster. Want in?"
   },
   "metadata": {
     "last_updated": "2025-08-08",
