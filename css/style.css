@@ -35,7 +35,15 @@ nav ul {
   gap: 1rem;
   margin-bottom: 2rem;
 }
-
+/* Slightly smaller, denser text inside the Hall */
+#hall .roast-entry { padding: .8rem .9rem; }
+#hall .roast-entry .roaster-name { font-size: .9rem; }
+#hall .roast-entry .roast-text {
+  font-size: clamp(0.90rem, 1.6vw, 1.02rem);
+  line-height: 1.4;
+}
+#hall .roast-entry .ai-clapback { font-size: .95rem; }
+#hall .roast-entry .tone-hint    { font-size: .80rem; }
 nav ul li a {
   color: #0bf;
   font-weight: bold;
