@@ -689,7 +689,7 @@ iframe { width: 100%; max-width: 680px; border: none; }
 
 /* Make Hall cards more compact */
 #hall .roast-entry {
-  --cardH: 220px;                  /* <-- adjust this number to taste (200–260px) */
+  --cardH: 260px;                  /* <-- adjust this number to taste (200–260px) */
   padding: .7rem .9rem;
   border-radius: 10px;
   max-height: var(--cardH);        /* cap vertical height */
