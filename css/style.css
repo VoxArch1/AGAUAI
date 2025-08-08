@@ -498,3 +498,23 @@ nav ul li a:hover {
 
 .roaster-name .target { opacity: 0.8; }
 .tone-hint { font-size: 0.85rem; color: #999; margin: 4px 0 6px; }
+/* Roast page polish */
+#roast-wall { max-width: 960px; margin: 3rem auto; padding: 0 1rem; }
+.roast-entry {
+  border-left: 4px solid #ff5555;
+  margin: 1.25rem 0 2rem;
+  background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%);
+  border-radius: 10px;
+  padding: 1rem 1.1rem 1.1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+}
+.roaster-name { color:#0bf; font-size:.92rem; font-weight:700; letter-spacing:.2px; }
+.roast-text { font-size:1.15rem; color:#ffd700; margin:.5rem 0 .35rem; line-height:1.45; }
+.ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.975rem; }
+.tone-hint { font-size:.85rem; color:#9aa; margin:4px 0 6px; }
+
+/* Google form iframe: full-width on smaller screens */
+iframe { width: 100%; max-width: 680px; border: none; }
+@media (max-width: 768px) {
+  #roast-wall { margin-top: 2rem; }
+}
