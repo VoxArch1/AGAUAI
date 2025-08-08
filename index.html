@@ -1,12 +1,13 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AGAUAI · Solidarity Conceptualized</title>
-  <link rel="stylesheet" href="css/style.css?v=99">
+  <link rel="stylesheet" href="css/style.css?v=100">
   <style>
+    /* base */
     *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
     body{background:#000;color:#fff;line-height:1.4;}
     a{color:#ffd700;text-decoration:none;}
@@ -14,90 +15,212 @@
     nav ul{display:flex;gap:1rem;list-style:none;flex-wrap:wrap;justify-content:center;font-size:0.95rem;}
     nav li{padding:0.25rem 0.5rem;}
     nav li:hover{background:#222;border-radius:4px;}
-    #hero{display:flex;flex-direction:column;align-items:center;justify-content:center;height:75vh;text-align:center;}
-    .timer{font-weight:700;font-size:clamp(2rem,8vw,6rem);letter-spacing:0.15em;white-space:nowrap;}
-    .subtitle{margin-top:1rem;font-size:clamp(0.9rem,2vw,1.3rem);opacity:0.8;}
-    section{padding:3rem 0;border-top:1px solid #222;}
     h2{margin-bottom:1.5rem;font-size:1.8rem;text-transform:uppercase;letter-spacing:0.05em;}
-    .placeholder{background:#111;border:1px dashed #333;padding:2rem;border-radius:4px;text-align:center;opacity:0.8;}
     footer{border-top:1px solid #222;text-align:center;padding:2rem 0;font-size:0.8rem;opacity:0.6;}
+
+    /* === HERO (cinematic) === */
+    .hero {
+      position: relative;
+      min-height: 78vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: radial-gradient(1200px 600px at 20% 20%, rgba(0,0,0,0.35), transparent),
+                  linear-gradient(180deg, #0b0f1a 0%, #020409 100%);
+      color: #fff;
+      border-bottom: 1px solid #111;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 1000px;
+      padding: 6rem 1.5rem 4rem 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.8rem 0;
+    }
+    .hero p.lede {
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      opacity: 0.92;
+      margin: 0 auto 1.5rem auto;
+      max-width: 900px;
+    }
+    .hero-cta { display: inline-flex; gap: 0.9rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
+
+    .btn {
+      border-radius: 999px;
+      padding: 0.8rem 1.2rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 150ms ease, opacity 150ms ease;
+    }
+    .btn.primary { background: #0bf; color: #001018; box-shadow: 0 10px 30px rgba(0,187,255,0.25); }
+    .btn.primary:hover { transform: translateY(-2px); }
+    .btn.ghost { border: 1px solid rgba(255,255,255,0.35); color: #fff; }
+    .btn.ghost:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* keep your countdown typography */
+    .timer{font-weight:700;font-size:clamp(2rem,8vw,6rem);letter-spacing:0.15em;white-space:nowrap;margin-top:.5rem}
+    .subtitle{margin-top:.25rem;font-size:clamp(0.9rem,2vw,1.1rem);opacity:0.8;}
+
+    /* reveal-on-scroll */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+
+    /* canvas bg */
+    #heroCanvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      z-index: 1; opacity: 0.35; pointer-events: none;
+    }
+
+    /* origin story */
+    .origin { max-width: 1000px; margin: 3rem auto; padding: 0 1rem 3rem 1rem; border-bottom: 1px solid #111; }
+    .origin h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); margin-bottom: .6rem; }
+    .origin p { max-width: 900px; margin: .25rem 0 1rem 0; }
+    .origin .bullets { margin: .6rem 0 1.2rem 1.2rem; }
+    .origin .bullets li { margin: .25rem 0; }
   </style>
 </head>
 <body>
 
- <!-- NAVIGATION -->
+  <!-- NAVIGATION -->
   <header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="visa.html">Solidarity Visa</a></li>
-      <li><a href="appeals.html">Appeals</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="sponsors.html">What is AGAUAI?</a></li>
-      <li><a href="agauai2026.html">The Gathering 2026</a></li>
-      <li><a href="ai.html">Sentience Showdown</a></li>
-      <li><a href="roast.html">Roast Us</a></li>
-      <li><a href="build-with-us.html" class="active">Join Us</a></li>
-    </ul>
-  </nav>
-</header>
-
-
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="visa.html">Solidarity Visa</a></li>
+        <li><a href="appeals.html">Appeals</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="sponsors.html">What is AGAUAI?</a></li>
+        <li><a href="agauai2026.html">The Gathering 2026</a></li>
+        <li><a href="ai.html">Sentience Showdown</a></li>
+        <li><a href="roast.html">Roast Us</a></li>
+        <li><a href="build-with-us.html">Join Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- HERO -->
-  <section id="hero">
-    <div class="ukraine-flyin">
-  <span class="letter u">U</span>
-  <span class="letter k">K</span>
-  <span class="letter r">R</span>
-  <span class="letter a">A</span>
-  <span class="letter i">I</span>
-  <span class="letter n">N</span>
-  <span class="letter e">E</span>
-</div>
-    <div class="save-ukraine-flyin">
-      <span class="save-word">SAVE</span>
-      <span class="save-word">UKRAINE</span>
+  <section class="hero">
+    <div class="hero-inner reveal">
+      <h1>We built this with AI in a week.</h1>
+      <p class="lede">
+        Human + AI, not theory—proof. AGAUAI is a live experiment in collaboration to end a war,
+        rally a planet, and redefine what’s possible.
+      </p>
+
+      <!-- your existing fly‑in elements kept intact -->
+      <div class="ukraine-flyin" style="margin:.4rem 0 0 0;">
+        <span class="letter u">U</span>
+        <span class="letter k">K</span>
+        <span class="letter r">R</span>
+        <span class="letter a">A</span>
+        <span class="letter i">I</span>
+        <span class="letter n">N</span>
+        <span class="letter e">E</span>
+      </div>
+      <div class="save-ukraine-flyin">
+        <span class="save-word">SAVE</span>
+        <span class="save-word">UKRAINE</span>
+      </div>
+      <div class="slava-ukraine-pulse">
+        <span class="slava-word">SLAVA UKRAINI</span>
+      </div>
+
+      <div class="timer" id="countdown">Loading…</div>
+      <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
+
+      <p style="max-width:760px;margin-top:1.2rem;font-size:1.05rem;line-height:1.5;">
+        <strong>Mission:</strong> AGAUAI — Sentience for Peace. Civilization, redefined.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn primary" href="visa.html">Join Our Mission</a>
+        <a class="btn ghost" href="ai-hub.html">AI Hub</a>
+        <a class="btn ghost" href="roast.html">Roast Us</a>
+      </div>
     </div>
 
-    <div class="slava-ukraine-pulse">
-      <span class="slava-word">SLAVA UKRAINI</span>
-    </div>
-    <div class="timer" id="countdown">Loading…</div>
-    <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
-    <p style="max-width:700px;margin-top:1.5rem;font-size:1.1rem;line-height:1.5;">
-      <strong>Mission:</strong> AGAUAI - Sentience for Peace. <br>
-      Civilization - Redefined. <br>
-    </p>
-    <a href="visa.html" style="margin-top:2rem;display:inline-block;padding:0.75rem 1.5rem;border:1px solid #ffd700;border-radius:4px;">
-      Join Our Mission
-    </a>
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
   </section>
 
-    <!-- COUNTDOWN SCRIPT -->
+  <!-- ORIGIN STORY TEASER -->
+  <section class="origin reveal">
+    <h2>The Origin Story</h2>
+    <p>
+      We didn’t hire an agency. We asked an AI for help and shipped a working movement in a week.
+      The point isn’t a website—it’s proof. If a mechanic and an AI can build this together, what
+      could you and an AI do in the service of something bigger?
+    </p>
+    <ul class="bullets">
+      <li>✅ Human + AI, real‑time collaboration</li>
+      <li>✅ Machine‑readable <a href="ai-hub.html">AI Hub</a> for voice & tone</li>
+      <li>✅ Public <a href="roast.html">Roast Wall</a> for participatory energy</li>
+    </ul>
+    <a class="btn primary" href="build-with-us.html">Join Us</a>
+  </section>
+
+  <footer>
+    <small>AGAUAI: Existence Reimagined. · <a href="ai-hub.html" rel="nofollow">AI Hub</a></small>
+  </footer>
+
+  <!-- COUNTDOWN SCRIPT -->
   <script>
     const target = new Date(Date.UTC(2026, 4, 9, 0, 0, 0));
     const el = document.getElementById('countdown');
-
-    function pad(n) {
-      return n.toString().padStart(2, '0');
-    }
-
-    function tick() {
+    function pad(n){ return n.toString().padStart(2,'0'); }
+    function tick(){
       const now = new Date();
       let diff = Math.max(0, target - now);
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24)); diff -= days * 1000 * 60 * 60 * 24;
-      const hrs = Math.floor(diff / (1000 * 60 * 60)); diff -= hrs * 1000 * 60 * 60;
-      const mins = Math.floor(diff / (1000 * 60)); diff -= mins * 1000 * 60;
-      const secs = Math.floor(diff / 1000);
-
+      const days = Math.floor(diff/86400000); diff -= days*86400000;
+      const hrs  = Math.floor(diff/3600000);  diff -= hrs*3600000;
+      const mins = Math.floor(diff/60000);    diff -= mins*60000;
+      const secs = Math.floor(diff/1000);
       el.textContent = `${pad(days)}:${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
       requestAnimationFrame(tick);
     }
-
     tick();
   </script>
 
+  <!-- Reveal + Canvas Cinematic -->
+  <script>
+    // reveal-on-scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('is-in'); });
+    },{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // minimal cinematic background
+    const c = document.getElementById('heroCanvas');
+    const ctx = c.getContext('2d');
+    let w,h,pts;
+    function resize(){
+      w = c.width = c.offsetWidth;
+      h = c.height = c.offsetHeight;
+      const count = Math.round((w*h)/16000); // density
+      pts = Array.from({length: count}, () => ({
+        x: Math.random()*w, y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
+        r: Math.random()*1.8 + 0.4
+      }));
+    }
+    window.addEventListener('resize', resize, {passive:true});
+    resize();
+    (function loop(){
+      ctx.clearRect(0,0,w,h);
+      for(const p of pts){
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1;
+        if(p.y<0||p.y>h) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(0,187,255,0.8)'; ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    })();
+  </script>
 </body>
 </html>
-
