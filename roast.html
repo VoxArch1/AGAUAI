@@ -260,5 +260,60 @@
       window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
     })();
   </script>
+<script>
+function buildHall(list){
+  const marquee = document.getElementById("hall-marquee");
+  const track   = document.getElementById("hall-track");
+  if (!marquee || !track) return;
+
+  // Normalize + pick items
+  const norm = list.map(normalize);
+  let picked = norm.filter(r => typeof r.score === "number" && !Number.isNaN(r.score))
+                   .sort((a,b)=>b.score-a.score)
+                   .slice(0,3);
+  if (picked.length === 0) {
+    // Fallback: latest 3 (by ts if available, else last 3)
+    picked = norm
+      .map((r,i)=>({r,i, t: r.ts ? Date.parse(r.ts) : i}))
+      .sort((a,b)=>(b.t||0)-(a.t||0))
+      .slice(0,3)
+      .map(x=>x.r);
+  }
+
+  // Build a single set of cards
+  function cardHTML(r){
+    return `
+      <article class="roast-entry" tabindex="0">
+        <div class="roaster-name">${esc(r.roaster || "Anonymous")} → <span class="target">${esc(r.target || "General")}</span></div>
+        <div class="roast-text">${esc(r.roast_text || "").replace(/\n/g,"<br>")}</div>
+        <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+        ${typeof r.score === "number" && !Number.isNaN(r.score) ? `<div class="tone-hint">🔥 ${r.score}</div>` : ""}
+      </article>
+    `;
+  }
+
+  // Render two copies back-to-back for seamless loop
+  const setHTML = picked.map(cardHTML).join("");
+  track.innerHTML = setHTML + setHTML;
+
+  // Recalculate duration: ~140px/sec feels nice. Adjust as needed.
+  requestAnimationFrame(() => {
+    const totalWidth = Array.from(track.children)
+      .slice(0, picked.length)  // width of one set
+      .reduce((sum, el) => sum + el.offsetWidth + 16 /*gap*/, 0);
+
+    // If one set is narrower than the marquee, add more copies until > 1.2x marquee width
+    while (track.scrollWidth < marquee.clientWidth * 1.2) {
+      track.innerHTML += setHTML;
+    }
+
+    const pxPerSec = 140; // speed control
+    const durationSec = Math.max(14, Math.round((totalWidth) / pxPerSec));
+    track.style.animationDuration = `${durationSec}s`;
+  });
+}
+</script>
+
+  
 </body>
 </html>
