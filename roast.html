@@ -5,79 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Roast Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
-  <style>
-    /* Layout containers */
-    #hall, #roast-wall { max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #fff; }
-
-    /* Roast cards */
-    .roast-entry {
-      border-left: 4px solid #ff5555;
-      margin: 1.25rem 0 2rem;
-      background: linear-gradient(180deg, #121212 0%, #0f0f0f 100%);
-      border-radius: 10px;
-      padding: 1rem 1.1rem 1.1rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.28);
-    }
-    .roaster-name { color:#0bf; font-size:.92rem; font-weight:700; letter-spacing:.2px; }
-    .roast-text { font-size:1.15rem; color:#ffd700; margin:.5rem 0 .35rem; line-height:1.45; }
-    .ai-clapback, .ai-response { font-style:italic; color:#66ccff; font-size:.975rem; }
-    .roaster-name .target { opacity:.8; }
-    .tone-hint { font-size:.85rem; color:#9aa; margin:4px 0 6px; }
-
-    /* Section headings */
-    h2 { margin-bottom: .6rem; }
-
-    /* Button (if global .btn missing) */
-    .btn { border-radius: 999px; padding: .7rem 1.1rem; font-weight: 700; cursor: pointer; border: none; }
-    .btn.primary { background: #0bf; color: #001018; box-shadow: 0 10px 30px rgba(0,187,255,.25); }
-    .btn.primary:hover { transform: translateY(-2px); transition: transform 150ms ease; }
-
-    /* Invite attention to the CTA */
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
-      50% { box-shadow: 0 0 12px rgba(0,187,255,.8), 0 0 24px rgba(0,187,255,.5); }
-      100% { box-shadow: 0 0 8px rgba(0,187,255,.5), 0 0 16px rgba(0,187,255,.3); }
-    }
-    #open-roast { animation: pulseGlow 2s infinite; }
-
-    /* Modal */
-    .modal[hidden] { display: none !important; }
-    .modal { position: fixed; inset: 0; z-index: 9999; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.65); backdrop-filter: blur(2px); }
-    .modal-dialog {
-      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-      width: min(92vw, 760px); max-height: 85vh; background: #0a0a0a;
-      border: 1px solid #222; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.6);
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    .modal-title { margin: 0; padding: .9rem 1.1rem; border-bottom: 1px solid #1a1a1a; color:#ffd700; font-weight:700; }
-    .modal-x {
-      position: absolute; right: 8px; top: 6px; width: 36px; height: 36px;
-      background: transparent; color: #ccc; font-size: 1.6rem; cursor: pointer; border:0; font-weight:700;
-    }
-    .modal-x:hover { color: #fff; }
-    #roast-frame { border: 0; width: 100%; height: calc(85vh - 58px); background: #111; }
-
-    /* Hall container look */
-    #hall { background: linear-gradient(180deg, #1b1b1b 0%, #111 100%); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); padding: 1rem; }
-
-    /* Hall marquee */
-    #hall .marquee { position: relative; overflow: hidden; width: 100%; border-radius: 8px; }
-    #hall .track { display: inline-flex; gap: 16px; will-change: transform; animation: hallScroll 28s linear infinite; }
-    #hall .marquee:hover .track, #hall .marquee:focus-within .track { animation-play-state: paused; }
-    @keyframes hallScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @media (prefers-reduced-motion: reduce) { #hall .track { animation: none; } }
-
-    /* Marquee card sizing (compact) */
-    #hall .roast-entry { min-width: 320px; max-width: 420px; margin: 0; padding: .9rem 1rem; }
-    #hall .roast-text { font-size: 1rem; line-height: 1.35; }
-    #hall .ai-clapback { font-size: .95rem; }
-
-    @media (max-width: 520px) {
-      .modal-dialog { width: 94vw; max-height: 88vh; }
-      #roast-frame { height: calc(88vh - 58px); }
-    }
-  </style>
 </head>
 <body class="roast-page">
 
@@ -100,7 +27,8 @@
 
   <!-- MAIN -->
   <main>
-    <section style="max-width:960px;margin:2rem auto;padding:0 1rem;">
+    <!-- Intro -->
+    <section class="container">
       <h1>The Roast Chamber 🔥</h1>
       <p class="tagline"><strong>“What kind of lunatic thinks they can end a war with a website?”</strong></p>
       <p>You do. Or maybe you don’t. Either way — welcome.</p>
@@ -109,7 +37,8 @@
       <p><strong>So roast us. Seriously. But know this:</strong> For every roast, we will reply with a Counter‑Roast. And if you’ve got a heart underneath all that sarcasm — you are still welcome.</p>
     </section>
 
-    <section style="max-width:960px;margin:0 auto;padding:0 1rem;">
+    <!-- CTA -->
+    <section class="container">
       <h2>Leave Your Roast</h2>
       <button class="btn primary" id="open-roast">Enter your Roast</button>
     </section>
@@ -129,16 +58,25 @@
       </div>
     </div>
 
-    <!-- Hall -->
-    <section id="hall" aria-label="Hall of Flames (featured roasts)">
+    <!-- Hall of Flames: Turkey Trophy orbit + marquee fallback -->
+    <section id="hall" class="container" aria-label="Hall of Flames (featured roasts)">
       <h2>🏆 Hall of Flames</h2>
-      <div class="marquee" id="hall-marquee">
+
+      <!-- ORBIT layout (desktop) -->
+      <div id="hall-orbit">
+        <!-- Put your turkey trophy PNG at /images/turkey-trophy.png -->
+        <img class="centerpiece" src="/images/turkey-trophy.png" alt="Turkey Trophy">
+        <div class="orbit" id="hall-orbit-track"></div>
+      </div>
+
+      <!-- MARQUEE fallback (mobile/reduced motion) -->
+      <div class="marquee" id="hall-marquee" hidden>
         <div class="track" id="hall-track"></div>
       </div>
     </section>
 
-    <!-- Wall -->
-    <section id="roast-wall">
+    <!-- Roast Wall -->
+    <section id="roast-wall" class="container">
       <h2>🔥 The Roast Wall</h2>
       <div id="roast-container">Loading…</div>
     </section>
@@ -149,7 +87,7 @@
   </footer>
 
   <!-- Utils -->
-  <script defer>
+  <script>
     function esc(s){
       return (s ?? "").toString()
         .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
@@ -157,15 +95,17 @@
     }
   </script>
 
-  <!-- Loader -->
-  <script defer>
+  <!-- Data loader + Hall builders -->
+  <script>
+    // Endpoints
     const PRIMARY  = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
     const FALLBACK = "/api/ai/roasts.json";
 
-    /* ==== FRESHNESS CONFIG & HELPERS ==== */
-    const HALL_COUNT   = 3;     // how many to feature
-    const HALF_LIFE_HR = 24;    // half-life for score decay
+    // Freshness config
+    const HALL_COUNT   = 5;   // up to 5 orbiting
+    const HALF_LIFE_HR = 24;  // score half-life
 
+    // First-seen timestamp if backend doesn't provide one
     function firstSeenMs(item){
       const id = `${item.roaster||item.name||""}|${item.target||item.subject||""}|${item.roast_text||item.roast||item.text||""}`.slice(0,200);
       const key = "roast_seen_" + btoa(unescape(encodeURIComponent(id)));
@@ -174,18 +114,19 @@
       return Number(v);
     }
 
+    // Exponential time-decay
     function decayedScore(r, nowMs = Date.now()){
       const base = (typeof r.score === "number" && !Number.isNaN(r.score)) ? r.score : 100; // new = 100
       const ageHr = Math.max(0, (nowMs - r.tsMs) / 3600000);
       const factor = Math.pow(0.5, ageHr / HALF_LIFE_HR);
       return base * factor;
     }
-    /* ==================================== */
 
+    // Normalize input rows
     function normalize(item){
       const score = item.score != null ? Number(item.score) : null;
       const tsStr = item.ts || item.timestamp || item.date || null;
-      const tsMs  = Date.parse(tsStr) || firstSeenMs(item); // fallback to first-seen if missing
+      const tsMs  = Date.parse(tsStr) || firstSeenMs(item);
 
       return {
         roaster:    item.roaster || item.name || item.user || "Anonymous",
@@ -199,7 +140,8 @@
       };
     }
 
-    function render(list){
+    // Render the wall
+    function renderWall(list){
       const container = document.getElementById("roast-container");
       container.innerHTML = "";
       list.slice().reverse().forEach(raw => {
@@ -216,55 +158,87 @@
       });
     }
 
-    /* === HALL OF FLAMES (marquee with time-decay freshness) === */
+    // Build Hall (auto-chooses orbit or marquee)
     function buildHall(list){
-      const marquee = document.getElementById("hall-marquee");
-      const track   = document.getElementById("hall-track");
-      if (!marquee || !track) return;
+      const now   = Date.now();
+      const norm  = list.map(normalize).map(r => ({...r, decayed: decayedScore(r, now)}));
+      let picked  = norm.slice().sort((a,b)=>b.decayed - a.decayed).slice(0, HALL_COUNT);
+      if (picked.length === 0) picked = norm.slice(-HALL_COUNT);
 
-      const now  = Date.now();
-      const norm = list.map(normalize).map(r => ({...r, decayed: decayedScore(r, now)}));
+      const useOrbit = window.matchMedia('(min-width: 821px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (useOrbit) buildHallOrbit(picked); else buildHallMarquee(picked);
+    }
 
-      // Pick top by decayed score; if too few, latest by timestamp
-      let picked = norm.slice().sort((a,b) => b.decayed - a.decayed).slice(0, HALL_COUNT);
-      if (picked.length === 0) {
-        picked = norm
-          .map((r,i)=>({r,i, t: r.tsMs || i}))
-          .sort((a,b)=>(b.t||0)-(a.t||0))
-          .slice(0, HALL_COUNT)
-          .map(x=>x.r);
+    // ORBIT builder
+    function buildHallOrbit(items){
+      const wrap = document.getElementById('hall-orbit');
+      const track = document.getElementById('hall-orbit-track');
+      const marquee = document.getElementById('hall-marquee');
+      if (!wrap || !track) return;
+
+      wrap.style.display = 'grid';
+      if (marquee) marquee.hidden = true;
+
+      track.innerHTML = '';
+      const N = Math.max(1, items.length);
+      const radiusPct = 35;
+
+      for (let i=0;i<N;i++){
+        const r = items[i];
+        const angle = (i / N) * 2 * Math.PI;
+        const card = document.createElement('div');
+        card.className = 'orbit-card';
+        const x = 50 + radiusPct * Math.cos(angle);
+        const y = 50 + radiusPct * Math.sin(angle);
+        card.style.left = x + '%';
+        card.style.top  = y + '%';
+        card.innerHTML = `
+          <div class="roast-entry">
+            <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+            <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+            <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+            <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
+          </div>`;
+        track.appendChild(card);
       }
 
-      const cardHTML = (r) => `
+      track.style.animationDuration = (items.length <= 3) ? '40s' : '28s';
+    }
+
+    // MARQUEE builder
+    function buildHallMarquee(items){
+      const marquee = document.getElementById('hall-marquee');
+      const track   = document.getElementById('hall-track');
+      const orbit   = document.getElementById('hall-orbit');
+      if (!marquee || !track) return;
+
+      marquee.hidden = false;
+      if (orbit) orbit.style.display = 'none';
+
+      const card = (r) => `
         <article class="roast-entry" tabindex="0">
           <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
           <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
           <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-          <div class="tone-hint">🔥 ${Math.round(r.decayed || decayedScore(r))}</div>
-        </article>
-      `;
+          <div class="tone-hint">🔥 ${Math.round(r.decayed || 100)}</div>
+        </article>`;
 
-      const setHTML = picked.map(cardHTML).join("");
-      track.innerHTML = setHTML + setHTML; // two copies for seamless loop
+      const setHTML = items.map(card).join("");
+      track.innerHTML = setHTML + setHTML;
 
-      // Adjust animation duration to actual width
       requestAnimationFrame(() => {
-        const totalWidth = Array.from(track.children)
-          .slice(0, picked.length) // width of one set
-          .reduce((sum, el) => sum + el.offsetWidth + 16 /*gap*/, 0);
-
-        // If one set is narrower than the marquee, repeat until it's wide enough
+        const oneSetWidth = Array.from(track.children).slice(0, items.length)
+          .reduce((sum, el) => sum + el.offsetWidth + 16, 0);
         while (track.scrollWidth < marquee.clientWidth * 1.2) {
           track.innerHTML += setHTML;
         }
-
-        const pxPerSec = 140; // speed control
-        const durationSec = Math.max(14, Math.round(totalWidth / pxPerSec));
-        track.style.animationDuration = `${durationSec}s`;
+        const pxPerSec = 140;
+        const dur = Math.max(14, Math.round(oneSetWidth / pxPerSec));
+        track.style.animationDuration = `${dur}s`;
       });
     }
-    /* ========================================================= */
 
+    // Load data (primary -> fallback)
     async function loadRoasts(){
       try {
         const res = await fetch(`${PRIMARY}?t=${Date.now()}`, { credentials: "omit" });
@@ -272,7 +246,7 @@
         const data = await res.json();
         const arr = Array.isArray(data) ? data : (data.roasts || data.data || []);
         if (!Array.isArray(arr) || arr.length === 0) throw new Error("Empty payload");
-        render(arr);
+        renderWall(arr);
         buildHall(arr);
       } catch (e) {
         console.warn("Primary failed, using fallback:", e);
@@ -280,7 +254,7 @@
           const r2 = await fetch(`${FALLBACK}?t=${Date.now()}`);
           const data2 = await r2.json();
           const arr2 = Array.isArray(data2) ? data2 : [];
-          render(arr2);
+          renderWall(arr2);
           buildHall(arr2);
         } catch (e2) {
           console.error("Fallback failed:", e2);
@@ -311,9 +285,5 @@
       window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
     })();
   </script>
-</body>
-</html>
-
-  
 </body>
 </html>
