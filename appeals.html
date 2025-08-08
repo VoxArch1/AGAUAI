@@ -8,52 +8,47 @@
   <style>
     html, body { height: 100%; margin: 0; }
 
-    /* ==== FULL‑PAGE BACKGROUND VIDEO ==== */
+    /* ===== FULL‑PAGE BACKGROUND (no cropping, paper visible) ===== */
     .video-wrap {
       position: fixed;
       inset: 0;
-      z-index: -2;            /* behind everything */
-      background: #000;       /* hides any edge gaps during zoom */
-      overflow: hidden;       /* clip the video when we scale */
+      z-index: -3;
+      overflow: hidden;
+      background: #000;
     }
-    .video-background {
+    /* Blurred filler behind to avoid black bars */
+    .video-fill {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;              /* fills screen */
+      filter: blur(14px) brightness(0.9);
+      transform: scale(1.06);         /* hide blur edges */
+      opacity: 0.45;
+      z-index: 0;
+    }
+    /* Main video shows the ENTIRE frame (no crop) */
+    .video-main {
       position: absolute;
       top: 50%; left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto; height: auto;
-      object-fit: cover;              /* cinematic fill */
-      object-position: 50% 82%;       /* bias DOWN to show paper */
-      transform: translate(-50%, -50%) scale(0.88); /* start wider (less crop) */
-      animation: slowZoomAppeals 18s ease-in-out forwards;
+      width: 100%; height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: contain;            /* <-- full frame, paper visible */
+      object-position: 50% 100%;      /* anchor bottom so desk/paper sit in view */
+      z-index: 1;
     }
-    @keyframes slowZoomAppeals {
-      0%   { transform: translate(-50%, -50%) scale(0.88); }
-      100% { transform: translate(-50%, -50%) scale(1.02); } /* gentle zoom so paper stays */
-    }
-
-    /* Readability scrim above video */
+    /* Optional subtle scrim for text readability */
     .video-scrim {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.40);
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
     }
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .video-background { animation: none; transform: translate(-50%, -50%) scale(1); }
-    }
-
-    /* Tall/narrow viewports: show whole video (no crop, letterboxed) */
-    @media (max-aspect-ratio: 16/9) {
-      .video-background {
-        object-fit: contain;
-        transform: translate(-50%, -50%) scale(1);
-        animation: none;
-        background: #000;
-      }
+      .video-fill, .video-main { animation: none; }
     }
 
     /* ===== PAGE LAYOUT ===== */
@@ -72,28 +67,26 @@
     .scroll-banner-wrapper, .scroll-banner, hr {
       background: transparent !important; border: 0 !important; box-shadow: none !important;
     }
-
     a.inline-link { color: #6cf; text-decoration: none; }
     a.inline-link:hover { text-decoration: underline; }
-
     footer { padding: 1rem 1.25rem; color: #ccc; }
   </style>
 </head>
 <body>
 
-  <!-- FULL‑PAGE BACKGROUND VIDEO + SCRIM -->
+  <!-- BACKGROUND: blurred cover + full-frame main -->
   <div class="video-wrap">
-    <video class="video-background" autoplay muted loop playsinline preload="auto"
-           poster="images/appeals-poster.jpg">
+    <video class="video-fill" autoplay muted loop playsinline preload="auto">
       <source src="videos/Jordanpeterson.mp4" type="video/mp4">
-      Your browser does not support HTML5 video.
+    </video>
+    <video class="video-main" autoplay muted loop playsinline preload="auto" poster="images/appeals-poster.jpg">
+      <source src="videos/Jordanpeterson.mp4" type="video/mp4">
     </video>
   </div>
   <div class="video-scrim"></div>
 
   <!-- PAGE CONTENT -->
   <div class="page-content">
-    <!-- NAVIGATION -->
     <header>
       <nav>
         <ul>
@@ -110,7 +103,6 @@
       </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main>
       <section>
         <h1>Open Appeals</h1>
