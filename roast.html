@@ -292,11 +292,13 @@ function frame(ts){
 
     const rotY = 0; // face viewer
     const zNorm = (z + D) / (2*D);
+    const scaleX = 0.88 + zNorm * 0.30;      // tweak 0.30 if you want more/less width swing
+    const scaleY = 1;
     const scaleY = 0.88 + zNorm * 0.30;
     const opacity = 0.50 + zNorm * 0.50;
 
     n.el.style.transform =
-      `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(1, ${scaleY})`;
+      `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scaleX}, ${scaleY})`;
     n.el.style.opacity = opacity.toFixed(3);
     n.el.style.zIndex = String(1000 + Math.round(z));
     n.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
