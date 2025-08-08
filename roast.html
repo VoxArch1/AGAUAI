@@ -199,83 +199,86 @@
 
     /* ---- 3D CYLINDER (centered on the turkey) ---- */
     function buildHall3D(items){
-      const wrap   = document.getElementById('hall-3d');
-      const stage  = document.getElementById('hall-stage');
-      const mq     = document.getElementById('hall-marquee');
-      const turkey = wrap?.querySelector('.centerpiece');
-      if (!wrap || !stage || !turkey) return;
-      // --- size the stage to avoid a giant empty block ---
-      const tH = turkey.naturalHeight || turkey.clientHeight || 320;
-      const desired = Math.min(420, Math.max(320, Math.round(tH * 0.95)));
-      stage.style.height = desired + 'px';
+  const wrap   = document.getElementById('hall-3d');
+  const stage  = document.getElementById('hall-stage');
+  const mq     = document.getElementById('hall-marquee');
+  const turkey = wrap?.querySelector('.centerpiece');
+  if (!wrap || !stage || !turkey) return;
 
-      wrap.style.display = 'block';
-      if (mq) mq.hidden = true;
+  // show 3D, hide marquee
+  wrap.style.display = 'block';
+  if (mq) mq.hidden = true;
 
-      stage.innerHTML = '';
-      stage.style.position = 'relative';
-      stage.style.transformStyle = 'preserve-3d';
+  // reset stage
+  stage.innerHTML = '';
+  stage.style.position = 'relative';
+  stage.style.transformStyle = 'preserve-3d';
 
-      const N = Math.max(1, items.length);
-      const nodes = [];
-      for (let i=0;i<N;i++){
-        const r = items[i];
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="roast-entry">
-            <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-            <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-            <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
-            <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
-          </div>`;
-        stage.appendChild(card);
-        nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
-      }
+  // reasonable stage height (compact)
+  const tH = turkey.naturalHeight || turkey.clientHeight || 320;
+  const desired = Math.min(420, Math.max(320, Math.round(tH * 0.95)));
+  stage.style.height = desired + 'px';
 
-      const speed = 0.55; // radians/sec
+  // build cards
+  const N = Math.max(1, items.length);
+  const nodes = [];
+  for (let i = 0; i < N; i++){
+    const r = items[i];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="roast-entry">
+        <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+        <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+        <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+        <div class="tone-hint">🔥 ${Math.round(r.decayed ?? 100)}</div>
+      </div>`;
+    stage.appendChild(card);
+    nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
+  }
 
-      let start = null;
-      function frame(ts){
-        if (!start) start = ts;
-        const t = (ts - start) / 1000;
+  const speed = 0.55; // radians/sec
 
-        // center on TURKEY
-        const stRect = stage.getBoundingClientRect();
-        const tkRect = turkey.getBoundingClientRect();
-        const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
-        const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.52;
+  function frame(ts){
+    // center on the TURKEY
+    const stRect = stage.getBoundingClientRect();
+    const tkRect = turkey.getBoundingClientRect();
+    const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
+    const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50;
 
-        // --- cylinder radii based on trophy size but clamped to stay compact ---
-      const stRect = stage.getBoundingClientRect();
-      const tkRect = turkey.getBoundingClientRect();
-      const cx = (tkRect.left - stRect.left) + tkRect.width / 2;
-      const cy = (tkRect.top  - stRect.top)  + tkRect.height * 0.50; // a hair higher
+    // cylinder radii (clamped = compact)
+    const tw = tkRect.width;
+    const R = Math.min(260, Math.max(180, tw * 0.62)); // horizontal radius
+    const D = Math.min(220, Math.max(140, R  * 0.75)); // depth radius
+    const Y = 0;
 
-      const tw = tkRect.width;
-      const R = Math.min(260, Math.max(180, tw * 0.62)); // horizontal radius
-      const D = Math.min(220, Math.max(140, R  * 0.75)); // depth radius
-      const Y = 0;
+    const t = (ts / 1000); // time in seconds
 
-          // keep facing viewer
-          const rotY = 0;
+    for (const n of nodes){
+      const a = n.baseAngle + t * speed;
+      const x = R * Math.cos(a);
+      const z = D * Math.sin(a);
+      const y = Y;
 
-          // depth styling
-          const zNorm   = (z + D) / (2*D);     // 0..1 (back..front)
-          const scale   = 0.88 + zNorm * 0.30;
-          const opacity = 0.50 + zNorm * 0.50;
+      // keep cards facing viewer
+      const rotY = 0;
 
-          n.el.style.transform =
-            `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scale})`;
-          n.el.style.opacity = opacity.toFixed(3);
-          n.el.style.zIndex = String(1000 + Math.round(z));
-          n.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
-        }
+      // depth styling (smaller/dimmer when behind)
+      const zNorm = (z + D) / (2 * D);       // 0..1
+      const scale = 0.88 + zNorm * 0.30;
+      const opacity = 0.50 + zNorm * 0.50;
 
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
+      n.el.style.transform =
+        `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scale})`;
+      n.el.style.opacity = opacity.toFixed(3);
+      n.el.style.zIndex = String(1000 + Math.round(z));
+      n.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
     }
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
 
     /* ---- Marquee fallback ---- */
     function buildHallMarquee(items){
