@@ -5,6 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Roast Us — AGAUAI</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* --- minimal layout so this works immediately; feel free to migrate to style.css --- */
+    .container{max-width:960px;margin:2rem auto;padding:0 1rem}
+    .btn{border:none;border-radius:999px;padding:.7rem 1.1rem;font-weight:700;cursor:pointer}
+    .btn.primary{background:#0bf;color:#001018}
+    /* Roast cards (inherits your theme colors) */
+    .roast-entry{border-left:4px solid #ff5555;background:linear-gradient(180deg,#121212,#0f0f0f);border-radius:10px;padding:1rem 1.1rem;box-shadow:0 6px 20px rgba(0,0,0,.28);margin:1.25rem 0 2rem}
+    .roaster-name{color:#0bf;font-weight:700;font-size:.95rem}
+    .roast-text{color:#ffd700;font-size:1.1rem;margin:.5rem 0 .35rem;line-height:1.45}
+    .ai-clapback{font-style:italic;color:#66ccff}
+    .tone-hint{color:#9aa;font-size:.85rem;margin-top:.35rem}
+    /* Modal shell */
+    .modal[hidden]{display:none!important}.modal{position:fixed;inset:0;z-index:9999}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(2px)}
+    .modal-dialog{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,760px);max-height:85vh;background:#0a0a0a;border:1px solid #222;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden}
+    .modal-title{margin:0;padding:.9rem 1.1rem;border-bottom:1px solid #1a1a1a;color:#ffd700;font-weight:700}
+    .modal-x{position:absolute;right:8px;top:6px;width:36px;height:36px;background:transparent;border:0;color:#ccc;font-size:1.6rem;cursor:pointer}
+    #roast-frame{border:0;width:100%;height:calc(85vh - 58px);background:#111}
+    /* Hall container */
+    #hall{background:linear-gradient(180deg,#1b1b1b,#111);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.4);padding:1rem}
+    /* 3D carousel */
+    #hall-3d{position:relative;perspective:1200px}
+    #hall-stage{position:relative;transform-style:preserve-3d;height:460px}
+    #hall-3d .centerpiece{position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);width:min(32vmin,320px);z-index:1200;filter:drop-shadow(0 10px 25px rgba(0,0,0,.6))}
+    .card{position:absolute;left:50%;top:50%;transform-origin:center center;will-change:transform,opacity}
+    /* Marquee fallback */
+    #hall .marquee{position:relative;overflow:hidden;border-radius:8px}
+    #hall .track{display:inline-flex;gap:16px;will-change:transform;animation:hallScroll 28s linear infinite}
+    @keyframes hallScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    /* Auto-fallback for small screens / reduced motion */
+    @media (max-width:820px){#hall-3d{display:none}#hall-marquee{display:block!important}}
+    @media (prefers-reduced-motion:reduce){#hall-3d{display:none}#hall-marquee{display:block!important}}
+  </style>
 </head>
 <body class="roast-page">
 
@@ -58,18 +91,17 @@
       </div>
     </div>
 
-    <!-- Hall of Flames: Turkey Trophy orbit + marquee fallback -->
+    <!-- Hall of Flames -->
     <section id="hall" class="container" aria-label="Hall of Flames (featured roasts)">
       <h2>🏆 Hall of Flames</h2>
 
-      <!-- ORBIT layout (desktop) -->
-      <div id="hall-orbit">
-        <!-- Put your turkey trophy PNG at /images/turkey-trophy.png -->
+      <!-- 3D carousel (desktop) -->
+      <div id="hall-3d">
         <img class="centerpiece" src="/images/turkey-trophy.png" alt="Turkey Trophy">
-        <div class="orbit" id="hall-orbit-track"></div>
+        <div class="stage" id="hall-stage"></div>
       </div>
 
-      <!-- MARQUEE fallback (mobile/reduced motion) -->
+      <!-- Marquee fallback -->
       <div class="marquee" id="hall-marquee" hidden>
         <div class="track" id="hall-track"></div>
       </div>
@@ -95,17 +127,16 @@
     }
   </script>
 
-  <!-- Data loader + Hall builders -->
+  <!-- Data + Hall builders -->
   <script>
-    // Endpoints
+    /* Endpoints */
     const PRIMARY  = "https://script.google.com/macros/s/AKfycbyuBWsB7Fm-0gEGINLVneuLT_ALWqmQuFwDObtK_nAPd62m59Bt0qoPxNv9rrk3tQUG/exec";
     const FALLBACK = "/api/ai/roasts.json";
 
-    // Freshness config
-    const HALL_COUNT   = 5;   // up to 5 orbiting
-    const HALF_LIFE_HR = 24;  // score half-life
+    /* Freshness config */
+    const HALL_COUNT   = 7;    // up to 7 around the ring
+    const HALF_LIFE_HR = 24;   // score half-life
 
-    // First-seen timestamp if backend doesn't provide one
     function firstSeenMs(item){
       const id = `${item.roaster||item.name||""}|${item.target||item.subject||""}|${item.roast_text||item.roast||item.text||""}`.slice(0,200);
       const key = "roast_seen_" + btoa(unescape(encodeURIComponent(id)));
@@ -114,7 +145,6 @@
       return Number(v);
     }
 
-    // Exponential time-decay
     function decayedScore(r, nowMs = Date.now()){
       const base = (typeof r.score === "number" && !Number.isNaN(r.score)) ? r.score : 100; // new = 100
       const ageHr = Math.max(0, (nowMs - r.tsMs) / 3600000);
@@ -122,25 +152,21 @@
       return base * factor;
     }
 
-    // Normalize input rows
     function normalize(item){
       const score = item.score != null ? Number(item.score) : null;
       const tsStr = item.ts || item.timestamp || item.date || null;
       const tsMs  = Date.parse(tsStr) || firstSeenMs(item);
-
       return {
         roaster:    item.roaster || item.name || item.user || "Anonymous",
         target:     item.target  || item.subject || "General",
         roast_text: item.roast_text || item.roast || item.text || "",
         tone_hint:  item.tone_hint  || item.tone  || "",
         ai_reply:   item.ai_reply   || item.counter || item.response || "",
-        score,
-        ts: tsStr,
-        tsMs
+        score, ts: tsStr, tsMs
       };
     }
 
-    // Render the wall
+    /* ---- Roast Wall ---- */
     function renderWall(list){
       const container = document.getElementById("roast-container");
       container.innerHTML = "";
@@ -158,64 +184,89 @@
       });
     }
 
-    // Build Hall (auto-chooses orbit or marquee)
+    /* ---- Hall chooser ---- */
     function buildHall(list){
-      const now   = Date.now();
-      const norm  = list.map(normalize).map(r => ({...r, decayed: decayedScore(r, now)}));
-      let picked  = norm.slice().sort((a,b)=>b.decayed - a.decayed).slice(0, HALL_COUNT);
-      if (picked.length === 0) picked = norm.slice(-HALL_COUNT);
+      const now  = Date.now();
+      const norm = list.map(normalize).map(r => ({...r, decayed: decayedScore(r, now)}));
+      let picked = norm.slice().sort((a,b)=>b.decayed - a.decayed).slice(0, HALL_COUNT);
+      if (picked.length === 0) picked = norm.slice(-5);
 
-      const useOrbit = window.matchMedia('(min-width: 821px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (useOrbit) buildHallOrbit(picked); else buildHallMarquee(picked);
+      const use3D = window.matchMedia('(min-width: 821px)').matches &&
+                    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (use3D) buildHall3D(picked); else buildHallMarquee(picked);
     }
 
-    // ORBIT builder
-    function buildHallOrbit(items){
-  const wrap = document.getElementById('hall-orbit');
-  const track = document.getElementById('hall-orbit-track');
-  const marquee = document.getElementById('hall-marquee');
-  if (!wrap || !track) return;
+    /* ---- 3D carousel ---- */
+    function buildHall3D(items){
+      const wrap  = document.getElementById('hall-3d');
+      const stage = document.getElementById('hall-stage');
+      const mq    = document.getElementById('hall-marquee');
+      if (!wrap || !stage) return;
 
-  wrap.style.display = 'grid';
-  if (marquee) marquee.hidden = true;
+      wrap.style.display = 'block';
+      if (mq) mq.hidden = true;
 
-  track.innerHTML = '';
-  const N = Math.max(1, items.length);
-  const radiusPct = 35;
+      stage.innerHTML = '';
+      const N = Math.max(1, items.length);
+      const nodes = [];
 
-  for (let i=0;i<N;i++){
-    const r = items[i];
-    const angleDeg = (i / N) * 360;
+      for (let i=0;i<N;i++){
+        const r = items[i];
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="roast-entry">
+            <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
+            <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
+            <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter‑Roast loading…</em>"}</div>
+            <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
+          </div>`;
+        stage.appendChild(card);
+        nodes.push({ el: card, baseAngle: (i / N) * (Math.PI * 2) });
+      }
 
-    // Orbit card container (positioned on ring)
-    const cardWrap = document.createElement('div');
-    cardWrap.className = 'orbit-card';
-    cardWrap.style.left = (50 + radiusPct * Math.cos(angleDeg * Math.PI/180)) + '%';
-    cardWrap.style.top  = (50 + radiusPct * Math.sin(angleDeg * Math.PI/180)) + '%';
+      // animation params
+      const R = 280;  // horizontal radius (px)
+      const D = 220;  // depth radius (px)
+      const Y = 0;    // vertical offset (px)
+      const speed = 0.6; // radians / sec
 
-    // Inner card that counter-rotates
-    const inner = document.createElement('div');
-    inner.className = 'roast-entry';
-    inner.style.transform = `rotate(${-angleDeg}deg)`;
-    inner.innerHTML = `
-      <div class="roaster-name">${esc(r.roaster)} → <span class="target">${esc(r.target)}</span></div>
-      <div class="roast-text">${esc(r.roast_text).replace(/\n/g,"<br>")}</div>
-      <div class="ai-clapback">${r.ai_reply ? esc(r.ai_reply) : "<em>AI Counter-Roast loading…</em>"}</div>
-      <div class="tone-hint">🔥 ${Math.round(r.decayed)}</div>
-    `;
+      let start = null;
+      function frame(ts){
+        if (!start) start = ts;
+        const t = (ts - start) / 1000;
 
-    cardWrap.appendChild(inner);
-    track.appendChild(cardWrap);
-  }
+        const cx = stage.clientWidth  / 2;
+        const cy = stage.clientHeight / 2 + 10;
 
-  track.style.animationDuration = (items.length <= 3) ? '40s' : '28s';
-}
+        for (const node of nodes){
+          const a = node.baseAngle + t*speed;
+          const x =  R * Math.cos(a);
+          const z =  D * Math.sin(a);
+          const y =  Y;
 
-    // MARQUEE builder
+          const rotY = -a * 180/Math.PI;                // keep upright
+          const zNorm   = (z + D) / (2*D);               // 0..1
+          const scale   = 0.85 + zNorm * 0.35;           // 0.85..1.2
+          const opacity = 0.45 + zNorm * 0.55;           // 0.45..1
+
+          node.el.style.transform =
+            `translate3d(${cx + x}px, ${cy + y}px, ${z}px) rotateY(${rotY}deg) translate(-50%,-50%) scale(${scale})`;
+          node.el.style.opacity = opacity.toFixed(3);
+          node.el.style.zIndex = String(1000 + Math.round(z));
+          node.el.style.pointerEvents = (z > 0) ? 'auto' : 'none';
+        }
+
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    /* ---- Marquee fallback ---- */
     function buildHallMarquee(items){
       const marquee = document.getElementById('hall-marquee');
       const track   = document.getElementById('hall-track');
-      const orbit   = document.getElementById('hall-orbit');
+      const orbit   = document.getElementById('hall-3d');
       if (!marquee || !track) return;
 
       marquee.hidden = false;
@@ -244,7 +295,7 @@
       });
     }
 
-    // Load data (primary -> fallback)
+    /* ---- Data load ---- */
     async function loadRoasts(){
       try {
         const res = await fetch(`${PRIMARY}?t=${Date.now()}`, { credentials: "omit" });
@@ -281,10 +332,8 @@
       const backdrop = document.getElementById('modal-close');
 
       if (!modal || !openBtn || !closeBtn || !backdrop) return;
-
       function openModal(){ modal.removeAttribute('hidden'); document.body.style.overflow='hidden'; }
       function closeModal(){ modal.setAttribute('hidden',''); document.body.style.overflow=''; }
-
       openBtn.addEventListener('click', openModal);
       closeBtn.addEventListener('click', closeModal);
       backdrop.addEventListener('click', closeModal);
