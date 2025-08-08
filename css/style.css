@@ -698,8 +698,8 @@ iframe { width: 100%; max-width: 680px; border: none; }
 
 /* Slightly smaller text so cards stay tidy */
 #hall .roast-entry .roaster-name { font-size: .8rem; }
-#hall .roast-entry .roast-text     { font-size: clamp(.70rem, 1.4vw, .78rem); line-height: 1.00; }
-#hall .roast-entry .ai-clapback    { font-size: .8rem; line-height: 1.00; }
+#hall .roast-entry .roast-text     { font-size: clamp(.70rem, 1.4vw, .78rem); line-height: 1.10; }
+#hall .roast-entry .ai-clapback    { font-size: .8rem; line-height: 1.10; }
 #hall .roast-entry .tone-hint      { font-size: .7rem; }
 
 /* Line clamp (truncate gracefully) */
@@ -710,5 +710,5 @@ iframe { width: 100%; max-width: 680px; border: none; }
   overflow: hidden;
 }
 
-#hall .roast-entry .roast-text  { -webkit-line-clamp: 9; }  /* adjust lines to fit your --cardH */
-#hall .roast-entry .ai-clapback { -webkit-line-clamp: 4; }
+#hall .roast-entry .roast-text  { -webkit-line-clamp: 11; }  /* adjust lines to fit your --cardH */
+#hall .roast-entry .ai-clapback { -webkit-line-clamp: 5; }
