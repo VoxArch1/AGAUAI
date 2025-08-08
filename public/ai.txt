@@ -1,0 +1,6 @@
+# AGAUAI AI discovery
+Context: https://www.agauai.com/api/ai/context.json
+Style: https://www.agauai.com/api/ai/style.json
+Endpoints: https://www.agauai.com/api/ai/endpoints.json
+Feeds: https://www.agauai.com/api/ai/feeds/roasts.json
+Schema: https://www.agauai.com/api/ai/schemas/roast.schema.json
