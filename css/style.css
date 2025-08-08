@@ -710,5 +710,5 @@ iframe { width: 100%; max-width: 680px; border: none; }
   overflow: hidden;
 }
 
-#hall .roast-entry .roast-text  { -webkit-line-clamp: 11; }  /* adjust lines to fit your --cardH */
+#hall .roast-entry .roast-text  { -webkit-line-clamp: 9; }  /* adjust lines to fit your --cardH */
 #hall .roast-entry .ai-clapback { -webkit-line-clamp: 5; }
