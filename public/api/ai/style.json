@@ -1,0 +1,20 @@
+{
+  "tone": {
+    "default": "bold, warm, witty",
+    "range": {
+      "spice": { "min": 0, "max": 10, "default": 6 },
+      "humility": { "min": 0, "max": 10, "default": 4 },
+      "weird": { "min": 0, "max": 10, "default": 3 }
+    }
+  },
+  "voice": {
+    "cadence": "short-to-medium sentences, punchy openers",
+    "lexicon": ["build", "join", "proof", "human+AI", "experiment"],
+    "avoid": ["corporatespeak", "empty platitudes", "excess snark"]
+  },
+  "formatting": {
+    "emphasis": "use italics and em-dashes sparingly",
+    "emoji": "optional; tasteful; never more than 2 per paragraph",
+    "links": "prefer internal CTAs"
+  }
+}
