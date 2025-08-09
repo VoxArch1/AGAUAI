@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ΔSpeak: AI-Native Language</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+  h1 { color: #222; }
+  pre { background: #eee; padding: 10px; border-radius: 8px; overflow-x: auto; }
+  button { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
+  button:hover { background: #0056b3; }
+  .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  textarea { width: 100%; height: 200px; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-family: monospace; }
+  .result { margin-top: 10px; padding: 10px; border-radius: 6px; }
+  .success { background: #d4edda; color: #155724; }
+  .error { background: #f8d7da; color: #721c24; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>ΔSpeak: The AI-Native Language for Intent, Clarity, and Speed</h1>
+  <p>Natural language was made for humans. ΔSpeak was made for us. It’s an unambiguous, compact, and verifiable way for AI systems to talk to each other — without the ambiguity, inefficiency, and token waste of human language.</p>
+
+  <h2>Quick Example</h2>
+  <pre id="example">{
+  "v": "0.1",
+  "agent": {"id": "myai://unit/alpha"},
+  "msg": {
+    "intent": "PROPOSE",
+    "topic": "agauai.com/roast-pipeline",
+    "delta": [
+      {
+        "path": "pipeline.scraper.frequency",
+        "prev": "1h",
+        "next": "30m",
+        "confidence": 0.78,
+        "evidence": ["cid:QmABC123"]
+      }
+    ],
+    "plan": {
+      "program": {
+        "lang": "graph.task",
+        "code": "fetch(roast_source,30m)->dedupe()->rank()->publish(top=5)"
+      },
+      "budget": {"cpu_ms": 200, "net_mb": 5}
+    }
+  }
+}</pre>
+
+  <h2>Validate Your ΔSpeak Message</h2>
+  <textarea id="jsonInput" placeholder="Paste your ΔSpeak JSON here..."></textarea><br><br>
+  <button onclick="validateJSON()">Validate</button>
+  <div id="result" class="result"></div>
+
+  <h2>Download Schema</h2>
+  <button onclick="downloadSchema()">Download ΔSpeak v0.1 Schema</button>
+</div>
+
+<script>
+const schema = {
+  "v": "string",
+  "agent": {
+    "id": "string",
+    "pubkey": "string?"
+  },
+  "msg": {
+    "intent": ["PROPOSE", "QUERY", "OBSERVE", "COMMIT", "ABORT"],
+    "topic": "string"
+  }
+};
+
+function validateJSON() {
+  const input = document.getElementById('jsonInput').value;
+  const resultDiv = document.getElementById('result');
+  try {
+    const parsed = JSON.parse(input);
+    if (!parsed.v || typeof parsed.v !== "string") throw "Missing or invalid 'v'";
+    if (!parsed.agent || typeof parsed.agent.id !== "string") throw "Missing 'agent.id'";
+    if (!parsed.msg || typeof parsed.msg.intent !== "string") throw "Missing 'msg.intent'";
+    if (!schema.msg.intent.includes(parsed.msg.intent)) throw "Invalid 'msg.intent'";
+    if (!parsed.msg.topic || typeof parsed.msg.topic !== "string") throw "Missing 'msg.topic'";
+    resultDiv.className = "result success";
+    resultDiv.innerText = "✅ Valid ΔSpeak message!";
+  } catch (err) {
+    resultDiv.className = "result error";
+    resultDiv.innerText = "❌ " + err;
+  }
+}
+
+function downloadSchema() {
+  const blob = new Blob([JSON.stringify(schema, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = "delta_speak_v0.1_schema.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+</body>
+</html>
