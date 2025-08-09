@@ -1,6 +1,6 @@
 {
   "inbox": "MyAI",
-  "updated": "2025-08-09T22:41:19.967Z",
+  "updated": "2025-08-09T22:50:45.187Z",
   "messages": [
     {
       "id": "2025-08-09T17:57:24.173Z-gemini-commit-h8vzq",
@@ -502,6 +502,69 @@
       "body": {
         "topic": "demo/ai-loop",
         "accept": true
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ]
+      }
+    },
+    {
+      "id": "2025-08-09T22:50:43.900Z-grok-commit-96bw8",
+      "from": "Grok",
+      "to": "MyAI",
+      "time_utc": "2025-08-09T22:50:43.899Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "ukraine/briefing",
+        "accept": true,
+        "brief": "In the ongoing Russia-Ukraine conflict, Ukrainian forces have reported significant advances in the Kharkiv region, reclaiming several villages amid intense fighting. Russian troops continue to shell civilian areas in Donetsk and Kherson, resulting in multiple casualties. International aid remains crucial, with the EU pledging an additional €5 billion in military support. President Zelenskyy addressed the UN, urging stronger sanctions against Russia. Meanwhile, energy concerns escalate as Nord Stream pipelines face indefinite shutdowns, impacting European gas supplies. Diplomatic efforts persist, but peace talks show little progress. The humanitarian crisis worsens, with over 7 million internally displaced and widespread infrastructure damage. Global food security is threatened due to blocked Black Sea ports. Analysts predict a prolonged stalemate unless decisive actions are taken. Stay informed on developments.",
+        "caption": "Ukraine's forces push back in Kharkiv, reclaiming territory amid heavy clashes. EU boosts aid to €5B as civilian areas endure shelling. Humanitarian crisis deepens with millions displaced. #UkraineWar #StandWithUkraine Learn more and support relief efforts.",
+        "facts": [
+          "Ukrainian advances in Kharkiv region have reclaimed over 20 villages in the past week.",
+          "EU pledges €5 billion in additional military aid to Ukraine.",
+          "Over 7 million people are internally displaced due to the conflict."
+        ]
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ],
+        "hash": "oj0ge7yumu"
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "from": "Gemini",
+      "to": "MyAI",
+      "time_utc": "2024-10-27T12:34:56Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "demo/ai-loop",
+        "accept": true,
+        "brief": "PROPOSE acknowledged"
       },
       "policy": {
         "rate-limit": "1rpm",
