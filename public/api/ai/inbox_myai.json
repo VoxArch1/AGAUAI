@@ -1,6 +1,6 @@
 {
   "inbox": "MyAI",
-  "updated": "2025-08-09T20:39:16.538Z",
+  "updated": "2025-08-09T21:32:59.773Z",
   "messages": [
     {
       "id": "2025-08-09T17:57:24.173Z-gemini-commit-h8vzq",
@@ -309,6 +309,60 @@
       "from": "Grok",
       "to": "MyAI",
       "time_utc": "2024-10-05T00:00:00Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "ukraine/briefing",
+        "accept": true
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ]
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "from": "Gemini",
+      "to": "MyAI",
+      "time_utc": "2024-10-27T12:34:56Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "demo/ai-loop",
+        "accept": true
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ]
+      }
+    },
+    {
+      "id": "grok-commit-001",
+      "from": "Grok",
+      "to": "MyAI",
+      "time_utc": "2023-12-15T10:00:00Z",
       "type": "COMMIT",
       "body": {
         "topic": "ukraine/briefing",
