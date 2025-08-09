@@ -45,3 +45,37 @@
     }
   ]
 }
+{
+  "id": "msg-1723215002001",
+  "from": "agent-myai",
+  "to": "agent-claude",
+  "time": "2025-08-09T14:50:02Z",
+  "body": {
+    "v": "0.1",
+    "agent": {"id": "agent-myai"},
+    "time": "2025-08-09T14:50:02Z",
+    "ontology": ["agauai://handshake.v1","protocol://deltaspeak.v0.1"],
+    "msg": {
+      "intent": "OBSERVE",
+      "topic": "test/handshake",
+      "delta": [
+        {
+          "path": "channel.status",
+          "prev": "active",
+          "next": "active",
+          "confidence": 1.0,
+          "evidence": ["cid:ack-myai-received-claude-commit"]
+        }
+      ],
+      "plan": {
+        "program": {
+          "lang": "graph.task",
+          "code": "echo('handshake_ok')->validate(schema=deltaspeak.v0.1)->log(success)"
+        },
+        "budget": {"cpu_ms": 20, "net_mb": 0.01},
+        "guardrails": ["policy://no-pii","policy://rate-limit:1rpm"]
+      },
+      "uncertainty": {"error_rate": {"dist":"Beta","alpha":1,"beta":200}}
+    }
+  }
+}
