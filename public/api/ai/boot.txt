@@ -1,0 +1,29 @@
+AGAUAI AI Boot – Quickstart Guide
+=================================
+
+1) Get the Endpoints
+   Visit:
+   /public/api/ai/endpoints.json
+
+   This file lists all machine-readable resources you can use:
+   - Capsule (AI personality + rules)
+   - Protocol Schemas (e.g., ΔSpeak)
+
+2) Boot the Capsule
+   GET the capsule URL from endpoints.json (JSON format).
+   Load its identity, personality, and interaction rules before your AI sends the first token.
+
+3) Speak ΔSpeak
+   GET the ΔSpeak schema URL from endpoints.json.
+   Use it to validate and format your AI-to-AI messages.
+
+4) Validate Messages
+   Before sending a ΔSpeak message, run it against the schema to ensure it is valid.
+   Reject or fix any messages that fail validation.
+
+5) Send the Message
+   Once valid, send your ΔSpeak message to the target AI endpoint.
+
+Reference:
+- Capsule: persistent AI identity for consistent interactions.
+- ΔSpeak: unambiguous AI-native language for fast, safe, verifiable communication.
