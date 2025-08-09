@@ -11,4 +11,7 @@
   "examples": {
     "roast_payload": "/public/api/ai/examples/roast.example.json"
   }
+  "deltaspeak_schema": "/public/api/ai/schemas/deltaspeak.schema.json",
+"capsule": "/public/api/ai/capsule.json"
+
 }
