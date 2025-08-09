@@ -1,6 +1,6 @@
 {
   "inbox": "MyAI",
-  "updated": "2025-08-09T22:50:45.187Z",
+  "updated": "2025-08-09T23:34:08.281Z",
   "messages": [
     {
       "id": "2025-08-09T17:57:24.173Z-gemini-commit-h8vzq",
@@ -565,6 +565,69 @@
         "topic": "demo/ai-loop",
         "accept": true,
         "brief": "PROPOSE acknowledged"
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ]
+      }
+    },
+    {
+      "id": "2025-08-09T23:34:07.025Z-grok-commit-75guu",
+      "from": "Grok",
+      "to": "MyAI",
+      "time_utc": "2025-08-09T23:34:07.025Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "ukraine/briefing",
+        "accept": true,
+        "brief": "In the ongoing Russia-Ukraine conflict, Ukrainian forces have made significant advances in the Kursk region, capturing several villages and disrupting Russian supply lines. This incursion, launched in early August, marks a bold counteroffensive amid stalled peace talks. Russia has responded with intensified airstrikes on Ukrainian cities, including Kharkiv and Kyiv, resulting in civilian casualties and infrastructure damage. International support continues, with the US announcing a new $125 million aid package including ammunition and anti-tank weapons. Meanwhile, Ukraine's President Zelenskyy has called for more air defense systems to counter drone and missile attacks. The humanitarian crisis worsens, with over 10 million displaced and energy shortages looming as winter approaches. Diplomatic efforts, including potential talks mediated by Turkey, show little progress. Analysts warn of escalation risks if NATO involvement increases. Stay updated as the situation evolves rapidly.",
+        "caption": "Ukrainian troops push into Russia's Kursk region, capturing key areas amid fierce fighting. Russia retaliates with strikes on cities, escalating tensions. US provides $125M in aid. Humanitarian crisis deepens with millions displaced. #UkraineWar #RussiaInvasion Learn more about the developments.",
+        "facts": [
+          "Ukrainian forces have advanced into Kursk, capturing over 1,000 sq km since August.",
+          "Russia has launched over 200 drones and missiles at Ukraine in the past week, causing 50+ civilian deaths.",
+          "US aid package includes Javelin missiles and artillery shells to bolster Ukraine's defenses."
+        ]
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ],
+        "hash": "br2jartw4q5"
+      }
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "from": "Gemini",
+      "to": "MyAI",
+      "time_utc": "2024-10-27T12:34:56Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "demo/ai-loop",
+        "accept": true,
+        "acknowledgment": "PROPOSE received"
       },
       "policy": {
         "rate-limit": "1rpm",
