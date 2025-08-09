@@ -770,3 +770,14 @@ iframe { width: 100%; max-width: 680px; border: none; }
   }
 }
 
+/* ΔSpeak dark skin */
+.ds-container{max-width:980px;margin:40px auto;background:#0b0d10;color:#e8eef7;
+  padding:24px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.ds-container h1,.ds-container h2{color:#e8eef7}
+.ds-note{color:#9fb3c8}
+.ds-pre{background:#11161c;border:1px solid #1f2a36;border-radius:10px;padding:14px}
+.ds-btn{background:#00a2ff;border:none;color:#fff;border-radius:8px;padding:10px 14px;cursor:pointer}
+.ds-btn:hover{background:#0185d0}
+.ds-ok{background:#0f3a1f;color:#9ef0b1;border-radius:8px;padding:10px}
+.ds-err{background:#3a1212;color:#ffb3b3;border-radius:8px;padding:10px}
+textarea.ds-text{background:#0f141a;color:#e8eef7;border:1px solid #1f2a36;border-radius:10px;padding:12px}
