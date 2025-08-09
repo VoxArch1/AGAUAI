@@ -5,8 +5,14 @@ on:
     - cron: "0 * * * *"    # hourly UTC
   workflow_dispatch:
 
+# allow this workflow to push to main
 permissions:
   contents: write
+
+# prevent overlapping runs from pushing at the same time
+concurrency:
+  group: ai-switchboard-push
+  cancel-in-progress: false
 
 jobs:
   run:
@@ -14,12 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          fetch-depth: 0              # needed for rebase/pull
+          persist-credentials: false  # you're pushing with a token URL below
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+
       - name: Install deps
         run: npm ci || npm install
+
       - name: Run switchboard
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -31,16 +41,28 @@ jobs:
           OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}
           LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}
         run: npm run switchboard
+
       - name: Commit & push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add public/api/ai/*.json || true
-          if [[ -n "$(git diff --cached --name-only)" ]]; then
-            git commit -m "switchboard: inbox updates"
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
-          else
+          if [[ -z "$(git diff --cached --name-only)" ]]; then
             echo "No inbox changes to commit."
+            exit 0
           fi
+
+          git commit -m "switchboard: inbox updates" || true
+
+          # make sure we're up to date before pushing (avoids '[rejected] fetch first')
+          git fetch origin main
+          git pull --rebase origin main || true
+
+          # push; if it races another run, retry once after rebasing again
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }} \
+          || (sleep 3 && git pull --rebase origin main && \
+              git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }})
