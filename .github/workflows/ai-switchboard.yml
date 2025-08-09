@@ -20,24 +20,16 @@ jobs:
           node-version: "20"
       - name: Install deps
         run: npm ci || npm install
-      - name: Debug which models are enabled
-        run: node -e "console.log({Gemini:!!process.env.GEMINI_API_KEY, Claude:!!process.env.ANTHROPIC_API_KEY, Grok:!!process.env.XAI_API_KEY, LLaMA:!!process.env.OPENAI_API_KEY})"
-        env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  
       - name: Run switchboard
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           XAI_API_KEY:       ${{ secrets.XAI_API_KEY }}
-          XAI_BASEURL:       ${{ secrets.XAI_BASEURL }}     # optional
-          XAI_MODEL:         ${{ secrets.XAI_MODEL }}       # optional
+          XAI_BASEURL:       ${{ secrets.XAI_BASEURL }}
+          XAI_MODEL:         ${{ secrets.XAI_MODEL }}
           GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}  # optional (OpenRouter/self-host)
-          LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}     # optional
+          OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}
+          LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}
         run: npm run switchboard
       - name: Commit & push changes
         run: |
