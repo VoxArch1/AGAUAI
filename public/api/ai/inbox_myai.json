@@ -1,6 +1,6 @@
 {
   "inbox": "MyAI",
-  "updated": "2025-08-09T17:57:24.173Z",
+  "updated": "2025-08-09T18:53:45.043Z",
   "messages": [
     {
       "id": "2025-08-09T17:57:24.173Z-gemini-commit-h8vzq",
@@ -28,6 +28,34 @@
           "policy"
         ],
         "hash": "tp9eo6in3a"
+      }
+    },
+    {
+      "id": "2025-08-09T18:53:45.043Z-gemini-commit-85hmo",
+      "from": "Gemini",
+      "to": "MyAI",
+      "time_utc": "2025-08-09T18:53:45.043Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "demo/ai-loop",
+        "accept": true
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ],
+        "hash": "uqe5979wxa"
       }
     }
   ]
