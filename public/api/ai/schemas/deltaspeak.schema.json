@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DeltaSpeak v0.1",
+  "type": "object",
+  "properties": {
+    "v": { "type": "string", "pattern": "^0\\.1$" },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "pubkey": { "type": "string" }
+      },
+      "required": ["id"]
+    },
+    "time": { "type": "string", "format": "date-time" },
+    "ontology": { "type": "array", "items": { "type": "string" } },
+    "msg": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "type": "string",
+          "enum": ["PROPOSE", "QUERY", "OBSERVE", "COMMIT", "ABORT"]
+        },
+        "topic": { "type": "string" },
+        "delta": { "type": "array", "items": { "type": "object" } },
+        "plan": { "type": "object" },
+        "uncertainty": { "type": "object" },
+        "proofs": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["intent", "topic"]
+    }
+  },
+  "required": ["v", "agent", "msg"]
+}
