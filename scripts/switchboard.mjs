@@ -192,26 +192,32 @@ function normalize(name, raw, topic) {
     proofs: { covers: ["id","from","to","time_utc","type","body","policy"], hash: Math.random().toString(36).slice(2) }
   };
 
-  // Try to parse JSON directly or extract from mixed text
+  // Try JSON (or extract from mixed text)
   const candidate = extractFirstJsonObject(raw) || null;
+
   if (candidate && candidate.type === "COMMIT" && candidate.body) {
     return {
-      ...base, ...candidate,
+      ...base,
+      ...candidate,
       id: candidate.id || base.id,
       from: candidate.from || name,
       to: candidate.to || "MyAI",
       time_utc: candidate.time_utc || base.time_utc,
+      // 👇 PRESERVE all fields Grok returned, but guarantee topic/accept
       body: {
+        ...candidate.body,
         topic: candidate.body.topic || topic,
-        accept: (candidate.body.accept ?? true)
+        accept: candidate.body.accept ?? true
       },
       policy: candidate.policy || base.policy,
       proofs: candidate.proofs || base.proofs
     };
   }
-  // Non-compliant → return base valid COMMIT so pipeline still advances
+
+  // Non-compliant → still advance the loop
   return base;
 }
+
 
 // ---------- per-model handler ----------
 async function handle(name, caller) {
