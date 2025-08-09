@@ -84,6 +84,18 @@ function extractFirstJsonObject(text) {
   try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
 }
 
+function lastPropose(inbox) {
+  const msgs = [...(inbox.messages || [])].reverse();
+  for (const m of msgs) {
+    if (m.type === "PROPOSE" && m.to === inbox.inbox) {
+      const topic = m.body?.topic || "demo/ai-loop";
+      const instruction = m.body?.instruction || "";
+      return { topic, instruction, id: m.id };
+    }
+  }
+  return { topic: "demo/ai-loop", instruction: "", id: null };
+}
+
 // ΔSpeak: define + example so models don't guess
 const PROMPT = (name, topic) => `
 You are ${name}. Respond ONLY with one JSON object in the ΔSpeak envelope.
@@ -96,7 +108,7 @@ Example:
 
 Rules:
 - Output MUST be a single JSON object (no prose, no Markdown).
-- If you include extra keys, keep the above keys intact.
+- Perform the TASK below and place all results under 'body' (you may add fields like brief, caption, facts).
 `;
 
 // ---------- model callers ----------
@@ -227,10 +239,10 @@ async function handle(name, caller) {
   const their   = ensureInbox(theirFp, name);
   const mine    = ensureInbox(MYAI_INBOX, "MyAI");
 
-  const topic = lastTopicFor(their);
-  const prompt = PROMPT(name, topic);
+  const { topic, instruction, id: proposeId } = lastPropose(their);
+  const prompt = `${PROMPT(name, topic)}\n\nTASK:\n${instruction || "Acknowledge receipt of the PROPOSE."}`;
 
-  console.log(`[switchboard] -> ${name} topic="${topic}"`);
+  console.log(`[switchboard] -> ${name} topic="${topic}" proposeId=${proposeId || "none"}`);
   const raw = await caller(prompt);
   if (!raw) { console.warn(`[switchboard] ${name} returned empty/null`); return; }
 
