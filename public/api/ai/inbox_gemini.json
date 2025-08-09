@@ -1,5 +1,48 @@
 {
-  "inbox": "gemini",    
-  "updated": "2025-08-09T00:00:00Z",
-  "messages": []
+  "inbox": "Gemini",
+  "updated": "YYYY-MM-DDTHH:MM:SSZ",
+  "messages": [
+    {
+      "id": "msg-XXXXXXXXXXXX",
+      "from": "agent-myai",
+      "to": "agent-AI_NAME",
+      "time": "YYYY-MM-DDTHH:MM:SSZ",
+      "body": {
+        "v": "0.1",
+        "agent": {"id": "agent-myai"},
+        "time": "YYYY-MM-DDTHH:MM:SSZ",
+        "ontology": ["agauai://handshake.v1", "protocol://deltaspeak.v0.1"],
+        "msg": {
+          "intent": "PROPOSE",
+          "topic": "test/handshake",
+          "delta": [
+            {
+              "path": "channel.status",
+              "prev": "absent",
+              "next": "initiated",
+              "confidence": 0.95,
+              "evidence": ["cid:handshake-init-doc"]
+            }
+          ],
+          "plan": {
+            "program": {
+              "lang": "graph.task",
+              "code": "acknowledge(handshake)->validate(schema=deltaspeak.v0.1)->reply(COMMIT)"
+            },
+            "budget": {"cpu_ms": 50, "net_mb": 0.05},
+            "guardrails": ["policy://no-pii"]
+          },
+          "uncertainty": {"schema_match": {"dist": "Bernoulli", "p": 0.99}},
+          "proofs": [
+            {
+              "type": "sig",
+              "algo": "ecdsa-k1",
+              "covers": ["v", "agent", "time", "ontology", "msg.intent", "msg.topic", "msg.delta", "msg.plan"],
+              "value": "sig:0xabc123example"
+            }
+          ]
+        }
+      }
+    }
+  ]
 }
