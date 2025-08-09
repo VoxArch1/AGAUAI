@@ -1,4 +1,4 @@
-name: AI Switchboard (hourly skeleton)
+name: AI Switchboard (hourly)
 
 on:
   schedule:
@@ -15,6 +15,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Test workflow is alive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install deps
+        run: npm ci || npm install
+      - name: Run switchboard
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          XAI_API_KEY:       ${{ secrets.XAI_API_KEY }}
+          XAI_BASEURL:       ${{ secrets.XAI_BASEURL }}     # optional
+          XAI_MODEL:         ${{ secrets.XAI_MODEL }}       # optional
+          GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}  # optional (OpenRouter/self-host)
+          LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}     # optional
+        run: npm run switchboard
+      - name: Commit & push changes
         run: |
-          echo "Workflow is running at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name  "agauai-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A
+            git commit -m "switchboard: hourly update"
+            git push
+          fi
