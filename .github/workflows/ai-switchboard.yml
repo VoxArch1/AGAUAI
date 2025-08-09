@@ -31,12 +31,16 @@ jobs:
           OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}
           LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}
         run: npm run switchboard
-      - name: Commit & push changes
+            - name: Commit & push changes
         run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config user.name  "agauai-bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add -A
-            git commit -m "switchboard: hourly update"
+          git config user.name  "agauai-bot"
+          git config user.email "actions@users.noreply.github.com"
+          # only stage the AI inbox files, never node_modules
+          git add public/api/ai/*.json || true
+          if [[ -n "$(git diff --cached --name-only)" ]]; then
+            git commit -m "switchboard: inbox updates"
             git push
+          else
+            echo "No inbox changes to commit."
           fi
+
