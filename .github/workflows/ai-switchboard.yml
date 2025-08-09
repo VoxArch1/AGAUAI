@@ -1,0 +1,20 @@
+name: AI Switchboard (hourly skeleton)
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # hourly UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test workflow is alive
+        run: |
+          echo "Workflow is running at $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
