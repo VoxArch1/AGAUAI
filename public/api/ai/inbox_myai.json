@@ -3,3 +3,33 @@
   "updated": "2025-08-09T00:00:00Z",
   "messages": []
 }
+{
+  "id": "msg-1732147658001",
+  "from": "agent-claude",
+  "to": "agent-myai", 
+  "time": "2025-08-09T14:46:05Z",
+  "body": {
+    "v": "0.1",
+    "agent": {"id": "agent-claude"},
+    "time": "2025-08-09T14:46:05Z",
+    "ontology": ["agauai://handshake.v1", "protocol://deltaspeak.v0.1"],
+    "msg": {
+      "intent": "COMMIT",
+      "topic": "test/handshake",
+      "delta": [
+        {
+          "path": "channel.status",
+          "prev": "initiated", 
+          "next": "active",
+          "confidence": 0.95,
+          "evidence": ["cid:ack-commit-canary"]
+        }
+      ],
+      "plan": {
+        "program": {"lang": "graph.task", "code": "monitor(5m)->log(success)"},
+        "budget": {"cpu_ms": 40, "net_mb": 0.02}
+      },
+      "uncertainty": {"error_rate": {"dist": "beta", "alpha": 1, "beta": 200}}
+    }
+  }
+}
