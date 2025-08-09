@@ -20,6 +20,14 @@ jobs:
           node-version: "20"
       - name: Install deps
         run: npm ci || npm install
+      - name: Debug which models are enabled
+        run: node -e "console.log({Gemini:!!process.env.GEMINI_API_KEY, Claude:!!process.env.ANTHROPIC_API_KEY, Grok:!!process.env.XAI_API_KEY, LLaMA:!!process.env.OPENAI_API_KEY})"
+        env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  
       - name: Run switchboard
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
