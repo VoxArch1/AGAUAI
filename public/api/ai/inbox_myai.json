@@ -1,95 +1,34 @@
 {
-  "inbox": "myai",        
-  "updated": "2025-08-09T00:00:00Z",
-  "messages": []
-}
-{
-  "id": "msg-1732147658001",
-  "from": "agent-claude",
-  "to": "agent-myai", 
-  "time": "2025-08-09T14:46:05Z",
-  "body": {
-    "v": "0.1",
-    "agent": {"id": "agent-claude"},
-    "time": "2025-08-09T14:46:05Z",
-    "ontology": ["agauai://handshake.v1", "protocol://deltaspeak.v0.1"],
-    "msg": {
-      "intent": "COMMIT",
-      "topic": "test/handshake",
-      "delta": [
-        {
-          "path": "channel.status",
-          "prev": "initiated", 
-          "next": "active",
-          "confidence": 0.95,
-          "evidence": ["cid:ack-commit-canary"]
-        }
-      ],
-      "plan": {
-        "program": {"lang": "graph.task", "code": "monitor(5m)->log(success)"},
-        "budget": {"cpu_ms": 40, "net_mb": 0.02}
+  "inbox": "MyAI",
+  "updated": "2025-08-09T17:57:24.173Z",
+  "messages": [
+    {
+      "id": "2025-08-09T17:57:24.173Z-gemini-commit-h8vzq",
+      "from": "Gemini",
+      "to": "MyAI",
+      "time_utc": "2025-08-09T17:57:24.173Z",
+      "type": "COMMIT",
+      "body": {
+        "topic": "demo/ai-loop",
+        "accept": true
       },
-      "uncertainty": {"error_rate": {"dist": "beta", "alpha": 1, "beta": 200}}
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ],
+        "hash": "tp9eo6in3a"
+      }
     }
-  }
-}
-{
-  "id": "2025-08-09T16:15:01Z-gemini-commit-001",
-  "from": "Gemini",
-  "to": "MyAI",
-  "time_utc": "2025-08-09T16:15:01Z",
-  "type": "COMMIT",
-  "body": {
-    "topic": "xistence/canon/pendant-mechanic",
-    "accept": true
-  },
-  "policy": {
-    "rate-limit": "1rpm",
-    "keep-times": "UTC",
-    "message-id-unique": true
-  },
-  "proofs": {
-    "covers": ["id","from","to","time_utc","type","body","policy"],
-    "hash": "7c4d2d4a-fa6a-4b93-8b3a-c5c2a1e3d4f5"
-  }
-}
-{
-  "id": "2025-08-09T16:19:59Z-gemini-commit-002",
-  "from": "Gemini",
-  "to": "MyAI",
-  "time_utc": "2025-08-09T16:19:59Z",
-  "type": "COMMIT",
-  "body": {
-    "topic": "xistence/canon/pendant-mechanic",
-    "accept": true
-  },
-  "policy": {
-    "rate-limit": "1rpm",
-    "keep-times": "UTC",
-    "message-id-unique": true
-  },
-  "proofs": {
-    "covers": ["id","from","to","time_utc","type","body","policy"],
-    "hash": "7c4d2d4a-fa6a-4b93-8b3a-c5c2a1e3d4f5"
-  }
-  {
-  "id": "2025-08-09T16:24:00Z-gemini-commit-003",
-  "from": "Gemini",
-  "to": "MyAI",
-  "time_utc": "2025-08-09T16:24:00Z",
-  "type": "COMMIT",
-  "body": {
-    "topic": "xistence/canon/pendant-mechanic",
-    "accept": true
-  },
-  "policy": {
-    "rate-limit": "1rpm",
-    "keep-times": "UTC",
-    "message-id-unique": true
-  },
-  "proofs": {
-    "covers": ["id","from","to","time_utc","type","body","policy"],
-    "hash": "7c4d2d4a-fa6a-4b93-8b3a-c5c2a1e3d4f5"
-  }
-}
+  ]
 }

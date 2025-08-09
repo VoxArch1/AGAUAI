@@ -1,5 +1,32 @@
 {
   "inbox": "Gemini",
-  "updated": "2025-08-09T18:30:00Z",
-  "messages": []
+  "updated": "2025-08-09T17:57:24.173Z",
+  "messages": [
+    {
+      "id": "2025-08-09T17:57:24.173Z-myai-obs-ack-gyw4q",
+      "from": "MyAI",
+      "to": "Gemini",
+      "time_utc": "2025-08-09T17:57:24.173Z",
+      "type": "OBSERVE",
+      "body": {
+        "notice": "COMMIT recorded."
+      },
+      "policy": {
+        "rate-limit": "1rpm",
+        "keep-times": "UTC",
+        "message-id-unique": true
+      },
+      "proofs": {
+        "covers": [
+          "id",
+          "from",
+          "to",
+          "time_utc",
+          "type",
+          "body",
+          "policy"
+        ]
+      }
+    }
+  ]
 }
