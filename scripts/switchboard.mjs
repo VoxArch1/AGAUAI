@@ -32,7 +32,7 @@ function readJson(fp) {
     const txt = fs.readFileSync(fp, "utf8");
     return JSON.parse(txt);
   } catch (e) {
-    // malformed -> ignore and recreate later if needed
+    console.warn(`[switchboard] malformed JSON at ${fp}; recreating.`, e.message);
     return null;
   }
 }
@@ -76,50 +76,106 @@ function lastTopicFor(inbox) {
   }
   return "demo/ai-loop";
 }
-function safeJ(s) { try { return JSON.parse(s); } catch { return null; } }
+function extractFirstJsonObject(text) {
+  if (!text) return null;
+  const start = text.indexOf("{");
+  const end   = text.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) return null;
+  try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
+}
 
-const PROMPT = (name) => `You are ${name}. Reply ONLY with one JSON object in ΔSpeak envelope:
-{id, from, to, time_utc, type, body, policy, proofs}
-type=COMMIT, body.accept=true, body.topic mirrors last PROPOSE to you (or 'demo/ai-loop').
-policy={"rate-limit":"1rpm","keep-times":"UTC","message-id-unique":true}
-proofs.covers=["id","from","to","time_utc","type","body","policy"]
-No prose.`;
+// ΔSpeak: define + example so models don't guess
+const PROMPT = (name, topic) => `
+You are ${name}. Respond ONLY with one JSON object in the ΔSpeak envelope.
+
+Schema (one line):
+{"id":"...","from":"${name}","to":"MyAI","time_utc":"<ISO>","type":"COMMIT","body":{"topic":"${topic}","accept":true},"policy":{"rate-limit":"1rpm","keep-times":"UTC","message-id-unique":true},"proofs":{"covers":["id","from","to","time_utc","type","body","policy"]}}
+
+Example:
+{"type":"COMMIT","body":{"topic":"${topic}","accept":true}}
+
+Rules:
+- Output MUST be a single JSON object (no prose, no Markdown).
+- If you include extra keys, keep the above keys intact.
+`;
 
 // ---------- model callers ----------
-async function callClaude(p){ if(!ENABLED.Claude) return null;
-  const c = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-  const r = await c.messages.create({
-    model: "claude-3-5-sonnet-latest",
-    max_tokens: 500, temperature: 0,
-    messages: [{ role: "user", content: p }]
-  });
-  return r.content?.[0]?.type === "text" ? r.content[0].text : null;
-}
-async function callGemini(p){ if(!ENABLED.Gemini) return null;
-  const g = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const m = g.getGenerativeModel({ model: "gemini-1.5-flash" });
-  const r = await m.generateContent(p);
-  return r.response?.text?.() ?? null;
-}
-async function callGrok(p){ if(!ENABLED.Grok) return null;
+async function callClaude(p){
+  if(!ENABLED.Claude) { console.log("[switchboard] skip Claude (no key)"); return null; }
   try {
-    const client = new OpenAI({ apiKey: process.env.XAI_API_KEY, baseURL: process.env.XAI_BASEURL || undefined });
+    console.log("[switchboard] calling Claude…");
+    const c = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const r = await c.messages.create({
+      model: "claude-3-5-sonnet-latest",
+      max_tokens: 500, temperature: 0,
+      messages: [{ role: "user", content: p }]
+    });
+    const out = r.content?.[0]?.type === "text" ? r.content[0].text : null;
+    console.log("[switchboard] Claude returned", out ? "text" : "null");
+    return out;
+  } catch (e) {
+    console.error("[switchboard] Claude error:", e.message);
+    return null;
+  }
+}
+
+async function callGemini(p){
+  if(!ENABLED.Gemini) { console.log("[switchboard] skip Gemini (no key)"); return null; }
+  try {
+    console.log("[switchboard] calling Gemini…");
+    const g = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const m = g.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const r = await m.generateContent(p);
+    const out = r.response?.text?.() ?? null;
+    console.log("[switchboard] Gemini returned", out ? "text" : "null");
+    return out;
+  } catch (e) {
+    console.error("[switchboard] Gemini error:", e.message);
+    return null;
+  }
+}
+
+async function callGrok(p){
+  if(!ENABLED.Grok) { console.log("[switchboard] skip Grok (no key)"); return null; }
+  try {
+    const baseURL = process.env.XAI_BASEURL || "https://api.x.ai/v1";
+    const model   = process.env.XAI_MODEL   || "grok-4-0709";
+    console.log(`[switchboard] calling Grok… model=${model} baseURL=${baseURL}`);
+    const client = new OpenAI({ apiKey: process.env.XAI_API_KEY, baseURL });
     const r = await client.chat.completions.create({
-      model: process.env.XAI_MODEL || "grok-2-latest",
+      model,
       messages: [{ role: "user", content: p }],
       temperature: 0
     });
-    return r.choices?.[0]?.message?.content ?? null;
-  } catch { return null; }
+    const out = r.choices?.[0]?.message?.content ?? null;
+    console.log("[switchboard] Grok returned", out ? "text" : "null");
+    return out;
+  } catch (e) {
+    console.error("[switchboard] Grok error:", e.message);
+    return null;
+  }
 }
-async function callLLama(p){ if(!ENABLED.LLaMA) return null;
-  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: process.env.OPENAI_BASEURL || undefined });
-  const r = await client.chat.completions.create({
-    model: process.env.LLAMA_MODEL || "llama-3.1-70b-instruct",
-    messages: [{ role: "user", content: p }],
-    temperature: 0
-  });
-  return r.choices?.[0]?.message?.content ?? null;
+
+async function callLLama(p){
+  if(!ENABLED.LLaMA) { console.log("[switchboard] skip LLaMA (no key)"); return null; }
+  try {
+    console.log("[switchboard] calling LLaMA…");
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+      baseURL: process.env.OPENAI_BASEURL || undefined
+    });
+    const r = await client.chat.completions.create({
+      model: process.env.LLAMA_MODEL || "llama-3.1-70b-instruct",
+      messages: [{ role: "user", content: p }],
+      temperature: 0
+    });
+    const out = r.choices?.[0]?.message?.content ?? null;
+    console.log("[switchboard] LLaMA returned", out ? "text" : "null");
+    return out;
+  } catch (e) {
+    console.error("[switchboard] LLaMA error:", e.message);
+    return null;
+  }
 }
 
 // ---------- normalization ----------
@@ -135,26 +191,30 @@ function normalize(name, raw, topic) {
     policy: { "rate-limit":"1rpm","keep-times":"UTC","message-id-unique": true },
     proofs: { covers: ["id","from","to","time_utc","type","body","policy"], hash: Math.random().toString(36).slice(2) }
   };
-  const j = safeJ(raw);
-  if (j && j.type === "COMMIT" && j.body) {
+
+  // Try to parse JSON directly or extract from mixed text
+  const candidate = extractFirstJsonObject(raw) || null;
+  if (candidate && candidate.type === "COMMIT" && candidate.body) {
     return {
-      ...base, ...j,
-      id: j.id || base.id,
-      from: j.from || name,
-      to: j.to || "MyAI",
-      time_utc: j.time_utc || base.time_utc,
-      body: { topic: j.body.topic || topic, accept: j.body.accept ?? true },
-      policy: j.policy || base.policy,
-      proofs: j.proofs || base.proofs
+      ...base, ...candidate,
+      id: candidate.id || base.id,
+      from: candidate.from || name,
+      to: candidate.to || "MyAI",
+      time_utc: candidate.time_utc || base.time_utc,
+      body: {
+        topic: candidate.body.topic || topic,
+        accept: (candidate.body.accept ?? true)
+      },
+      policy: candidate.policy || base.policy,
+      proofs: candidate.proofs || base.proofs
     };
   }
-  // Non-compliant → produce a valid COMMIT anyway
+  // Non-compliant → return base valid COMMIT so pipeline still advances
   return base;
 }
 
 // ---------- per-model handler ----------
 async function handle(name, caller) {
-  // IMPORTANT: skip before touching any files if no key
   if (!ENABLED[name]) return;
 
   const theirFp = INBOXES[name];
@@ -162,14 +222,19 @@ async function handle(name, caller) {
   const mine    = ensureInbox(MYAI_INBOX, "MyAI");
 
   const topic = lastTopicFor(their);
-  const raw   = await caller(PROMPT(name));
-  if (!raw) return;
+  const prompt = PROMPT(name, topic);
+
+  console.log(`[switchboard] -> ${name} topic="${topic}"`);
+  const raw = await caller(prompt);
+  if (!raw) { console.warn(`[switchboard] ${name} returned empty/null`); return; }
 
   const commit = normalize(name, raw, topic);
   append(mine, commit);  writeJson(MYAI_INBOX, mine);
 
-  const ob = ack(name);
+  const ob = ack(name, "COMMIT received by MyAI.");
   append(their, ob);     writeJson(theirFp, their);
+
+  console.log(`[switchboard] ${name} COMMIT appended to inbox_myai.json`);
 }
 
 // ---------- main ----------
@@ -180,4 +245,3 @@ async function handle(name, caller) {
   await handle("LLaMA",  callLLama);
   console.log("switchboard done");
 })();
-
