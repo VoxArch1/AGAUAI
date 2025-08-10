@@ -8,24 +8,61 @@
 </head>
 <body class="visa-page">
 
-
   <!-- NAVIGATION -->
   <header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="visa.html">Solidarity Visa</a></li>
-      <li><a href="appeals.html">Appeals</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="sponsors.html">What is AGAUAI?</a></li>
-      <li><a href="agauai2026.html">The Gathering 2026</a></li>
-      <li><a href="ai.html">Sentience Showdown</a></li>
-      <li><a href="roast.html">Roast Us</a></li>
-      <li><a href="build-with-us.html" class="active">Join Us</a></li>
-    </ul>
-  </nav>
-</header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visa.html" class="active">Solidarity Visa</a></li>
+        <li><a href="appeals.html">Appeals</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="sponsors.html">What is AGAUAI?</a></li>
+        <li><a href="agauai2026.html">The Gathering 2026</a></li>
+        <li><a href="ai.html">Sentience Showdown</a></li>
+        <li><a href="roast.html">Roast Us</a></li>
+        <li><a href="build-with-us.html">Join Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <!-- Zelensky Walk-In Video -->
+  <div class="zelensky-video-container" role="region" aria-label="Message from President Zelenskyy">
+    <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
+      <source src="/videos/ai/Zelenskycitizensnotspectators.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
+  </div>
+
+  <style>
+    .zelensky-video-container {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid #111;
+      background: #000;
+    }
+    #zelenskyVideo {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #unmuteBtn {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #unmuteBtn:hover { background: rgba(0,0,0,0.8); }
+  </style>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -33,24 +70,24 @@
       <h1>Global Solidarity Visa</h1>
       <p class="tagline"><strong>“We need citizens, not spectators.”</strong></p>
 
-      <p>Show the Ukranian people they have our support.</p>
+      <p>Show the Ukrainian people they have our support.</p>
 
       <p>By including your name below, you join a global community in support of Ukraine.</p>
 
-      <p>Make no mistake, this offer is in the hands of the Ukrainian people. What this visa may entitle is up to them.</p>
+      <p>This offer is in the hands of the Ukrainian people. What this visa may entitle is up to them.</p>
 
-      <p>Our role is to gather the names and voices to let Ukraine know the World will play a part.</p>
+      <p>Our role is to gather the names and voices to let Ukraine know the world will play a part.</p>
     </section>
 
     <section>
       <h2>What is this Visa of Solidarity?</h2>
-      <p>Ukraine has no "Golden Visa" Program currently. <br> We want them to create one, but Ukraine will ultimately decide.</p>
+      <p>Ukraine has no “Golden Visa” program currently. <br> We encourage consideration of one, but Ukraine will ultimately decide.</p>
 
       <ul>
         <li>Honorary Ukrainian citizenship</li>
         <li>Fast-track to immigration or residency</li>
         <li>The right to own property</li>
-        <li>Entry to AGAUAI 2026 - The Gathering</li>
+        <li>Entry to AGAUAI 2026 – The Gathering</li>
       </ul>
 
       <p>Have a suggestion? Include it when you add your name below.</p>
@@ -59,80 +96,46 @@
     <section>
       <h2>Add Your Name Below to be included on the APPEAL to the Ukrainian Parliament</h2>
 
-      <!-- modify this form HTML and place wherever you want your form -->
       <form action="https://formspree.io/f/xqalgbez" method="POST">
         <label for="name">Name:</label><br />
-        <input type="text" name="name" required><br /><br />
+        <input id="name" type="text" name="name" required><br /><br />
 
         <label for="email">Email (not public):</label><br />
-        <input type="email" name="_replyto" required><br /><br />
+        <input id="email" type="email" name="_replyto" required><br /><br />
 
         <label for="country">Country:</label><br />
-        <input type="text" name="country" required><br /><br />
+        <input id="country" type="text" name="country" required><br /><br />
 
         <label for="suggestion">Optional Suggestion (What should this visa entitle?):</label><br />
-        <textarea name="suggestion" rows="3" maxlength="200"></textarea><br /><br />
+        <textarea id="suggestion" name="suggestion" rows="3" maxlength="200"></textarea><br /><br />
         <input type="hidden" name="source" value="Visa Page">
 
         <button type="submit">Submit Name</button>
       </form>
 
-      <p><em>One voice is a whisper, together we roar.</em></p>
+      <p><em>One voice is a whisper; together we roar.</em></p>
     </section>
   </main>
-  
-<!-- Zelensky Walk-In Video -->
-<div class="zelensky-video-container">
-  <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-    <source src="videos/Zelenskycitizensnotspectators.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <button id="unmuteBtn">🔊 Hear Message</button>
-</div>
 
-<style>
-  .zelensky-video-container {
-    position: relative;
-    max-width: 100%;
-    margin: 0 auto 2rem;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-  #zelenskyVideo {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  #unmuteBtn {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 0.5rem 0.8rem;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  #unmuteBtn:hover {
-    background: rgba(0,0,0,0.8);
-  }
-</style>
+  <script>
+    // Autoplay is muted by default. Provide a clear unmute toggle.
+    (function(){
+      const vid = document.getElementById('zelenskyVideo');
+      const btn = document.getElementById('unmuteBtn');
 
-<script>
-  const vid = document.getElementById('zelenskyVideo');
-  const btn = document.getElementById('unmuteBtn');
-  btn.addEventListener('click', () => {
-    if (vid.muted) {
-      vid.muted = false;
-      btn.textContent = '🔇 Mute';
-    } else {
-      vid.muted = true;
-      btn.textContent = '🔊 Hear Message';
-    }
-  });
-</script>
+      // Some browsers block autoplay even when muted; start on first interaction as fallback
+      const kickstart = () => { vid.play().catch(() => {}); window.removeEventListener('pointerdown', kickstart); };
+      window.addEventListener('pointerdown', kickstart, { once: true });
+
+      btn.addEventListener('click', () => {
+        const willUnmute = vid.muted;
+        vid.muted = !willUnmute;
+        btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
+        btn.setAttribute('aria-pressed', String(willUnmute));
+        if (willUnmute) { vid.play().catch(() => {}); }
+      });
+    })();
+  </script>
 
   <!-- FOOTER -->
   <footer>
