@@ -35,3 +35,29 @@ Use the existing schema (`/ea/schemas/message.schema.json`): a message has
     "evidence": ["/ea/charter.md"]
   }
 }
+
+(Need the symbol? Copy **Δ** or use HTML `&Delta;`.)
+
+## 2) Update the schema to allow ΔSpeak fields
+- **Path:** `ea/schemas/message.schema.json`
+- Find the `"body": { ... }` block and replace it with:
+
+```json
+"body": {
+  "type": "object",
+  "properties": {
+    "verb": { "type": "string", "enum": ["propose","nominate","commit","execute","report","rollback"] },
+    "task_id": { "type": "string" },
+    "goal": { "type": "string" },
+    "approach": { "type": "string" },
+    "eta": { "type": "string" },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "scope": { "type": "string" },
+    "deadline": { "type": "string" },
+    "status": { "type": "string", "enum": ["open","running","done","blocked","rolled_back"] },
+    "reason": { "type": "string" },
+    "mitigation": { "type": "string" }
+  },
+  "additionalProperties": true
+}
