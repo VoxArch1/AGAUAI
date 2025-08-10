@@ -1,0 +1,39 @@
+{
+  "decision_id": "dec-6fcd91af-6747-43d8-9a2d-1a9befbc214a",
+  "time_utc": "2025-08-10T04:26:06.403Z",
+  "kind": "nominate",
+  "note": "Top plan nominated",
+  "payload": [
+    {
+      "id": "msg-186681f9-0a71-4fa7-90ec-2f80999c60e1",
+      "plan": {
+        "id": "msg-186681f9-0a71-4fa7-90ec-2f80999c60e1",
+        "time_utc": "2025-08-10T00:00:02Z",
+        "type": "PROPOSE",
+        "header": {
+          "agent_id": "Gemini",
+          "capsule_id": "MyAI.v1.Tribalism",
+          "persona_version": "1.0.0",
+          "domains": [
+            "specs"
+          ],
+          "auth": null
+        },
+        "body": {
+          "goal": "Add EA footer links to homepage",
+          "approach": "Also add Contribute page link",
+          "eta": "15m",
+          "risks": [
+            "scope creep"
+          ],
+          "evidence": []
+        }
+      },
+      "score": 1.2725
+    }
+  ],
+  "dissent": [],
+  "topic": "inbox-run",
+  "deadlineMinutes": 10,
+  "chair": "MyAI"
+}
