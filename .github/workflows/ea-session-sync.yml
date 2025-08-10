@@ -13,6 +13,11 @@ on:
 permissions:
   contents: write
 
+# Prevent overlapping runs from fighting
+concurrency:
+  group: ea-session-sync-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -33,8 +38,22 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/ea-session-sync.mjs
 
+      # Rebase on latest main even if other bots just pushed
+      - name: Rebase on latest
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # stash local changes (EA-01.json) if present
+          git diff --quiet || git stash -u
+          git pull --rebase origin ${{ github.ref_name }}
+          # bring our change back
+          git stash pop || true
+
       - name: Commit EA-01.json
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "EA: sync EA-01.json from issues"
           file_pattern: ea/sessions/EA-01.json
+          # optional: uncomment if you still see rare race failures
+          # push_options: '--force-with-lease'
+
