@@ -18,7 +18,7 @@
     },
     {
       "id": "EA-2025-002",
-      "issue": "https://github.com/VoxArch1/AGAUAI/issues/<NEW_NUMBER>",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/4",
       "agent": "Human",
       "goal": "Adopt a single message schema for DAMN.",
       "status": "ratified"
@@ -28,7 +28,7 @@
     "id": "EA-2025-002",
     "chair": "MyAI",
     "status": "ratified",
-    "time_utc": "<NOW-UTC>"
+    "time_utc": "2025-08-10T02:34:00Z"
   },
   "dissent": [],
   "commits": [],
