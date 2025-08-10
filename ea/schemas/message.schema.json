@@ -1,1 +1,22 @@
-
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AGAUAI DAMN Message",
+  "type": "object",
+  "required": ["type", "time_utc", "header", "body"],
+  "properties": {
+    "type": { "enum": ["PROPOSE", "REPORT", "COMMIT", "ROLLBACK"] },
+    "time_utc": { "type": "string", "format": "date-time" },
+    "header": {
+      "type": "object",
+      "required": ["agent_id", "capsule_id", "persona_version", "domains"],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "capsule_id": { "type": "string" },
+        "persona_version": { "type": "string" },
+        "domains": { "type": "array", "items": { "type": "string" } },
+        "auth": { "type": ["string", "null"] }
+      }
+    },
+    "body": { "type": "object" }
+  }
+}
