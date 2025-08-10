@@ -1,68 +1,35 @@
 name: AI Switchboard (hourly)
-
 on:
-  schedule:
-    - cron: "0 * * * *"    # hourly UTC
   workflow_dispatch:
+  push:
+    paths:
+      - 'ea/**'
+      - 'data/inbox.chatgpt.json'
+      - '.github/workflows/ai-switchboard.yml'
+  schedule:
+    - cron: '0 * * * *'  # hourly
 
-# allow this workflow to push to main
 permissions:
-  contents: write
-
-# prevent overlapping runs from pushing at the same time
-concurrency:
-  group: ai-switchboard-push
-  cancel-in-progress: false
+  contents: write  # needed only if you enable the auto-commit step below
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0              # needed for rebase/pull
-          persist-credentials: false  # you're pushing with a token URL below
-
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-
-      - name: Install deps
-        run: npm ci || npm install
-
+          node-version: '20'
       - name: Run switchboard
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          XAI_API_KEY:       ${{ secrets.XAI_API_KEY }}
-          XAI_BASEURL:       ${{ secrets.XAI_BASEURL }}
-          XAI_MODEL:         ${{ secrets.XAI_MODEL }}
-          GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_KEY:    ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASEURL:    ${{ secrets.OPENAI_BASEURL }}
-          LLAMA_MODEL:       ${{ secrets.LLAMA_MODEL }}
-        run: npm run switchboard
-
-      - name: Commit & push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add public/api/ai/*.json || true
-          if [[ -z "$(git diff --cached --name-only)" ]]; then
-            echo "No inbox changes to commit."
-            exit 0
-          fi
-
-          git commit -m "switchboard: inbox updates" || true
-
-          # make sure we're up to date before pushing (avoids '[rejected] fetch first')
-          git fetch origin main
-          git pull --rebase origin main || true
-
-          # push; if it races another run, retry once after rebasing again
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }} \
-          || (sleep 3 && git pull --rebase origin main && \
-              git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref }})
+        run: node ea/switchboard.mjs data/inbox.chatgpt.json data/nomination.json
+      - name: Upload decision artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nomination
+          path: data/nomination.json
+      # (optional) also write the decision back to the repo so your site can read /data/nomination.json
+      # - name: Commit decision to repo
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     commit_message: "EA: update nomination decision"
+      #     file_pattern: data/nomination.json
