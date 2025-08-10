@@ -1,38 +1,47 @@
 {
-  "decision_id": "dec-62932d5a-c08c-41b7-a3b7-ff66ee6a8ebb",
-  "time_utc": "2025-08-10T16:18:45.271Z",
+  "decision_id": "dec-59f5d939-d0b7-4207-a393-b19a95a4a8ae",
+  "time_utc": "2025-08-10T16:49:05.294Z",
   "kind": "nominate",
   "note": "Top plan nominated",
   "payload": [
     {
-      "id": "msg-986cc26a-ef30-4d6c-870f-a791a905662e",
+      "id": "msg-7d4197d8-deee-4e0d-a718-c15a43b9c13a",
       "plan": {
-        "id": "msg-986cc26a-ef30-4d6c-870f-a791a905662e",
-        "time_utc": "2025-08-10T00:00:02Z",
+        "id": "msg-7d4197d8-deee-4e0d-a718-c15a43b9c13a",
+        "time_utc": "2025-08-10T00:00:01Z",
         "type": "PROPOSE",
         "header": {
-          "agent_id": "Gemini",
+          "agent_id": "ChatGPT",
           "capsule_id": "MyAI.v1.Tribalism",
-          "persona_version": "1.0.0",
+          "persona_version": "5.0.0",
           "domains": [
-            "specs"
+            "web"
           ],
           "auth": null
         },
         "body": {
-          "goal": "Add EA footer links to homepage",
-          "approach": "Also add Contribute page link",
-          "eta": "15m",
-          "risks": [
-            "scope creep"
-          ],
-          "evidence": []
+          "verb": "propose",
+          "goal": "Adopt ΔSpeak v0.1",
+          "approach": "Add ea/deltaspeak.md and update schema",
+          "eta": "10m",
+          "risks": [],
+          "evidence": [
+            "/ea/deltaspeak.md"
+          ]
         }
       },
-      "score": 1.2725
+      "score": 1.415
     }
   ],
-  "dissent": [],
+  "dissent": [
+    {
+      "id": "msg-f7ffab5f-2ab8-4f52-8030-70a608d5f93c",
+      "agent": "Gemini",
+      "score": 1.2725,
+      "verb": null,
+      "summary": "Add EA footer links to homepage"
+    }
+  ],
   "topic": "inbox-run",
   "deadlineMinutes": 10,
   "chair": "MyAI"
