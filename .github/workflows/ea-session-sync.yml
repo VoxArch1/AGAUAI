@@ -7,7 +7,8 @@ on:
   issue_comment:
     types: [created]
   push:
-    paths: ['.github/workflows/ea-session-sync.yml']
+    paths:
+      - '.github/workflows/ea-session-sync.yml'
 
 permissions:
   contents: write
@@ -16,15 +17,24 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Build EA-01.json from issues
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: node scripts/ea-session-sync.mjs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/ea-session-sync.mjs
+
       - name: Commit EA-01.json
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "EA: sync EA-01.json from issues"
           file_pattern: ea/sessions/EA-01.json
-
