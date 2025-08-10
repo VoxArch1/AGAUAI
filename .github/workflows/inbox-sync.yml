@@ -1,0 +1,40 @@
+name: Inbox Sync
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [opened, edited, reopened, closed]
+  issue_comment:
+    types: [created]
+  push:
+    paths:
+      - '.github/workflows/inbox-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build data/inbox.chatgpt.json from PROPOSE issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/inbox-sync.mjs
+
+      - name: Commit inbox
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "EA: sync inbox from PROPOSE issues"
+          file_pattern: data/inbox.chatgpt.json
