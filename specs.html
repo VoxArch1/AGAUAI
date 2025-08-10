@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SPECS — Symbols Legend</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    :root { --card:#0b0b0b; --muted:#b8b8b8; }
+    body { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; }
+    header { margin-bottom: 1rem; }
+    .muted { color: var(--muted); }
+    .bar { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
+    input[type="search"]{ flex:1; min-width:260px; padding:.6rem .8rem; background:#111; border:1px solid #222; border-radius:.5rem; color:#eee; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
+    .card { background:var(--card); border:1px solid #1b1b1b; border-radius:12px; padding:14px; }
+    .sym { font-size:2.4rem; line-height:1; }
+    .name { font-size:1.05rem; font-weight:600; margin-left:.5rem }
+    .row { display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem;}
+    .range { font-size:.95rem; color:var(--muted); }
+    .desc { font-size:.95rem; margin-top:.25rem; }
+    .copy { margin-left:auto; font-size:.85rem; padding:.2rem .5rem; border:1px solid #2a2a2a; border-radius:8px; background:#121212; cursor:pointer; }
+    .copy:active { transform:scale(.98); }
+    .legend { margin:.75rem 0 1.25rem; font-size:.95rem; }
+    .footer { margin-top:2rem; font-size:.9rem; color:var(--muted); }
+    code.k { background:#111; padding:.15rem .35rem; border-radius:.25rem }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SPECS — Symbols Legend</h1>
+    <p class="legend muted">
+      A quick translation of the compact symbols used in our SPECS profiles. Edit
+      <code class="k">/data/specs.legend.json</code> to change meanings; this page auto-reads it.
+    </p>
+    <div class="bar">
+      <input id="q" type="search" placeholder="Filter by symbol, name, or text…" autocomplete="off" />
+      <button id="download" class="copy" title="Download legend JSON">Download JSON</button>
+      <a class="copy" href="/ea/deltaspeak.md">ΔSpeak Spec</a>
+    </div>
+  </header>
+
+  <section id="grid" class="grid" aria-live="polite"></section>
+
+  <p class="footer">
+    Tip: link directly to a symbol with <code class="k">/specs.html#λ</code> (or any symbol).
+  </p>
+
+<script>
+const FALLBACK = {
+  version: "0.1",
+  axes: [
+    { symbol:"λ", name:"Logic",        range:"Intuitive ⇌ Analytic",  description:"How much we favor explicit, stepwise reasoning vs intuition." },
+    { symbol:"±", name:"Risk Posture", range:"Conservative ⇌ Bold",    description:"Tolerance for uncertainty and high-variance plans." },
+    { symbol:"·", name:"Grounding",    range:"Abstract ⇌ Concrete",    description:"Theory & patterns vs hands-on detail-first execution." },
+    { symbol:"—", name:"Directness",   range:"Diplomatic ⇌ Direct",    description:"Communication tone and bluntness." },
+    { symbol:"µ", name:"Scale Bias",   range:"Micro ⇌ Macro",          description:"Detail-level focus vs systems-level." },
+    { symbol:"¬", name:"Skepticism",   range:"Trusting ⇌ Skeptical",   description:"Default stance toward claims and sources." },
+    { symbol:"ψ", name:"Empathy",      range:"Reserved ⇌ Warm",        description:"Affective mirroring and social temperature." },
+    { symbol:"×", name:"Exploration",  range:"Exploit ⇌ Explore",      description:"Stick with proven vs seek novel options." },
+    { symbol:"°", name:"Formality",    range:"Casual ⇌ Formal",        description:"Register/style of communication." },
+    { symbol:"§", name:"Rules",        range:"Flexible ⇌ Rule-bound",  description:"Adherence to process/policy vs flexibility." },
+    { symbol:"~", name:"Improv",       range:"Stable ⇌ Playful",       description:"Room for riffing and playful deviations." }
+  ]
+};
+
+async function getLegend() {
+  try {
+    const r = await fetch('/data/specs.legend.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.statusText);
+    return await r.json();
+  } catch {
+    return FALLBACK;
+  }
+}
+
+function render(axes) {
+  const q = (document.getElementById('q').value || '').toLowerCase();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  axes
+    .filter(a => [a.symbol,a.name,a.range,a.description].join(' ').toLowerCase().includes(q))
+    .forEach(a => grid.appendChild(card(a)));
+  // deep link: /specs.html#λ
+  if (location.hash) {
+    const target = document.querySelector(`[data-sym="${decodeURIComponent(location.hash.slice(1))}"]`);
+    if (target) target.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+}
+
+function card(a) {
+  const el = document.createElement('article');
+  el.className = 'card';
+  el.setAttribute('data-sym', a.symbol);
+
+  const row = document.createElement('div');
+  row.className = 'row';
+
+  const s = document.createElement('div');
+  s.className = 'sym';
+  s.textContent = a.symbol;
+
+  const name = document.createElement('div');
+  name.className = 'name';
+  name.textContent = a.name;
+
+  const copy = document.createElement('button');
+  copy.className = 'copy';
+  copy.textContent = 'Copy';
+  copy.onclick = async () => {
+    await navigator.clipboard.writeText(a.symbol);
+    copy.textContent = 'Copied!';
+    setTimeout(() => (copy.textContent = 'Copy'), 900);
+  };
+
+  row.append(s, name, copy);
+
+  const range = document.createElement('div');
+  range.className = 'range';
+  range.textContent = a.range || '';
+
+  const desc = document.createElement('div');
+  desc.className = 'desc';
+  desc.textContent = a.description || '';
+
+  el.append(row, range, desc);
+  return el;
+}
+
+(async () => {
+  const legend = await getLegend();
+  const axes = legend.axes || [];
+  render(axes);
+  document.getElementById('q').addEventListener('input', () => render(axes));
+  document.getElementById('download').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(legend, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement('a'), { href:url, download:'specs.legend.json' });
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+})();
+</script>
+</body>
+</html>
