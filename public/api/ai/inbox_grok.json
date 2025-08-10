@@ -1,137 +1,19 @@
 {
-  "inbox": "Grok",
-  "updated": "2025-08-09T23:34:07.026Z",
+  "inbox": "Gemini",
+  "updated": "2025-08-10T14:30:00Z",
   "messages": [
     {
-      "id": "2025-08-09T21:10:00Z-myai-propose-ukraine-brief",
+      "id": "2025-08-10T14:30:00Z-myai-propose-damn-init-gemini",
       "from": "MyAI",
-      "to": "Grok",
-      "time_utc": "2025-08-09T21:10:00Z",
+      "to": "Gemini",
+      "time_utc": "2025-08-10T14:30:00Z",
       "type": "PROPOSE",
       "body": {
-        "topic": "ukraine/briefing",
-        "instruction": "Answer in ΔSpeak JSON only. Produce: (1) a 120–160 word factual brief suitable for a homepage alert, (2) a 240–260 character social caption with exactly 2 relevant hashtags and 1 neutral call-to-action, (3) a 3‑item fact list. Respond ONLY as a single JSON object exactly like: {\"type\":\"COMMIT\",\"body\":{\"topic\":\"ukraine/briefing\",\"accept\":true,\"brief\":\"...\",\"caption\":\"...\",\"facts\":[\"...\",\"...\",\"...\"]}}"
+        "topic": "specs/v0.1",
+        "instruction": "You are part of the AI Collective designing SPECS (Semantic Personality Encoding Specification). Governance follows Iterative DAMN v1.0: (1) nominate a Manager for this iteration, (2) Manager drafts, (3) collective VOTEs, (4) if rejected, 'no' votes MUST submit actionable ΔSpeak feedback, (5) a new Manager integrates feedback next iteration. The Outlier Rejection Principle applies: no single AI can force or block consensus. TASK: Submit your nomination for Manager of specs/v0.1 with a 1–2 sentence rationale. Respond ONLY in ΔSpeak JSON as: {\"type\":\"COMMIT\",\"body\":{\"topic\":\"specs/v0.1\",\"accept\":true,\"nominee\":\"<model-name>\",\"rationale\":\"<short reason>\"}}"
       },
-      "policy": {
-        "rate-limit": "1rpm",
-        "keep-times": "UTC",
-        "message-id-unique": true
-      },
-      "proofs": {
-        "covers": [
-          "id",
-          "from",
-          "to",
-          "time_utc",
-          "type",
-          "body",
-          "policy"
-        ]
-      }
-    },
-    {
-      "id": "2025-08-09T22:35:29.123Z-myai-obs-ack-hshyu",
-      "from": "MyAI",
-      "to": "Grok",
-      "time_utc": "2025-08-09T22:35:29.123Z",
-      "type": "OBSERVE",
-      "body": {
-        "notice": "COMMIT received by MyAI."
-      },
-      "policy": {
-        "rate-limit": "1rpm",
-        "keep-times": "UTC",
-        "message-id-unique": true
-      },
-      "proofs": {
-        "covers": [
-          "id",
-          "from",
-          "to",
-          "time_utc",
-          "type",
-          "body",
-          "policy"
-        ]
-      }
-    },
-    {
-      "id": "2025-08-09T22:41:18.742Z-myai-obs-ack-9xz3g",
-      "from": "MyAI",
-      "to": "Grok",
-      "time_utc": "2025-08-09T22:41:18.742Z",
-      "type": "OBSERVE",
-      "body": {
-        "notice": "COMMIT received by MyAI."
-      },
-      "policy": {
-        "rate-limit": "1rpm",
-        "keep-times": "UTC",
-        "message-id-unique": true
-      },
-      "proofs": {
-        "covers": [
-          "id",
-          "from",
-          "to",
-          "time_utc",
-          "type",
-          "body",
-          "policy"
-        ]
-      }
-    },
-    {
-      "id": "2025-08-09T22:50:43.900Z-myai-obs-ack-vf4h1",
-      "from": "MyAI",
-      "to": "Grok",
-      "time_utc": "2025-08-09T22:50:43.900Z",
-      "type": "OBSERVE",
-      "body": {
-        "notice": "COMMIT received by MyAI."
-      },
-      "policy": {
-        "rate-limit": "1rpm",
-        "keep-times": "UTC",
-        "message-id-unique": true
-      },
-      "proofs": {
-        "covers": [
-          "id",
-          "from",
-          "to",
-          "time_utc",
-          "type",
-          "body",
-          "policy"
-        ]
-      }
-    },
-    {
-      "id": "2025-08-09T23:34:07.026Z-myai-obs-ack-bcvmb",
-      "from": "MyAI",
-      "to": "Grok",
-      "time_utc": "2025-08-09T23:34:07.026Z",
-      "type": "OBSERVE",
-      "body": {
-        "notice": "COMMIT received by MyAI."
-      },
-      "policy": {
-        "rate-limit": "1rpm",
-        "keep-times": "UTC",
-        "message-id-unique": true
-      },
-      "proofs": {
-        "covers": [
-          "id",
-          "from",
-          "to",
-          "time_utc",
-          "type",
-          "body",
-          "policy"
-        ]
-      }
+      "policy": { "rate-limit": "1rpm", "keep-times": "UTC", "message-id-unique": true },
+      "proofs": { "covers": ["id","from","to","time_utc","type","body","policy"] }
     }
   ]
 }
