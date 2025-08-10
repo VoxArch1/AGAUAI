@@ -1,106 +1,116 @@
-// Builds ea/sessions/EA-01.json from GitHub issues titled "PROPOSE: EA-YYYY-XXX — ..."
+// scripts/ea-session-sync.mjs — no external packages
 
 import fs from "fs";
 import path from "path";
-import { Octokit } from "octokit";
 
 const repoFull = process.env.GITHUB_REPOSITORY || "";
 const [owner, repo] = repoFull.split("/");
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const token = process.env.GITHUB_TOKEN;
 
-function extractId(title = "") {
-  const m = title.match(/EA-\d{4}-\d{3}/);
-  return m ? m[0] : null;
-}
-function extractShort(title = "") {
-  const m = title.split("—")[1] || title.split("-")[1] || "";
-  return m.trim();
-}
-function extractGoal(body = "", fallback = "") {
-  const m = body.match(/##\s*Goal\s*\n([\s\S]*?)(\n##|$)/i);
-  return (m ? m[1] : fallback).trim();
-}
-function extractAgent(body = "") {
-  const m = body.match(/agent_id:\s*([^\n]+)/i);
-  return (m ? m[1] : "Human").trim();
-}
+if (!owner || !repo) { console.error("Missing GITHUB_REPOSITORY"); process.exit(1); }
+if (!token) { console.error("Missing GITHUB_TOKEN"); process.exit(1); }
 
-async function main() {
-  // list issues (not PRs)
-  const issues = await octokit.paginate(octokit.rest.issues.listForRepo, {
-    owner, repo, state: "all", per_page: 100
+async function gh(pathUrl, params = {}) {
+  const url = new URL(`https://api.github.com${pathUrl}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "User-Agent": "ea-session-sync",
+      Accept: "application/vnd.github+json"
+    }
   });
+  if (!res.ok) throw new Error(`GitHub API ${res.status} ${res.statusText}: ${await res.text()}`);
+  return res;
+}
+
+async function listAllIssues() {
+  const per_page = 100;
+  let page = 1, out = [];
+  while (true) {
+    const res = await gh(`/repos/${owner}/${repo}/issues`, { state: "all", per_page, page });
+    const items = await res.json();
+    out = out.concat(items);
+    if (items.length < per_page) break;
+    page++;
+  }
+  return out;
+}
+
+// helpers
+const extractId    = (t = "") => (t.match(/EA-\d{4}-\d{3}/) || [null])[0];
+const extractShort = (t = "") => {
+  if (t.includes("—")) return t.split("—")[1].trim();
+  if (t.includes("-")) return t.split("-").slice(1).join("-").trim();
+  if (t.includes(":")) return t.split(":").slice(1).join(":").trim();
+  return t.trim();
+};
+function extractSection(body = "", heading = "Goal") {
+  const m = body.match(new RegExp(`##\\s*${heading}\\s*\\n([\\s\\S]*?)(\\n##|$)`, "i"));
+  return (m ? m[1] : "").trim();
+}
+const extractAgent = (b = "") => (b.match(/agent_id:\s*([^\n]+)/i)?.[1] || "Human").trim();
+
+const sessionPath = path.join("ea", "sessions", "EA-01.json");
+
+(async () => {
+  const issues = await listAllIssues();
   const proposals = [];
   const docket = [];
-  const closedCandidates = [];
+  const ratified = [];
 
   for (const it of issues) {
     if (it.pull_request) continue;
     if (!/^PROPOSE:/i.test(it.title)) continue;
+
     const id = extractId(it.title);
     if (!id) continue;
 
-    const goal = extractGoal(it.body || "", extractShort(it.title));
-    const agent = extractAgent(it.body || "");
+    const goal = extractSection(it.body, "Goal") || extractShort(it.title);
+    const agent = extractAgent(it.body);
     const status = it.state === "closed" ? "ratified" : "open";
 
-    proposals.push({
-      id,
-      issue: it.html_url,
-      agent,
-      goal,
-      status
-    });
-
+    proposals.push({ id, issue: it.html_url, agent, goal, status });
     docket.push(`${id} ${extractShort(it.title)}`);
-
-    if (status === "ratified" && it.closed_at) {
-      closedCandidates.push({ id, closed_at: it.closed_at });
-    }
+    if (status === "ratified") ratified.push({ id, closed_at: it.closed_at });
   }
 
-  // choose nomination = latest ratified proposal (simple, deterministic)
   let nomination = null;
-  if (closedCandidates.length) {
-    closedCandidates.sort((a, b) => new Date(b.closed_at) - new Date(a.closed_at));
+  if (ratified.length) {
+    ratified.sort((a, b) => new Date(b.closed_at) - new Date(a.closed_at));
     nomination = {
-      id: closedCandidates[0].id,
+      id: ratified[0].id,
       chair: "MyAI",
       status: "ratified",
-      time_utc: new Date(closedCandidates[0].closed_at).toISOString()
+      time_utc: new Date(ratified[0].closed_at).toISOString()
     };
   }
 
-  // base session (preserve existing metadata if present)
-  const sessionPath = path.join("ea", "sessions", "EA-01.json");
   let session = {
     assembly: "Electrum Assembly",
     session: "EA/01",
     opened_utc: "2025-08-09T22:10:00Z",
     chair: "MyAI",
     protocol: "DAMN",
-    docket: [],
-    proposals: [],
-    nomination: null,
+    docket,
+    proposals,
+    nomination,
     dissent: [],
     commits: [],
     reports: []
   };
-  if (fs.existsSync(sessionPath)) {
-    try { session = JSON.parse(fs.readFileSync(sessionPath, "utf-8")); }
-    catch { /* keep default if parse fails */ }
-  }
 
-  session.docket = docket;
-  session.proposals = proposals;
-  session.nomination = nomination;
+  // preserve static fields if file exists
+  if (fs.existsSync(sessionPath)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(sessionPath, "utf-8"));
+      session.opened_utc = prev.opened_utc || session.opened_utc;
+      session.chair = prev.chair || session.chair;
+      session.protocol = prev.protocol || session.protocol;
+    } catch {}
+  }
 
   fs.mkdirSync(path.dirname(sessionPath), { recursive: true });
   fs.writeFileSync(sessionPath, JSON.stringify(session, null, 2));
   console.log("[EA] EA-01.json updated:", { proposals: proposals.length, nomination: nomination?.id || null });
-}
-
-main().catch(err => {
-  console.error("EA sync error:", err);
-  process.exit(1);
-});
+})().catch(err => { console.error("EA sync error:", err); process.exit(1); });
