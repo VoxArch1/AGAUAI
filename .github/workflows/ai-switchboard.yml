@@ -11,7 +11,8 @@ on:
     - cron: '0 * * * *'  # hourly, UTC
 
 permissions:
-  contents: write   # allow committing back to the repo
+  contents: write   # needed to commit data/nomination.json
+  actions: read
 
 concurrency:
   group: ai-switchboard-${{ github.ref }}
@@ -31,14 +32,13 @@ jobs:
       - name: Run switchboard
         run: node ea/switchboard.mjs data/inbox.chatgpt.json data/nomination.json
 
-      # Keep artifact for debugging/inspection
-      - name: Upload decision artifact
+      - name: Upload decision artifact (debug/record)
         uses: actions/upload-artifact@v4
         with:
           name: nomination
           path: data/nomination.json
 
-      # ✅ Auto-commit the decision file if it changed
+      # ✅ Auto-commit the decision so the site can read /data/nomination.json
       - name: Commit decision to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
