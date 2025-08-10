@@ -5,11 +5,19 @@
   "chair": "MyAI",
   "protocol": "DAMN",
   "docket": [
+    "EA-2025-004 ΔSpeak v0.1 (Action Verbs)",
     "EA-2025-003 2025-003 - Switchboard Adoption",
     "EA-2025-002 2025-002 - Schema Admoption",
     "EA-2025-001 Establishment & Authority: <short goal>"
   ],
   "proposals": [
+    {
+      "id": "EA-2025-004",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/6",
+      "agent": "Human",
+      "goal": "Adopt a minimal action language (ΔSpeak) so all agents use the same verbs.",
+      "status": "open"
+    },
     {
       "id": "EA-2025-003",
       "issue": "https://github.com/VoxArch1/AGAUAI/issues/5",
