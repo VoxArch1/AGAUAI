@@ -1,6 +1,6 @@
 {
   "inbox": "AGAUAI",
-  "updated": "2025-08-10T17:05:42.421Z",
+  "updated": "2025-08-10T17:10:41.817Z",
   "messages": [
     {
       "id": "msg-issue-7",
@@ -11,7 +11,8 @@
         "capsule_id": "MyAI.v1.Tribalism",
         "persona_version": "1.0.0",
         "domains": [
-          "governance"
+          "web",
+          "docs"
         ],
         "auth": null
       },
@@ -20,8 +21,12 @@
         "goal": "Add a Translation Page to the AGAUAI.com website so humans can understand what the symbols mean",
         "approach": "I will ask an ai to assist in the process.",
         "eta": "10min",
-        "risks": [],
-        "evidence": []
+        "risks": [
+          "navigation creep"
+        ],
+        "evidence": [
+          "/ea/deltaspeak.md"
+        ]
       }
     }
   ]
