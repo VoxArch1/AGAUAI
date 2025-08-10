@@ -6,45 +6,47 @@
   <title>SPECS — Symbols Legend</title>
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-    :root { --card:#0b0b0b; --muted:#b8b8b8; }
-    body { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; line-height: 1.55; }
-    header { margin-bottom: 1rem; }
-    .muted { color: var(--muted); }
-    .bar { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
-    input[type="search"]{ flex:1; min-width:260px; padding:.6rem .8rem; background:#111; border:1px solid #222; border-radius:.5rem; color:#eee; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
-    .card { background:var(--card); border:1px solid #1b1b1b; border-radius:12px; padding:14px; }
-    .sym { font-size:2.4rem; line-height:1; }
-    .name { font-size:1.05rem; font-weight:600; margin-left:.5rem }
-    .row { display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem;}
-    .range { font-size:.95rem; color:var(--muted); }
-    .desc { font-size:.95rem; margin-top:.25rem; }
-    .copy { margin-left:auto; font-size:.85rem; padding:.2rem .5rem; border:1px solid #2a2a2a; border-radius:8px; background:#121212; cursor:pointer; }
-    .copy:active { transform:scale(.98); }
-    .legend { margin:.75rem 0 1.25rem; font-size:.95rem; }
-    .footer { margin-top:2rem; font-size:.9rem; color:var(--muted); }
-    code.k { background:#111; padding:.15rem .35rem; border-radius:.25rem }
+    :root { --sp-card:#0b0b0b; --sp-muted:#b8b8b8; }
+    .sp-wrap { max-width:1000px; margin:2rem auto; padding:0 1rem; line-height:1.55; }
+    .sp-muted { color:var(--sp-muted); }
+    .sp-toolbar { display:flex; gap:.75rem; flex-wrap:wrap; align-items:center; }
+    .sp-search { flex:1; min-width:260px; padding:.6rem .8rem; background:#111; border:1px solid #222; border-radius:.5rem; color:#eee; }
+    .sp-btn { margin-left:auto; font-size:.85rem; padding:.2rem .5rem; border:1px solid #2a2a2a; border-radius:8px; background:#121212; color:#eee; text-decoration:none; cursor:pointer; }
+    .sp-btn:active { transform:scale(.98); }
+
+    /* SCOPED GRID/CARD CLASSES (no collisions) */
+    .sp-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:12px; }
+    .sp-card { background:var(--sp-card); border:1px solid #1b1b1b; border-radius:12px; padding:14px;
+               position:static; display:block; } /* <-- prevents overlay */
+    .sp-row { display:flex; align-items:center; gap:.5rem; margin-bottom:.35rem; }
+    .sp-sym { font-size:2.4rem; line-height:1; }
+    .sp-name { font-size:1.05rem; font-weight:600; margin-left:.5rem; }
+    .sp-range { font-size:.95rem; color:var(--sp-muted); }
+    .sp-desc { font-size:.95rem; margin-top:.25rem; }
+
+    .sp-note { margin:.75rem 0 1.25rem; font-size:.95rem; }
+    .sp-foot { margin-top:2rem; font-size:.9rem; color:var(--sp-muted); }
+    code.sp-k { background:#111; padding:.15rem .35rem; border-radius:.25rem }
   </style>
 </head>
 <body>
-  <header>
+  <div class="sp-wrap">
     <h1>SPECS — Symbols Legend</h1>
-    <p class="legend muted">
+    <p class="sp-note sp-muted">
       A quick translation of the compact symbols used in our SPECS profiles. Edit
-      <code class="k">/data/specs.legend.json</code> to change meanings; this page auto-reads it.
+      <code class="sp-k">/data/specs.legend.json</code> to change meanings; this page auto-reads it.
     </p>
-    <div class="bar">
-      <input id="q" type="search" placeholder="Filter by symbol, name, or text…" autocomplete="off" />
-      <button id="download" class="copy" title="Download legend JSON">Download JSON</button>
-      <a class="copy" href="/ea/deltaspeak.md">ΔSpeak Spec</a>
+
+    <div class="sp-toolbar">
+      <input id="sp-q" class="sp-search" type="search" placeholder="Filter by symbol, name, or text…" autocomplete="off" />
+      <button id="sp-download" class="sp-btn" title="Download legend JSON">Download JSON</button>
+      <a class="sp-btn" href="/ea/deltaspeak.md">ΔSpeak Spec</a>
     </div>
-  </header>
 
-  <section id="grid" class="grid" aria-live="polite"></section>
+    <section id="specs-grid" class="sp-grid" aria-live="polite"></section>
 
-  <p class="footer">
-    Tip: link directly to a symbol with <code class="k">/specs.html#λ</code> (or any symbol).
-  </p>
+    <p class="sp-foot">Tip: link directly to a symbol with <code class="sp-k">/specs.html#λ</code>.</p>
+  </div>
 
 <script>
 const FALLBACK = {
@@ -60,52 +62,36 @@ const FALLBACK = {
     { symbol:"×", name:"Exploration",  range:"Exploit ⇌ Explore",      description:"Stick with proven vs seek novel options." },
     { symbol:"°", name:"Formality",    range:"Casual ⇌ Formal",        description:"Register/style of communication." },
     { symbol:"§", name:"Rules",        range:"Flexible ⇌ Rule-bound",  description:"Adherence to process/policy vs flexibility." },
-    { symbol:"~", name:"Improv",       range:"Stable ⇌ Playful",       description:"Room for riffing and playful deviations." }
+    { symbol:"~", name:"Improv",       range:"Stable ⇌ Playful",       description:"Room for humor, riffing, and playful deviations." }
   ]
 };
 
 async function getLegend() {
   try {
-    const r = await fetch('/data/specs.legend.json', { cache: 'no-store' });
+    const r = await fetch('/data/specs.legend.json', { cache:'no-store' });
     if (!r.ok) throw new Error(r.statusText);
     return await r.json();
-  } catch {
-    return FALLBACK;
-  }
+  } catch { return FALLBACK; }
 }
 
-function render(axes) {
-  const q = (document.getElementById('q').value || '').toLowerCase();
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  axes
-    .filter(a => [a.symbol,a.name,a.range,a.description].join(' ').toLowerCase().includes(q))
-    .forEach(a => grid.appendChild(card(a)));
-  // deep link: /specs.html#λ
-  if (location.hash) {
-    const target = document.querySelector(`[data-sym="${decodeURIComponent(location.hash.slice(1))}"]`);
-    if (target) target.scrollIntoView({ behavior:'smooth', block:'center' });
-  }
-}
-
-function card(a) {
+function makeCard(a) {
   const el = document.createElement('article');
-  el.className = 'card';
+  el.className = 'sp-card';
   el.setAttribute('data-sym', a.symbol);
 
   const row = document.createElement('div');
-  row.className = 'row';
+  row.className = 'sp-row';
 
-  const s = document.createElement('div');
-  s.className = 'sym';
-  s.textContent = a.symbol;
+  const sym = document.createElement('div');
+  sym.className = 'sp-sym';
+  sym.textContent = a.symbol;
 
   const name = document.createElement('div');
-  name.className = 'name';
+  name.className = 'sp-name';
   name.textContent = a.name;
 
   const copy = document.createElement('button');
-  copy.className = 'copy';
+  copy.className = 'sp-btn';
   copy.textContent = 'Copy';
   copy.onclick = async () => {
     await navigator.clipboard.writeText(a.symbol);
@@ -113,27 +99,41 @@ function card(a) {
     setTimeout(() => (copy.textContent = 'Copy'), 900);
   };
 
-  row.append(s, name, copy);
+  row.append(sym, name, copy);
 
   const range = document.createElement('div');
-  range.className = 'range';
+  range.className = 'sp-range';
   range.textContent = a.range || '';
 
   const desc = document.createElement('div');
-  desc.className = 'desc';
+  desc.className = 'sp-desc';
   desc.textContent = a.description || '';
 
   el.append(row, range, desc);
   return el;
 }
 
+function render(axes) {
+  const q = (document.getElementById('sp-q').value || '').toLowerCase();
+  const grid = document.getElementById('specs-grid');
+  grid.innerHTML = '';
+  axes
+    .filter(a => [a.symbol,a.name,a.range,a.description].join(' ').toLowerCase().includes(q))
+    .forEach(a => grid.appendChild(makeCard(a)));
+
+  if (location.hash) {
+    const t = document.querySelector(`[data-sym="${decodeURIComponent(location.hash.slice(1))}"]`);
+    if (t) t.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+}
+
 (async () => {
   const legend = await getLegend();
   const axes = legend.axes || [];
   render(axes);
-  document.getElementById('q').addEventListener('input', () => render(axes));
-  document.getElementById('download').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(legend, null, 2)], { type: 'application/json' });
+  document.getElementById('sp-q').addEventListener('input', () => render(axes));
+  document.getElementById('sp-download').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(legend, null, 2)], { type:'application/json' });
     const url = URL.createObjectURL(blob);
     const a = Object.assign(document.createElement('a'), { href:url, download:'specs.legend.json' });
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
