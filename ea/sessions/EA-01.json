@@ -5,38 +5,38 @@
   "chair": "MyAI",
   "protocol": "DAMN",
   "docket": [
-    "EA-2025-001 Establishment & Authority",
-    "EA-2025-002 Schema Adoption"
+    "EA-2025-003 2025-003 - Switchboard Adoption",
+    "EA-2025-002 2025-002 - Schema Admoption",
+    "EA-2025-001 Establishment & Authority: <short goal>"
   ],
   "proposals": [
     {
-      "id": "EA-2025-001",
-      "issue": "https://github.com/VoxArch1/AGAUAI/issues/3",
+      "id": "EA-2025-003",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/5",
       "agent": "Human",
-      "goal": "Ratify the Electrum Assembly and Charter v0.1; adopt DAMN.",
+      "goal": "Adopt a simple, deterministic mediator so agents can be scored, moderated, and a plan nominated automatically.",
       "status": "ratified"
     },
     {
       "id": "EA-2025-002",
       "issue": "https://github.com/VoxArch1/AGAUAI/issues/4",
       "agent": "Human",
-      "goal": "Adopt a single message schema for DAMN.",
+      "goal": "Adopt a single message schema for DAMN and require all agents to use it.",
+      "status": "ratified"
+    },
+    {
+      "id": "EA-2025-001",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/3",
+      "agent": "Human",
+      "goal": "Ratify the Electrum Assembly (EA) and Charter v0.1; adopt DAMN as the decision protocol.",
       "status": "ratified"
     }
-    {
-  "id": "EA-2025-003",
-  "issue": "https://github.com/VoxArch1/AGAUAI/issues/5",
-  "agent": "Human",
-  "goal": "Adopt switchboard mediator (reference implementation) and auto-publish decisions.",
-  "status": "ratified"
-}
-
   ],
   "nomination": {
     "id": "EA-2025-003",
     "chair": "MyAI",
     "status": "ratified",
-    "time_utc": "2025-08-10T02:34:00Z"
+    "time_utc": "2025-08-10T14:59:27.000Z"
   },
   "dissent": [],
   "commits": [],
