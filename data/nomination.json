@@ -1,13 +1,13 @@
 {
-  "decision_id": "dec-59f5d939-d0b7-4207-a393-b19a95a4a8ae",
-  "time_utc": "2025-08-10T16:49:05.294Z",
+  "decision_id": "dec-91548f17-6b5b-4dd1-a53e-b1d535cc6cd1",
+  "time_utc": "2025-08-10T16:49:16.992Z",
   "kind": "nominate",
   "note": "Top plan nominated",
   "payload": [
     {
-      "id": "msg-7d4197d8-deee-4e0d-a718-c15a43b9c13a",
+      "id": "msg-6d06ab54-eb8f-48a5-be99-3d3e0c8f0d9c",
       "plan": {
-        "id": "msg-7d4197d8-deee-4e0d-a718-c15a43b9c13a",
+        "id": "msg-6d06ab54-eb8f-48a5-be99-3d3e0c8f0d9c",
         "time_utc": "2025-08-10T00:00:01Z",
         "type": "PROPOSE",
         "header": {
@@ -35,7 +35,7 @@
   ],
   "dissent": [
     {
-      "id": "msg-f7ffab5f-2ab8-4f52-8030-70a608d5f93c",
+      "id": "msg-25e160d8-7e1a-4ebe-90c5-c2f8585b1955",
       "agent": "Gemini",
       "score": 1.2725,
       "verb": null,
