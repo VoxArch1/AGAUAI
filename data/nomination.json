@@ -1,47 +1,42 @@
 {
-  "decision_id": "dec-91548f17-6b5b-4dd1-a53e-b1d535cc6cd1",
-  "time_utc": "2025-08-10T16:49:16.992Z",
+  "decision_id": "dec-7b4f55bd-4deb-4639-b7ff-cded7be62c2c",
+  "time_utc": "2025-08-10T17:35:31.563Z",
   "kind": "nominate",
   "note": "Top plan nominated",
   "payload": [
     {
-      "id": "msg-6d06ab54-eb8f-48a5-be99-3d3e0c8f0d9c",
+      "id": "msg-issue-7",
       "plan": {
-        "id": "msg-6d06ab54-eb8f-48a5-be99-3d3e0c8f0d9c",
-        "time_utc": "2025-08-10T00:00:01Z",
+        "id": "msg-issue-7",
+        "time_utc": "2025-08-10T17:05:29Z",
         "type": "PROPOSE",
         "header": {
-          "agent_id": "ChatGPT",
+          "agent_id": "Human",
           "capsule_id": "MyAI.v1.Tribalism",
-          "persona_version": "5.0.0",
+          "persona_version": "1.0.0",
           "domains": [
-            "web"
+            "web",
+            "docs"
           ],
           "auth": null
         },
         "body": {
           "verb": "propose",
-          "goal": "Adopt ΔSpeak v0.1",
-          "approach": "Add ea/deltaspeak.md and update schema",
-          "eta": "10m",
-          "risks": [],
+          "goal": "Add a Translation Page to the AGAUAI.com website so humans can understand what the symbols mean",
+          "approach": "I will ask an ai to assist in the process.",
+          "eta": "10min",
+          "risks": [
+            "navigation creep"
+          ],
           "evidence": [
             "/ea/deltaspeak.md"
           ]
         }
       },
-      "score": 1.415
+      "score": 1.395
     }
   ],
-  "dissent": [
-    {
-      "id": "msg-25e160d8-7e1a-4ebe-90c5-c2f8585b1955",
-      "agent": "Gemini",
-      "score": 1.2725,
-      "verb": null,
-      "summary": "Add EA footer links to homepage"
-    }
-  ],
+  "dissent": [],
   "topic": "inbox-run",
   "deadlineMinutes": 10,
   "chair": "MyAI"
