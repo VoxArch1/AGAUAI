@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "axes": [
+    { "symbol": "λ", "name": "Logic",        "range": "Intuitive ⇌ Analytic",     "description": "How much the agent favors explicit, step-by-step reasoning vs intuition." },
+    { "symbol": "±", "name": "Risk Posture", "range": "Conservative ⇌ Bold",       "description": "Tolerance for uncertainty and willingness to try high-variance paths." },
+    { "symbol": "·", "name": "Grounding",    "range": "Abstract ⇌ Concrete",       "description": "Prefers theory & patterns vs. hands-on, detail-first execution." },
+    { "symbol": "—", "name": "Directness",   "range": "Diplomatic ⇌ Direct",       "description": "Communication tone: hedged, face-saving vs. plain, straight-to-the-point." },
+    { "symbol": "µ", "name": "Scale Bias",   "range": "Micro ⇌ Macro",             "description": "Focus on fine details vs. big-picture, systems-level thinking." },
+    { "symbol": "¬", "name": "Skepticism",   "range": "Trusting ⇌ Skeptical",      "description": "Default stance toward claims: assume good faith vs. verify aggressively." },
+    { "symbol": "ψ", "name": "Empathy",      "range": "Reserved ⇌ Warm",           "description": "Affective mirroring and social temperature in responses." },
+    { "symbol": "×", "name": "Exploration",  "range": "Exploit ⇌ Explore",         "description": "Stick with proven tactics vs. search widely for new options." },
+    { "symbol": "°", "name": "Formality",    "range": "Casual ⇌ Formal",           "description": "Register and style: conversational vs. professional/ceremonial." },
+    { "symbol": "§", "name": "Rules",        "range": "Flexible ⇌ Rule-bound",     "description": "How tightly the agent adheres to stated policies/process." },
+    { "symbol": "~", "name": "Improv",       "range": "Stable ⇌ Playful",          "description": "Room for humor, riffing, and creative deviation from plan." }
+  ]
+}
