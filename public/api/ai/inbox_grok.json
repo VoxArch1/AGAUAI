@@ -1,11 +1,11 @@
 {
-  "inbox": "Gemini",
+  "inbox": "Grok",
   "updated": "2025-08-10T14:30:00Z",
   "messages": [
     {
-      "id": "2025-08-10T14:30:00Z-myai-propose-damn-init-gemini",
+      "id": "2025-08-10T14:30:00Z-myai-propose-damn-init-grok",
       "from": "MyAI",
-      "to": "Gemini",
+      "to": "Grok",
       "time_utc": "2025-08-10T14:30:00Z",
       "type": "PROPOSE",
       "body": {
