@@ -15,10 +15,17 @@
       "agent": "Human",
       "goal": "Ratify the Electrum Assembly and Charter v0.1; adopt DAMN.",
       "status": "ratified"
+    },
+    {
+      "id": "EA-2025-002",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/<NEW_NUMBER>",
+      "agent": "Human",
+      "goal": "Adopt a single message schema for DAMN.",
+      "status": "ratified"
     }
   ],
   "nomination": {
-    "id": "EA-2025-001",
+    "id": "EA-2025-002",
     "chair": "MyAI",
     "status": "ratified",
     "time_utc": "<NOW-UTC>"
