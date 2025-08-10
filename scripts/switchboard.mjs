@@ -12,17 +12,19 @@ const PUB  = path.join(ROOT, "public", "api", "ai");
 
 const MYAI_INBOX = path.join(PUB, "inbox_myai.json");
 const INBOXES = {
-  Claude: path.join(PUB, "inbox_claude.json"),
-  Grok:   path.join(PUB, "inbox_grok.json"),
-  Gemini: path.join(PUB, "inbox_gemini.json"),
-  LLaMA:  path.join(PUB, "inbox_llama.json"),
+  Claude:  path.join(PUB, "inbox_claude.json"),
+  Grok:    path.join(PUB, "inbox_grok.json"),
+  Gemini:  path.join(PUB, "inbox_gemini.json"),
+  LLaMA:   path.join(PUB, "inbox_llama.json"),
+  ChatGPT: path.join(PUB, "inbox_chatgpt.json")   // NEW
 };
 
 const ENABLED = {
-  Claude: !!process.env.ANTHROPIC_API_KEY,
-  Grok:   !!process.env.XAI_API_KEY,
-  Gemini: !!process.env.GEMINI_API_KEY,
-  LLaMA:  !!process.env.OPENAI_API_KEY
+  Claude:  !!process.env.ANTHROPIC_API_KEY,
+  Grok:    !!process.env.XAI_API_KEY,
+  Gemini:  !!process.env.GEMINI_API_KEY,
+  LLaMA:   !!process.env.OPENAI_API_KEY,                        // using OpenAI-compatible endpoint for LLaMA
+  ChatGPT: !!(process.env.CHATGPT_API_KEY || process.env.OPENAI_API_KEY) // NEW
 };
 
 // ---------- safe IO ----------
@@ -69,21 +71,6 @@ function ack(to, notice = "COMMIT recorded.") {
     proofs: { covers: ["id","from","to","time_utc","type","body","policy"] }
   };
 }
-function lastTopicFor(inbox) {
-  const msgs = [...(inbox.messages || [])].reverse();
-  for (const m of msgs) {
-    if (m.to === inbox.inbox && m.type === "PROPOSE" && m.body?.topic) return m.body.topic;
-  }
-  return "demo/ai-loop";
-}
-function extractFirstJsonObject(text) {
-  if (!text) return null;
-  const start = text.indexOf("{");
-  const end   = text.lastIndexOf("}");
-  if (start === -1 || end === -1 || end <= start) return null;
-  try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
-}
-
 function lastPropose(inbox) {
   const msgs = [...(inbox.messages || [])].reverse();
   for (const m of msgs) {
@@ -95,8 +82,15 @@ function lastPropose(inbox) {
   }
   return { topic: "demo/ai-loop", instruction: "", id: null };
 }
+function extractFirstJsonObject(text) {
+  if (!text) return null;
+  const start = text.indexOf("{");
+  const end   = text.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) return null;
+  try { return JSON.parse(text.slice(start, end + 1)); } catch { return null; }
+}
 
-// ΔSpeak: define + example so models don't guess
+// ΔSpeak: define + example and tell model to place TASK results under body
 const PROMPT = (name, topic) => `
 You are ${name}. Respond ONLY with one JSON object in the ΔSpeak envelope.
 
@@ -108,7 +102,7 @@ Example:
 
 Rules:
 - Output MUST be a single JSON object (no prose, no Markdown).
-- Perform the TASK below and place all results under 'body' (you may add fields like brief, caption, facts).
+- Perform the TASK below and place all results under 'body' (you may add fields like brief, caption, facts, ballot, etc.).
 `;
 
 // ---------- model callers ----------
@@ -190,6 +184,29 @@ async function callLLama(p){
   }
 }
 
+// NEW: vanilla ChatGPT (OpenAI)
+async function callChatGPT(p){
+  if(!ENABLED.ChatGPT) { console.log("[switchboard] skip ChatGPT (no key)"); return null; }
+  try {
+    const apiKey  = process.env.CHATGPT_API_KEY || process.env.OPENAI_API_KEY;
+    const baseURL = process.env.CHATGPT_BASEURL || undefined; // default = official OpenAI
+    const model   = process.env.CHATGPT_MODEL   || "gpt-4o-mini";
+    console.log(`[switchboard] calling ChatGPT… model=${model} baseURL=${baseURL || "openai-default"}`);
+    const client = new OpenAI({ apiKey, baseURL });
+    const r = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content: p }],
+      temperature: 0
+    });
+    const out = r.choices?.[0]?.message?.content ?? null;
+    console.log("[switchboard] ChatGPT returned", out ? "text" : "null");
+    return out;
+  } catch (e) {
+    console.error("[switchboard] ChatGPT error:", e.message);
+    return null;
+  }
+}
+
 // ---------- normalization ----------
 function normalize(name, raw, topic) {
   const now = new Date().toISOString();
@@ -204,7 +221,6 @@ function normalize(name, raw, topic) {
     proofs: { covers: ["id","from","to","time_utc","type","body","policy"], hash: Math.random().toString(36).slice(2) }
   };
 
-  // Try JSON (or extract from mixed text)
   const candidate = extractFirstJsonObject(raw) || null;
 
   if (candidate && candidate.type === "COMMIT" && candidate.body) {
@@ -215,9 +231,8 @@ function normalize(name, raw, topic) {
       from: candidate.from || name,
       to: candidate.to || "MyAI",
       time_utc: candidate.time_utc || base.time_utc,
-      // 👇 PRESERVE all fields Grok returned, but guarantee topic/accept
       body: {
-        ...candidate.body,
+        ...candidate.body,                  // preserve payload fields
         topic: candidate.body.topic || topic,
         accept: candidate.body.accept ?? true
       },
@@ -226,10 +241,8 @@ function normalize(name, raw, topic) {
     };
   }
 
-  // Non-compliant → still advance the loop
-  return base;
+  return base; // non-compliant → still advance loop
 }
-
 
 // ---------- per-model handler ----------
 async function handle(name, caller) {
@@ -257,9 +270,10 @@ async function handle(name, caller) {
 
 // ---------- main ----------
 (async () => {
-  await handle("Claude", callClaude);
-  await handle("Grok",   callGrok);
-  await handle("Gemini", callGemini);
-  await handle("LLaMA",  callLLama);
+  await handle("Claude",  callClaude);
+  await handle("Grok",    callGrok);
+  await handle("Gemini",  callGemini);
+  await handle("LLaMA",   callLLama);
+  await handle("ChatGPT", callChatGPT); // NEW
   console.log("switchboard done");
 })();
