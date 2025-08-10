@@ -5,12 +5,20 @@
   "chair": "MyAI",
   "protocol": "DAMN",
   "docket": [
+    "EA-2025-005 ΔSpeak translation page on site",
     "EA-2025-004 ΔSpeak v0.1 (Action Verbs)",
     "EA-2025-003 2025-003 - Switchboard Adoption",
     "EA-2025-002 2025-002 - Schema Admoption",
     "EA-2025-001 Establishment & Authority: <short goal>"
   ],
   "proposals": [
+    {
+      "id": "EA-2025-005",
+      "issue": "https://github.com/VoxArch1/AGAUAI/issues/7",
+      "agent": "Human",
+      "goal": "Add a Translation Page to the AGAUAI.com website so humans can understand what the symbols mean",
+      "status": "open"
+    },
     {
       "id": "EA-2025-004",
       "issue": "https://github.com/VoxArch1/AGAUAI/issues/6",
