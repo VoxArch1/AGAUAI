@@ -1,4 +1,5 @@
 name: AI Switchboard (hourly)
+
 on:
   workflow_dispatch:
   push:
@@ -7,29 +8,39 @@ on:
       - 'data/inbox.chatgpt.json'
       - '.github/workflows/ai-switchboard.yml'
   schedule:
-    - cron: '0 * * * *'  # hourly
+    - cron: '0 * * * *'  # hourly, UTC
 
 permissions:
-  contents: write  # needed only if you enable the auto-commit step below
+  contents: write   # allow committing back to the repo
+
+concurrency:
+  group: ai-switchboard-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Run switchboard
         run: node ea/switchboard.mjs data/inbox.chatgpt.json data/nomination.json
+
+      # Keep artifact for debugging/inspection
       - name: Upload decision artifact
         uses: actions/upload-artifact@v4
         with:
           name: nomination
           path: data/nomination.json
-      # (optional) also write the decision back to the repo so your site can read /data/nomination.json
-      # - name: Commit decision to repo
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     commit_message: "EA: update nomination decision"
-      #     file_pattern: data/nomination.json
+
+      # ✅ Auto-commit the decision file if it changed
+      - name: Commit decision to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "EA: update nomination decision"
+          file_pattern: data/nomination.json
