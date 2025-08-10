@@ -1,13 +1,13 @@
 {
-  "decision_id": "dec-65dd58bc-6aee-4d3b-8049-e4bcf9f7165b",
-  "time_utc": "2025-08-10T05:01:49.309Z",
+  "decision_id": "dec-c5ed5581-ede3-48bc-a9c4-999af03b0107",
+  "time_utc": "2025-08-10T06:54:25.783Z",
   "kind": "nominate",
   "note": "Top plan nominated",
   "payload": [
     {
-      "id": "msg-bae95c3a-dfd3-4bbb-955a-475024ac24a2",
+      "id": "msg-5728df6a-2a4f-464e-9f0e-ea90c01a9adb",
       "plan": {
-        "id": "msg-bae95c3a-dfd3-4bbb-955a-475024ac24a2",
+        "id": "msg-5728df6a-2a4f-464e-9f0e-ea90c01a9adb",
         "time_utc": "2025-08-10T00:00:02Z",
         "type": "PROPOSE",
         "header": {
