@@ -23,9 +23,17 @@
       "goal": "Adopt a single message schema for DAMN.",
       "status": "ratified"
     }
+    {
+  "id": "EA-2025-003",
+  "issue": "https://github.com/VoxArch1/AGAUAI/issues/5",
+  "agent": "Human",
+  "goal": "Adopt switchboard mediator (reference implementation) and auto-publish decisions.",
+  "status": "ratified"
+}
+
   ],
   "nomination": {
-    "id": "EA-2025-002",
+    "id": "EA-2025-003",
     "chair": "MyAI",
     "status": "ratified",
     "time_utc": "2025-08-10T02:34:00Z"
