@@ -770,6 +770,17 @@ iframe { width: 100%; max-width: 680px; border: none; }
   }
 }
 
+/* fade-out after playback */
+.zel-stick {
+  opacity: 1;
+  transition: opacity .7s ease;
+}
+
+.zel-stick.is-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ΔSpeak dark skin */
 .ds-container{max-width:980px;margin:40px auto;background:#0b0d10;color:#e8eef7;
   padding:24px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
