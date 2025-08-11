@@ -145,24 +145,30 @@
   </main>
 
   <script>
-    // Autoplay is muted by default. Provide a clear unmute toggle.
-    (function(){
-      const vid = document.getElementById('zelenskyVideo');
-      const btn = document.getElementById('unmuteBtn');
+  (function () {
+    const vid   = document.getElementById('zelenskyVideo');
+    const btn   = document.getElementById('unmuteBtn');
+    const stick = document.querySelector('.zel-stick');
 
-      // Some browsers block autoplay even when muted; start on first interaction as fallback
-      const kickstart = () => { vid.play().catch(() => {}); window.removeEventListener('pointerdown', kickstart); };
-      window.addEventListener('pointerdown', kickstart, { once: true });
+    // Fade out when the video completes, then remove the element
+    vid.addEventListener('ended', () => {
+      stick.classList.add('is-out');
+      setTimeout(() => stick.remove(), 800); // match CSS transition
+    });
 
-      btn.addEventListener('click', () => {
-        const willUnmute = vid.muted;
-        vid.muted = !willUnmute;
-        btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
-        btn.setAttribute('aria-pressed', String(willUnmute));
-        if (willUnmute) { vid.play().catch(() => {}); }
-      });
-    })();
-  </script>
+    // Some browsers block autoplay even when muted; start on first interaction
+    const kickstart = () => { vid.play().catch(() => {}); window.removeEventListener('pointerdown', kickstart); };
+    window.addEventListener('pointerdown', kickstart, { once: true });
+
+    btn.addEventListener('click', () => {
+      const willUnmute = vid.muted;
+      vid.muted = !willUnmute;
+      btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
+      btn.setAttribute('aria-pressed', String(willUnmute));
+      if (willUnmute) vid.play().catch(() => {});
+    });
+  })();
+</script>
 
   <!-- FOOTER -->
   <footer>
