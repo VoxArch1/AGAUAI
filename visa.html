@@ -26,44 +26,73 @@
   </header>
 
   <!-- Zelensky Walk-In Video -->
-  <div class="zelensky-video-container" role="region" aria-label="Message from President Zelenskyy">
-    <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-      <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
-      Your browser does not support the video tag.
+ <div class="zel-stick">
+  <div class="zel-frame">
+    <video id="zelvid" autoplay muted loop playsinline>
+      <!-- swap to your actual file(s) -->
+      <source src="/public/videos/zelenskycutout.mp4" type="video/mp4">
+      <source src="/public/videos/zelenskycutout.webm" type="video/webm">
     </video>
-    <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
   </div>
 
-  <style>
-    .zelensky-video-container {
-      position: relative;
-      max-width: 1100px;
-      margin: 0 auto 2rem;
-      overflow: hidden;
-      border-radius: 8px;
-      border: 1px solid #111;
-      background: #000;
-    }
-    #zelenskyVideo {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    #unmuteBtn {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      padding: 0.5rem 0.8rem;
-      font-size: 0.9rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #unmuteBtn:hover { background: rgba(0,0,0,0.8); }
-  </style>
+  <!-- optional mute toggle -->
+  <button class="zel-mute" onclick="
+    const v=document.getElementById('zelvid');
+    v.muted=!v.muted; this.textContent = v.muted ? 'Unmute' : 'Mute';
+  ">Unmute</button>
+</div>
 
+<style>
+  /* sticks the whole block to bottom center */
+  .zel-stick{
+    position: fixed;
+    left: 50%;
+    bottom: 1.2rem;                 /* adjust vertical offset as needed */
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;            /* let page be clickable under it */
+  }
+
+  /* the cropping frame */
+  .zel-frame{
+    width: clamp(240px, 34vw, 560px); /* responsive width */
+    height: clamp(340px, 58vh, 760px);/* tall so we can crop sidebars */
+    overflow: hidden;                 /* hides black bars */
+    border-radius: 12px;
+    pointer-events: auto;             /* re-enable events for the video */
+  }
+
+  .zel-frame video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;                /* zooms to fill, cropping sides */
+    object-position: 50% 100%;        /* keep subject anchored at bottom */
+    display: block;
+    background: transparent;
+  }
+
+  /* small mute button (optional) */
+  .zel-mute{
+    position: absolute;
+    right: .5rem;
+    bottom: .5rem;
+    pointer-events: auto;
+    padding: .35rem .6rem;
+    font-size: .85rem;
+    border-radius: 8px;
+    background: rgba(15,17,21,.78);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+  }
+
+  /* avoid overlapping nav on tiny screens */
+  @media (max-width: 560px){
+    .zel-stick{ bottom: .6rem; }
+    .zel-frame{ width: 72vw; height: 56vh; }
+  }
+</style>
   <!-- MAIN CONTENT -->
   <main>
     <section>
