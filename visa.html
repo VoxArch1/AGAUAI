@@ -4,8 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Solidarity Visa — AGAUAI</title>
+
+  <!-- Your site-wide styles; keep this -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Page-local styles just for the pinned video overlay -->
+  <style>
+    /* Dark overlay on the palace background for readability */
+    body.visa-page::before{
+      content:"";
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.60);
+      z-index:-1;
+    }
+
+    /* Pinned/cropped walk-in video ----------------------------- */
+    .zel-stick{
+      position:fixed;
+      left:50%;
+      bottom:1.2rem;
+      transform:translateX(-50%);
+      z-index:1000;
+      pointer-events:none;        /* let page be clickable underneath */
+      opacity:1;
+      transition:opacity .7s ease;
+    }
+    .zel-stick.is-out{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .zel-crop{
+      width: clamp(240px, 32vw, 560px);
+      height: clamp(360px, 62vh, 820px);
+      overflow:hidden;
+      border-radius:12px;
+      background:transparent;
+      pointer-events:auto;        /* re-enable inside */
+      box-shadow: 0 14px 40px rgba(0,0,0,.55);
+    }
+
+    .zel-crop video{
+      width:100%;
+      height:100%;
+      object-fit:cover;           /* zoom & crop side bars */
+      object-position:50% 100%;   /* keep feet near bottom */
+      display:block;
+      background:transparent;
+    }
+
+    #unmuteBtn{
+      position:absolute;
+      right:.6rem;
+      bottom:.6rem;
+      background:rgba(15,17,21,.78);
+      color:#fff;
+      padding:.45rem .7rem;
+      font-size:.9rem;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:8px;
+      cursor:pointer;
+      backdrop-filter: blur(6px);
+    }
+    #unmuteBtn:hover{ background:rgba(15,17,21,.92); }
+
+    @media (max-width:560px){
+      .zel-stick{ bottom:.6rem; }
+      .zel-crop{ width:70vw; height:58vh; }
+    }
+  </style>
 </head>
+
 <body class="visa-page">
 
   <!-- NAVIGATION -->
@@ -25,119 +94,16 @@
     </nav>
   </header>
 
-  <!-- Zelensky Walk-In (initial block) -->
+  <!-- Zelensky Walk-In (fixed at bottom-center, cropped) -->
   <div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
     <div class="zel-crop">
       <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-        <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
+        <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4"/>
         Your browser does not support the video tag.
       </video>
       <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
     </div>
   </div>
-
-  <!-- Template used to respawn the overlay on Replay -->
-  <template id="zelTemplate">
-    <div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
-      <div class="zel-crop">
-        <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-          <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
-        </video>
-        <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
-      </div>
-    </div>
-  </template>
-
-  <!-- Replay button (appears after fade/removal) -->
-  <button id="replayZel" class="zel-replay" hidden>▶️ Replay message</button>
-
-  <!-- Visa-specific styles for the overlay -->
-  <style>
-    /* anchor the block bottom-center */
-    .zel-stick{
-      position: fixed;
-      left: 50%;
-      bottom: 1.2rem;
-      transform: translateX(-50%);
-      z-index: 1000;
-      pointer-events: none; /* clicks pass through by default */
-      opacity: 1;
-      transition: opacity .7s ease;
-    }
-    .zel-stick.is-out{
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* cropping frame; re-enable interaction inside */
-    .zel-crop{
-      width: clamp(240px, 32vw, 560px);
-      height: clamp(360px, 62vh, 820px);
-      overflow: hidden;
-      border-radius: 12px;
-      background: transparent;
-      pointer-events: auto;
-    }
-
-    /* fill frame, keep feet near bottom, feather edges */
-    .zel-crop video{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 50% 100%;
-      display: block;
-      background: transparent;
-
-      /* feather the edges so the rectangle blends a bit */
-      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
-              mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
-    }
-
-    /* mute/unmute */
-    #unmuteBtn{
-      position: absolute;
-      right: .6rem;
-      bottom: .6rem;
-      background: rgba(15,17,21,.78);
-      color: #fff;
-      padding: .45rem .7rem;
-      font-size: .9rem;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 8px;
-      cursor: pointer;
-      backdrop-filter: blur(6px);
-    }
-    #unmuteBtn:hover{ background: rgba(15,17,21,.9); }
-
-    /* replay button */
-    .zel-replay{
-      position: fixed;
-      left: 50%;
-      bottom: 1.2rem;
-      transform: translateX(-50%);
-      z-index: 900;
-      background: rgba(15,17,21,.85);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 10px;
-      padding: .55rem .9rem;
-      cursor: pointer;
-      backdrop-filter: blur(6px);
-    }
-    .zel-replay:hover{ background: rgba(15,17,21,.95); }
-
-    /* mobile */
-    @media (max-width: 560px){
-      .zel-stick{ bottom: .6rem; }
-      .zel-crop{ width: 70vw; height: 58vh; }
-      .zel-replay{ bottom: .6rem; }
-    }
-
-    /* reduce motion: remove fades/animations */
-    @media (prefers-reduced-motion: reduce){
-      .zel-stick{ transition: none !important; }
-    }
-  </style>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -153,15 +119,13 @@
 
     <section>
       <h2>What is this Visa of Solidarity?</h2>
-      <p>Ukraine has no “Golden Visa” program currently. <br> We encourage consideration of one, but Ukraine will ultimately decide.</p>
-
+      <p>Ukraine has no “Golden Visa” program currently. <br/>We encourage consideration of one, but Ukraine will ultimately decide.</p>
       <ul>
         <li>Honorary Ukrainian citizenship</li>
         <li>Fast-track to immigration or residency</li>
         <li>The right to own property</li>
         <li>Entry to AGAUAI 2026 – The Gathering</li>
       </ul>
-
       <p>Have a suggestion? Include it when you add your name below.</p>
     </section>
 
@@ -180,7 +144,7 @@
 
         <label for="suggestion">Optional Suggestion (What should this visa entitle?):</label><br />
         <textarea id="suggestion" name="suggestion" rows="3" maxlength="200"></textarea><br /><br />
-        <input type="hidden" name="source" value="Visa Page">
+        <input type="hidden" name="source" value="Visa Page"/>
 
         <button type="submit">Submit Name</button>
       </form>
@@ -189,80 +153,83 @@
     </section>
   </main>
 
-  <script>
-    // --- utilities -----------------------------------------------------------
-    function wireZel(root, onDismiss){
-      const vid = root.querySelector('#zelenskyVideo');
-      const btn = root.querySelector('#unmuteBtn');
-
-      // Kickstart (autoplay fallback on first interaction)
-      const kickstart = () => { vid.play().catch(()=>{}); window.removeEventListener('pointerdown', kickstart); };
-      window.addEventListener('pointerdown', kickstart, { once:true });
-
-      // Mute/unmute
-      btn.addEventListener('click', () => {
-        const willUnmute = vid.muted;
-        vid.muted = !willUnmute;
-        btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
-        btn.setAttribute('aria-pressed', String(willUnmute));
-        if (willUnmute) vid.play().catch(()=>{});
-      });
-
-      // Hold briefly on last frame, then fade/remove
-      vid.addEventListener('ended', () => {
-        setTimeout(() => {
-          root.classList.add('is-out');
-          setTimeout(() => {
-            root.remove();
-            if (onDismiss) onDismiss();
-          }, 800);
-        }, 150);
-      });
-
-      // Optional: auto-dismiss on scroll
-      let dismissed = false;
-      window.addEventListener('scroll', () => {
-        if (!dismissed && window.scrollY > 200) {
-          dismissed = true;
-          root.classList.add('is-out');
-          setTimeout(() => {
-            root.remove();
-            if (onDismiss) onDismiss();
-          }, 800);
-        }
-      }, { passive:true });
-    }
-
-    function spawnZelFromTemplate(onDismiss){
-      const tpl = document.getElementById('zelTemplate');
-      if (!tpl) return;
-      const node = tpl.content.firstElementChild.cloneNode(true);
-      document.body.appendChild(node);
-      wireZel(node, onDismiss);
-    }
-
-    // --- init current block & replay wiring ---------------------------------
-    (function(){
-      const current = document.querySelector('.zel-stick');
-      const replay  = document.getElementById('replayZel');
-
-      const showReplay = () => { replay.hidden = false; };
-      const hideReplay = () => { replay.hidden = true; };
-
-      if (current) wireZel(current, showReplay);
-
-      replay.addEventListener('click', () => {
-        hideReplay();
-        spawnZelFromTemplate(showReplay);
-      });
-    })();
-  </script>
-
   <!-- FOOTER -->
   <footer>
     <p>© 2025 AGAUAI</p>
   </footer>
 
+  <!-- Logic: sync voice, start it at t=3s, mute/unmute both, fade out on end -->
+  <script>
+    (function () {
+      const stick = document.querySelector('.zel-stick');
+      const vid   = document.getElementById('zelenskyVideo');
+      const btn   = document.getElementById('unmuteBtn');
+
+      // Voice track (in your repo): /videos/ai/zelensky-tts-file.wav
+      const voice = new Audio('/videos/ai/zelensky-tts-file.wav');
+      voice.preload = 'auto';
+      voice.muted   = true;        // start muted to satisfy autoplay policies
+      let voicePrimed  = false;
+      let voiceStarted = false;
+
+      function primeVoice() {
+        if (voicePrimed) return;
+        voicePrimed = true;
+        // A tiny play/pause while muted helps future play() succeed everywhere
+        voice.play().then(() => {
+          voice.pause();
+          voice.currentTime = 0;
+        }).catch(() => {});
+      }
+
+      // Try to start the voice exactly when the video time passes 3.0s
+      function maybeStartVoiceAt3s() {
+        primeVoice();
+        if (!voiceStarted && vid.currentTime >= 3) {
+          voice.currentTime = 0;
+          voiceStarted = true;
+          voice.play().catch(()=>{});
+        }
+      }
+      vid.addEventListener('timeupdate', maybeStartVoiceAt3s);
+
+      // Keep voice in lockstep with the video
+      vid.addEventListener('play',  () => { if (voiceStarted) voice.play().catch(()=>{}); });
+      vid.addEventListener('pause', () => { if (voiceStarted) voice.pause(); });
+
+      // Fade the overlay away when the walk-in finishes
+      vid.addEventListener('ended', () => {
+        if (voiceStarted) { voice.pause(); voice.currentTime = 0; }
+        setTimeout(() => {
+          stick.classList.add('is-out');
+          setTimeout(() => stick.remove(), 800);  // matches .7s CSS transition + buffer
+        }, 150);
+      });
+
+      // Kickstart on first interaction for stricter browsers
+      const kickstart = () => {
+        vid.play().catch(()=>{});
+        primeVoice();
+        window.removeEventListener('pointerdown', kickstart);
+      };
+      window.addEventListener('pointerdown', kickstart, { once:true });
+
+      // Mute/unmute toggles both video and voice
+      btn.addEventListener('click', () => {
+        const willUnmute = vid.muted;    // current state before toggling
+        vid.muted   = !willUnmute;
+        voice.muted = vid.muted;
+
+        btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
+        btn.setAttribute('aria-pressed', String(willUnmute));
+
+        // ensure playback if the user just unmuted
+        if (willUnmute) {
+          vid.play().catch(()=>{});
+          if (voiceStarted) voice.play().catch(()=>{});
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
-
