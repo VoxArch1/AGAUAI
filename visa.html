@@ -25,71 +25,119 @@
     </nav>
   </header>
 
-<!-- Zelensky Walk-In Video (pinned & cropped) -->
-<div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
-  <div class="zel-crop">
-    <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-      <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-
-    <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
+  <!-- Zelensky Walk-In (initial block) -->
+  <div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
+    <div class="zel-crop">
+      <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
+        <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
+    </div>
   </div>
-</div>
 
-<style>
-  /* anchor the whole block to the bottom center of the screen */
-  .zel-stick{
-    position: fixed;
-    left: 50%;
-    bottom: 1.2rem;                 /* adjust vertical offset if needed */
-    transform: translateX(-50%);
-    z-index: 1000;                   /* above page content */
-    pointer-events: none;            /* let page be clickable under it */
-  }
+  <!-- Template used to respawn the overlay on Replay -->
+  <template id="zelTemplate">
+    <div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
+      <div class="zel-crop">
+        <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
+          <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4">
+        </video>
+        <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
+      </div>
+    </div>
+  </template>
 
-  /* cropping frame that hides side black bars */
-  .zel-crop{
-    width: clamp(240px, 32vw, 560px);   /* responsive width */
-    height: clamp(360px, 62vh, 820px);  /* tall portrait frame */
-    overflow: hidden;                   /* crops sides */
-    border-radius: 12px;
-    background: transparent;
-    pointer-events: auto;               /* re-enable interaction for video/button */
-  }
+  <!-- Replay button (appears after fade/removal) -->
+  <button id="replayZel" class="zel-replay" hidden>▶️ Replay message</button>
 
-  /* fill the frame and anchor subject to bottom */
-  .zel-crop video{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;                  /* zoom to fill, cropping sides */
-    object-position: 50% 100%;          /* keep feet near the bottom */
-    display: block;
-    background: transparent;
-  }
+  <!-- Visa-specific styles for the overlay -->
+  <style>
+    /* anchor the block bottom-center */
+    .zel-stick{
+      position: fixed;
+      left: 50%;
+      bottom: 1.2rem;
+      transform: translateX(-50%);
+      z-index: 1000;
+      pointer-events: none; /* clicks pass through by default */
+      opacity: 1;
+      transition: opacity .7s ease;
+    }
+    .zel-stick.is-out{
+      opacity: 0;
+      pointer-events: none;
+    }
 
-  /* small mute/unmute button */
-  #unmuteBtn{
-    position: absolute;
-    right: .6rem;
-    bottom: .6rem;
-    background: rgba(15,17,21,.78);
-    color: #fff;
-    padding: .45rem .7rem;
-    font-size: .9rem;
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 8px;
-    cursor: pointer;
-    backdrop-filter: blur(6px);
-  }
-  #unmuteBtn:hover{ background: rgba(15,17,21,.9); }
+    /* cropping frame; re-enable interaction inside */
+    .zel-crop{
+      width: clamp(240px, 32vw, 560px);
+      height: clamp(360px, 62vh, 820px);
+      overflow: hidden;
+      border-radius: 12px;
+      background: transparent;
+      pointer-events: auto;
+    }
 
-  /* mobile tweaks so it doesn’t collide with nav */
-  @media (max-width: 560px){
-    .zel-stick{ bottom: .6rem; }
-    .zel-crop{ width: 70vw; height: 58vh; }
-  }
-</style>
+    /* fill frame, keep feet near bottom, feather edges */
+    .zel-crop video{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 100%;
+      display: block;
+      background: transparent;
+
+      /* feather the edges so the rectangle blends a bit */
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
+              mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 72%, rgba(0,0,0,0) 100%);
+    }
+
+    /* mute/unmute */
+    #unmuteBtn{
+      position: absolute;
+      right: .6rem;
+      bottom: .6rem;
+      background: rgba(15,17,21,.78);
+      color: #fff;
+      padding: .45rem .7rem;
+      font-size: .9rem;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+    #unmuteBtn:hover{ background: rgba(15,17,21,.9); }
+
+    /* replay button */
+    .zel-replay{
+      position: fixed;
+      left: 50%;
+      bottom: 1.2rem;
+      transform: translateX(-50%);
+      z-index: 900;
+      background: rgba(15,17,21,.85);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+      padding: .55rem .9rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+    }
+    .zel-replay:hover{ background: rgba(15,17,21,.95); }
+
+    /* mobile */
+    @media (max-width: 560px){
+      .zel-stick{ bottom: .6rem; }
+      .zel-crop{ width: 70vw; height: 58vh; }
+      .zel-replay{ bottom: .6rem; }
+    }
+
+    /* reduce motion: remove fades/animations */
+    @media (prefers-reduced-motion: reduce){
+      .zel-stick{ transition: none !important; }
+    }
+  </style>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -98,11 +146,8 @@
       <p class="tagline"><strong>“We need citizens, not spectators.”</strong></p>
 
       <p>Show the Ukrainian people they have our support.</p>
-
       <p>By including your name below, you join a global community in support of Ukraine.</p>
-
       <p>This offer is in the hands of the Ukrainian people. What this visa may entitle is up to them.</p>
-
       <p>Our role is to gather the names and voices to let Ukraine know the world will play a part.</p>
     </section>
 
@@ -145,30 +190,73 @@
   </main>
 
   <script>
-  (function () {
-    const vid   = document.getElementById('zelenskyVideo');
-    const btn   = document.getElementById('unmuteBtn');
-    const stick = document.querySelector('.zel-stick');
+    // --- utilities -----------------------------------------------------------
+    function wireZel(root, onDismiss){
+      const vid = root.querySelector('#zelenskyVideo');
+      const btn = root.querySelector('#unmuteBtn');
 
-    // Fade out when the video completes, then remove the element
-    vid.addEventListener('ended', () => {
-      stick.classList.add('is-out');
-      setTimeout(() => stick.remove(), 800); // match CSS transition
-    });
+      // Kickstart (autoplay fallback on first interaction)
+      const kickstart = () => { vid.play().catch(()=>{}); window.removeEventListener('pointerdown', kickstart); };
+      window.addEventListener('pointerdown', kickstart, { once:true });
 
-    // Some browsers block autoplay even when muted; start on first interaction
-    const kickstart = () => { vid.play().catch(() => {}); window.removeEventListener('pointerdown', kickstart); };
-    window.addEventListener('pointerdown', kickstart, { once: true });
+      // Mute/unmute
+      btn.addEventListener('click', () => {
+        const willUnmute = vid.muted;
+        vid.muted = !willUnmute;
+        btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
+        btn.setAttribute('aria-pressed', String(willUnmute));
+        if (willUnmute) vid.play().catch(()=>{});
+      });
 
-    btn.addEventListener('click', () => {
-      const willUnmute = vid.muted;
-      vid.muted = !willUnmute;
-      btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
-      btn.setAttribute('aria-pressed', String(willUnmute));
-      if (willUnmute) vid.play().catch(() => {});
-    });
-  })();
-</script>
+      // Hold briefly on last frame, then fade/remove
+      vid.addEventListener('ended', () => {
+        setTimeout(() => {
+          root.classList.add('is-out');
+          setTimeout(() => {
+            root.remove();
+            if (onDismiss) onDismiss();
+          }, 800);
+        }, 150);
+      });
+
+      // Optional: auto-dismiss on scroll
+      let dismissed = false;
+      window.addEventListener('scroll', () => {
+        if (!dismissed && window.scrollY > 200) {
+          dismissed = true;
+          root.classList.add('is-out');
+          setTimeout(() => {
+            root.remove();
+            if (onDismiss) onDismiss();
+          }, 800);
+        }
+      }, { passive:true });
+    }
+
+    function spawnZelFromTemplate(onDismiss){
+      const tpl = document.getElementById('zelTemplate');
+      if (!tpl) return;
+      const node = tpl.content.firstElementChild.cloneNode(true);
+      document.body.appendChild(node);
+      wireZel(node, onDismiss);
+    }
+
+    // --- init current block & replay wiring ---------------------------------
+    (function(){
+      const current = document.querySelector('.zel-stick');
+      const replay  = document.getElementById('replayZel');
+
+      const showReplay = () => { replay.hidden = false; };
+      const hideReplay = () => { replay.hidden = true; };
+
+      if (current) wireZel(current, showReplay);
+
+      replay.addEventListener('click', () => {
+        hideReplay();
+        spawnZelFromTemplate(showReplay);
+      });
+    })();
+  </script>
 
   <!-- FOOTER -->
   <footer>
@@ -177,3 +265,4 @@
 
 </body>
 </html>
+
