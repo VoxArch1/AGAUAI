@@ -185,7 +185,7 @@
       // Try to start the voice exactly when the video time passes 3.0s
       function maybeStartVoiceAt3s() {
         primeVoice();
-        if (!voiceStarted && vid.currentTime >= 3) {
+        if (!voiceStarted && vid.currentTime >= 2) {
           voice.currentTime = 0;
           voiceStarted = true;
           voice.play().catch(()=>{});
