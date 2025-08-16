@@ -10,7 +10,7 @@
 
   <!-- Page-local styles (scoped to .visa-page) -->
   <style>
-    /* Palace background + readability overlay */
+    /* Palace background (starts bright) */
     body.visa-page{
       background-image:url('images/Palace.jpg');
       background-size:cover;
@@ -18,11 +18,16 @@
       background-attachment:fixed;
       color:#fff;
     }
+    /* Readability overlay: starts light, darkens after video fades */
     body.visa-page::before{
       content:"";
       position:fixed; inset:0;
-      background:rgba(0,0,0,.60);
+      background:rgba(0,0,0,.25);             /* <— bright at load */
       z-index:-1;
+      transition: background .6s ease;
+    }
+    body.visa-page.is-dark::before{
+      background:rgba(0,0,0,.60);             /* <— darker once video exits */
     }
 
     /* Layout polish */
@@ -54,8 +59,7 @@
     .zel-crop{
       width:clamp(240px, 32vw, 560px); height:clamp(360px, 62vh, 820px);
       overflow:hidden; border-radius:12px; pointer-events:auto;
-      box-shadow:0 14px 40px rgba(0,0,0,.55);
-      background:transparent;
+      box-shadow:0 14px 40px rgba(0,0,0,.55); background:transparent;
     }
     .zel-crop video{
       width:100%; height:100%; object-fit:cover; object-position:50% 100%; display:block;
@@ -129,7 +133,7 @@
     <section>
       <h2>Add Your Name Below to be included on the APPEAL to the Ukrainian Parliament</h2>
 
-      <!-- Formspree: name your email field 'email' to satisfy validation -->
+      <!-- Formspree: email field must be named 'email' -->
       <form action="https://formspree.io/f/xqalgbez" method="POST">
         <label for="name">Name</label>
         <input id="name" type="text" name="name" required>
@@ -159,18 +163,19 @@
     <p>© 2025 AGAUAI</p>
   </footer>
 
-  <!-- Logic: sync voice, start around t≈2s, mute/unmute both, fade out on end -->
+  <!-- Logic: sync voice, fade out reliably, darken bg after fade -->
   <script>
     (function () {
+      const body  = document.body;
       const stick = document.querySelector('.zel-stick');
       const vid   = document.getElementById('zelenskyVideo');
       const btn   = document.getElementById('unmuteBtn');
 
-      // Optional voice track (keep file if you want audio)
+      // Optional voice track
       const voice = new Audio('/videos/ai/zelensky-tts-file.wav');
       voice.preload = 'auto';
-      voice.muted   = true;  // start muted for autoplay policies
-      let voicePrimed=false, voiceStarted=false;
+      voice.muted   = true;  // start muted for autoplay rules
+      let voicePrimed=false, voiceStarted=false, overlayGone=false;
 
       function primeVoice() {
         if (voicePrimed) return;
@@ -178,6 +183,7 @@
         voice.play().then(()=>{ voice.pause(); voice.currentTime=0; }).catch(()=>{});
       }
 
+      // Try to start voice ~2s into the video
       function maybeStartVoiceAt2s() {
         primeVoice();
         if (!voiceStarted && vid.currentTime >= 2) {
@@ -185,16 +191,42 @@
           voiceStarted = true;
           voice.play().catch(()=>{});
         }
+        // Fallback: if we can see duration, schedule end near its end
+        if (vid.duration && !overlayGone && vid.currentTime >= vid.duration - 0.2) {
+          endOverlay();
+        }
       }
       vid.addEventListener('timeupdate', maybeStartVoiceAt2s);
 
       vid.addEventListener('play',  ()=>{ if (voiceStarted) voice.play().catch(()=>{}); });
       vid.addEventListener('pause', ()=>{ if (voiceStarted) voice.pause(); });
 
-      vid.addEventListener('ended', ()=>{
-        if (voiceStarted) { voice.pause(); voice.currentTime = 0; }
-        setTimeout(()=>{ stick.classList.add('is-out'); setTimeout(()=>stick.remove(), 800); }, 150);
-      });
+      // Primary: when video actually ends
+      vid.addEventListener('ended', endOverlay);
+
+      // Safety net: force fade after a max play window (e.g., 25s)
+      const MAX_PLAY_MS = 25000;
+      const forceFade = setTimeout(endOverlay, MAX_PLAY_MS);
+
+      function endOverlay(){
+        if (overlayGone) return;
+        overlayGone = true;
+        clearTimeout(forceFade);
+
+        // stop voice/video
+        try { voice.pause(); } catch(e){}
+        try { vid.pause(); } catch(e){}
+        voice.currentTime = 0;
+
+        // fade the video card out
+        stick.classList.add('is-out');
+
+        // darken background for readability
+        body.classList.add('is-dark');
+
+        // remove node after fade completes (700ms CSS + small buffer)
+        setTimeout(()=>{ stick.remove(); }, 850);
+      }
 
       // Ensure autoplay works after first interaction on strict browsers
       const kickstart = () => { vid.play().catch(()=>{}); primeVoice(); window.removeEventListener('pointerdown', kickstart); };
@@ -207,4 +239,13 @@
         voice.muted = vid.muted;
         btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
         btn.setAttribute('aria-pressed', String(willUnmute));
-        if (willUnmu
+        if (willUnmute) {
+          vid.play().catch(()=>{});
+          if (voiceStarted) voice.play().catch(()=>{});
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
