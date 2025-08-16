@@ -74,6 +74,34 @@ body.visa-page.is-dark::before {
     }
     #unmuteBtn:hover{background:rgba(15,17,21,.92)}
     @media (max-width:560px){ .zel-stick{bottom:.6rem} .zel-crop{width:70vw; height:58vh} }
+
+   /* --- Overlay layering: behind content, above background --- */
+body.visa-page{
+  position: relative;                      /* creates stacking context */
+  z-index: 0;                              /* background baseline */
+}
+body.visa-page::before{
+  content:"";
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);             /* start dark enough to read */
+  transition: background 1s ease;
+  z-index: 0;                               /* <- sits UNDER content */
+  pointer-events: none;                     /* don't block clicks */
+}
+body.visa-page.is-dark::before{
+  background: rgba(0,0,0,.75);              /* darken after video fades */
+}
+/* ensure page content sits above the overlay */
+header, main, footer, .zel-stick{ position: relative; z-index: 1; }
+
+/* --- Button below the fields (no side-by-side) --- */
+form input, form textarea{ display:block; } /* already, but explicit */
+form button{
+  display:block;                            /* force its own line */
+  width: min(220px, 100%);
+  margin-top: .8rem;
+}
+ 
   </style>
 </head>
 
@@ -154,7 +182,10 @@ body.visa-page.is-dark::before {
         <input type="hidden" name="source" value="Visa Page">
         <input type="hidden" name="_subject" value="AGAUAI Solidarity Visa submission">
 
-        <button type="submit" class="btn primary">Submit Name</button>
+        <div class="actions">
+          <button type="submit" class="btn primary">Submit Name</button>
+        </div>
+
       </form>
 
       <p><em>One voice is a whisper; together we roar.</em></p>
