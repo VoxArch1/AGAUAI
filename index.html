@@ -162,6 +162,38 @@
   0%   { opacity:1 }
   100% { opacity:.22 }
 }
+/* --- UKRAINE: force full pop-in, then settle to 22% --- */
+.home-page .ukraine-flyin{ 
+  opacity: 1 !important;            /* override any parent fade */
+}
+
+.home-page .ukraine-flyin .letter{
+  /* kill any previous animations on this selector */
+  animation: none !important;
+
+  /* our two-step animation: pop-in -> settle */
+  animation:
+    ukrIn .6s ease-out var(--d,0s) forwards,
+    ukrSettle 2.8s ease-out calc(var(--d,0s) + .6s) forwards !important;
+
+  opacity: 0;                        /* start hidden */
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(0,0,0,.35);
+}
+
+/* blue / gold alternation */
+.home-page .ukraine-flyin .letter:nth-child(odd){  color:#0057b7; }
+.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700; }
+
+/* keyframes */
+@keyframes ukrIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ukrSettle {
+  from { opacity: 1; }
+  to   { opacity: .22; }  /* final resting opacity */
+}
    
   </style>
 
