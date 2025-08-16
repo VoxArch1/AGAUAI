@@ -1,0 +1,47 @@
+/* ===== AGAUAI Global.css =====
+   Keep this tiny. Page-only styles go in the page HTML, scoped by body class.
+*/
+
+/* --- Variables & Reset --- */
+:root{
+  --bg:#000; --fg:#fff; --muted:#cfe; --gold:#ffd700;
+  --accent:#0bf; --ink:#001018; --border:#111;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+img,video,canvas{max-width:100%;height:auto;display:block}
+a{color:var(--accent);text-decoration:none;font-weight:700}
+a:hover{color:#6cf;text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html,body{overflow-x:hidden}
+
+/* --- Layout shell --- */
+.container, header, main, footer{max-width:1200px;margin:auto;padding:1rem}
+
+/* --- Headings / text --- */
+h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;letter-spacing:-.02em;margin:.2rem 0 .6rem}
+h2{font-size:clamp(1.4rem,3.2vw,2rem);margin:.25rem 0 1rem}
+.subtitle{opacity:.85}
+
+/* --- Nav (simple) --- */
+nav ul{list-style:none;display:flex;flex-wrap:wrap;gap:.85rem;justify-content:center;margin:0 0 1.5rem;padding:0}
+nav a.active{color:var(--gold)}
+
+/* --- Buttons --- */
+.btn{display:inline-block;border-radius:999px;padding:.8rem 1.2rem;font-weight:700;transition:transform .15s ease,opacity .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--accent);color:var(--ink);box-shadow:0 10px 30px rgba(0,187,255,.25)}
+.btn.ghost{border:1px solid #334;color:var(--fg)}
+
+/* --- Sections & footer --- */
+.section{border-top:1px solid var(--border);padding:2rem 1rem}
+footer{border-top:1px solid #222;text-align:center;padding:2rem 0;font-size:.85rem;opacity:.7}
+
+/* --- Utilities --- */
+.center{text-align:center}
+.stack-sm>*+*{margin-top:.5rem}
+.stack-md>*+*{margin-top:1rem}
+.stack-lg>*+*{margin-top:1.5rem}
+
+/* --- Media --- */
+@media (max-width:768px){ .container, header, main, footer{padding:1rem} }
