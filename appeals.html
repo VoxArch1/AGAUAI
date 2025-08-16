@@ -5,58 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Appeals — AGAUAI</title>
 
-  <!-- Global styles -->
+  <!-- Global baseline -->
   <link rel="stylesheet" href="css/global.css" />
 
-  <!-- Page-local styles -->
+  <!-- Page-local styles (Appeals only) -->
   <style>
-    html, body { height: 100%; }
+    /* ===== Cinematic background stack =====
+       Order: video-fill (0) < video-bg (1) < scrim (2) < content (3)
+    */
+    .video-wrap{ position:fixed; inset:0; overflow:hidden; background:#000; z-index:0; }
 
-    /* ===== FULL-PAGE BACKGROUND (no cropping, paper visible) ===== */
-    .video-wrap {
-      position: fixed; inset: 0; z-index: -3; overflow: hidden; background: #000;
-    }
-    /* Blurred filler behind to avoid black bars */
-    .video-fill {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; filter: blur(14px) brightness(0.9);
-      transform: scale(1.06); opacity: .45; z-index: 0;
-    }
-    /* Main video shows the ENTIRE frame (no crop) */
-    .video-main {
-      position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
-      transform: translate(-50%, -50%); object-fit: contain; object-position: 50% 100%;
-      z-index: 1;
-    }
-    /* Optional subtle scrim for text readability */
-    .video-scrim {
-      position: fixed; inset: 0; background: rgba(0,0,0,.40); z-index: -2; pointer-events: none;
+    /* Blurred filler: covers the screen to hide black bars on letterboxed main video */
+    .video-fill{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover;
+      filter:blur(14px) brightness(.9);
+      transform:scale(1.06);        /* hide blur edges */
+      opacity:.45;
+      z-index:0;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .video-fill, .video-main { animation: none; }
+    /* Main video: show full frame (paper visible), anchored low */
+    .video-background{
+      position:absolute; top:50%; left:50%;
+      width:100%; height:100%;
+      transform:translate(-50%, -50%);
+      object-fit:contain;            /* full frame, no crop */
+      object-position:50% 100%;      /* bias to bottom so desk/paper stay in view */
+      z-index:1;
+      /* Gentle cinematic zoom */
+      animation: slowZoomAppeals 18s ease-in-out forwards;
+    }
+    @keyframes slowZoomAppeals{
+      0%   { transform: translate(-50%, -50%) scale(.98); }
+      100% { transform: translate(-50%, -50%) scale(1.02); }
     }
 
-    /* ===== PAGE LAYOUT ===== */
-    .page-content { position: relative; z-index: 1; color: #fff; }
-    /* keep nav consistent but allow a soft backdrop for readability on video */
-    header nav ul { background: rgba(0,0,0,.55); padding: .75rem 1rem; border-radius: 12px; }
-    nav a.active { color: var(--gold); text-decoration: none; }
-
-    main { padding: 1rem 1.25rem 2.5rem; }
-    h1 { color: var(--gold); margin-top: 1rem; }
-
-    .scroll-banner-wrapper, .scroll-banner, hr {
-      background: transparent !important; border: 0 !important; box-shadow: none !important;
+    /* Readability scrim above videos, below content */
+    .video-scrim{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.40);
+      z-index:2; pointer-events:none;
     }
-    a.inline-link { color: #6cf; text-decoration: none; }
-    a.inline-link:hover { text-decoration: underline; }
+
+    /* Respect reduced motion (no zoom) */
+    @media (prefers-reduced-motion:reduce){
+      .video-background{ animation:none; }
+    }
+
+    /* ===== Page layout & polish ===== */
+    .page-content{ position:relative; z-index:3; color:#fff; }
+
+    /* Keep nav consistent but add a soft backdrop on video */
+    header nav ul{
+      background:rgba(0,0,0,.55);
+      padding:.75rem 1rem; border-radius:12px;
+    }
+    nav a.active{ color:var(--gold); text-decoration:none; }
+
+    main{ padding:1rem 1.25rem 2.5rem; }
+    h1{ color:var(--gold); margin-top:1rem; }
+
+    /* Scrolling quote banner */
+    .scroll-banner-wrapper{ margin:2rem 0; border-top:1px solid #333; border-bottom:1px solid #333; padding:.5rem 0; }
+    .scroll-banner{ overflow:hidden; white-space:nowrap; width:100%; }
+    .scroll-banner span{
+      display:inline-block; padding-left:100%;
+      animation: scroll-left 18s linear infinite;
+      font-style:italic; color:#ccc; font-size:1.1rem;
+    }
+    @keyframes scroll-left{ from{transform:translateX(0)} to{transform:translateX(-100%)} }
+
+    /* Small helpers used on this page */
+    .appeals-preamble{ font-size:1.15rem; font-weight:500; margin-bottom:1.2rem; color:#eee; }
+    .inline-link{ color:#6cf; text-decoration:none; }
+    .inline-link:hover{ text-decoration:underline; }
+    .peterson-glow{ text-shadow:0 0 6px #ffd700; color:#fff8b0; font-weight:700; }
 
     /* Submit form */
-    .appeal-form { margin-top: 1.25rem; }
-    .appeal-form label { display:block; margin:.5rem 0 .15rem; opacity:.9; }
+    .appeal-form{ margin-top:1.25rem; }
+    .appeal-form label{ display:block; margin:.5rem 0 .15rem; opacity:.9; }
     .appeal-form input, .appeal-form textarea, .appeal-form button{
-      width:100%; max-width:720px; background:#111; color:#fff; border:1px solid #444;
+      width:100%; max-width:720px;
+      background:#111; color:#fff; border:1px solid #444;
       padding:.65rem .75rem; border-radius:10px;
     }
     .appeal-form textarea{ min-height:140px }
@@ -64,23 +95,21 @@
       width:min(240px,100%); margin-top:.8rem; background:var(--accent); color:var(--ink);
       font-weight:700; border:none; cursor:pointer; transition:transform .15s ease;
     }
-    .appeal-form button:hover{ transform: translateY(-2px) }
-
-    footer { color: #ccc; }
+    .appeal-form button:hover{ transform:translateY(-2px) }
   </style>
 </head>
 <body>
 
   <!-- BACKGROUND: blurred cover + full-frame main -->
-  <div class="video-wrap">
+  <div class="video-wrap" aria-hidden="true">
     <video class="video-fill" autoplay muted loop playsinline preload="auto">
       <source src="videos/Jordanpeterson.mp4" type="video/mp4">
     </video>
-    <video class="video-main" autoplay muted loop playsinline preload="auto" poster="images/appeals-poster.jpg">
+    <video class="video-background" autoplay muted loop playsinline preload="auto" poster="images/appeals-poster.jpg">
       <source src="videos/Jordanpeterson.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="video-scrim"></div>
+  <div class="video-scrim" aria-hidden="true"></div>
 
   <!-- PAGE CONTENT -->
   <div class="page-content">
@@ -104,7 +133,7 @@
       <section>
         <h1>Open Appeals</h1>
 
-        <div class="scroll-banner-wrapper">
+        <div class="scroll-banner-wrapper" aria-hidden="true">
           <div class="scroll-banner">
             <span>“When diplomacy fails, try humanity.”</span>
           </div>
@@ -114,7 +143,7 @@
           These appeals are not yet complete. When words are meant to endure, they deserve to be written with care.
         </p>
 
-        <ul style="line-height: 1.8; margin-top: 1rem; margin-bottom: 2rem;">
+        <ul style="line-height:1.8; margin-top:1rem; margin-bottom:2rem;">
           <li><strong>To Ukraine:</strong> An appeal to offer the world a Global Solidarity Visa. Let us support your struggle with our presence.</li>
           <li><strong>To Russia:</strong> An appeal to end the invasion. We are a stronger world with the brilliance of the Russian people by our side.</li>
           <li><strong>To the United Nations:</strong> An appeal to provide protective security for AGAUAI 2026 gathering, wherever it is held. With your support this Mission is possible.</li>
@@ -128,7 +157,7 @@
         </p>
       </section>
 
-      <!-- Submit Your Own Appeal (fixes prior 404 by staying on-page) -->
+      <!-- Submit Your Own Appeal (in-page; no 404) -->
       <section id="submit" class="section">
         <h2>Submit Your Appeal</h2>
         <form class="appeal-form" action="https://formspree.io/f/xqalgbez" method="POST">
@@ -160,9 +189,7 @@
       <p>© 2025 AGAUAI</p>
     </footer>
   </div>
-
 </body>
 </html>
 
-</html>
 
