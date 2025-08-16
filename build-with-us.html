@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Build With Us — AGAUAI</title>
+  <link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* Shared button styling */
@@ -16,23 +17,21 @@
       border: none;
       transition: background 0.2s ease;
     }
-    /* Blue variant (matches Join the Builders) */
+    /* Blue variant */
     .cta-blue {
       background-color: #00aaff;
       color: #fff;
     }
-    .cta-blue:hover {
-      background-color: #008fcc;
-    }
-    /* Yellow variant (Developer Guide) */
+    .cta-blue:hover { background-color: #008fcc; }
+
+    /* Yellow variant */
     .cta-yellow {
       background-color: #ffcc00;
       color: #000;
     }
-    .cta-yellow:hover {
-      background-color: #e6b800;
-    }
-    /* Subtext under button */
+    .cta-yellow:hover { background-color: #e6b800; }
+
+    /* Subtext */
     .cta-subtext {
       font-size: 0.85rem;
       display: block;
@@ -45,20 +44,19 @@
 
   <!-- NAVIGATION -->
   <header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="visa.html">Solidarity Visa</a></li>
-      <li><a href="appeals.html">Appeals</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="sponsors.html">What is AGAUAI?</a></li>
-      <li><a href="agauai2026.html">The Gathering 2026</a></li>
-      <li><a href="roast.html">Roast Us</a></li>
-      <li><a href="build-with-us.html" class="active">Join Us</a></li>
-      <li><a href="dev.html">Developer Guide</a></li>
-    </ul>
-  </nav>
-</header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visa.html">Solidarity Visa</a></li>
+        <li><a href="appeals.html">Appeals</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="what_is_AGAUAI.html">What is AGAUAI?</a></li>
+        <li><a href="agauai2026.html">The Gathering 2026</a></li>
+        <li><a href="roast.html">Roast Us</a></li>
+        <li><a href="build-with-us.html" class="active">Join Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -72,26 +70,21 @@
       
       <p style="margin: 1.2rem 0; text-align:center;">
         <a href="dev.html" class="cta-button cta-yellow">⚡ Developer Integration Guide</a>
-        <span class="cta-subtext">For coders, AI agents, and system integrators</span>
-      </p>
-
-      <p style="margin: 1.2rem 0; text-align:center;">
-        <a href="dev.html" class="cta-button cta-yellow">⚡ Developer Integration Guide</a>
         <a href="images/agauai_dev_quickstart.png" class="cta-button cta-blue" style="margin-left: 0.5rem;">
-        📄 Quickstart Image
+          📄 Quickstart Image
         </a>
         <span class="cta-subtext">For coders, AI agents, and system integrators</span>
       </p>
 
       <form action="https://formspree.io/f/manbljjz" method="POST" style="margin-top:1.5rem; text-align:center;">
         <label for="name">Name:</label><br />
-        <input type="text" name="name" required><br /><br />
+        <input type="text" id="name" name="name" required><br /><br />
 
         <label for="email">Email:</label><br />
-        <input type="email" name="_replyto" required><br /><br />
+        <input type="email" id="email" name="email" required><br /><br />
 
         <label for="skills">Your Skills / How You Can Help:</label><br />
-        <textarea name="skills" rows="3" required></textarea><br /><br />
+        <textarea id="skills" name="skills" rows="3" required></textarea><br /><br />
 
         <button type="submit" class="cta-button cta-blue">Join the Builders</button>
       </form>
@@ -99,9 +92,8 @@
   </main>
 
   <footer>
-    <p>© 2025 AGAUAI - Site made possible by Shannon's patience</p>
+    <p>© 2025 AGAUAI — Site made possible by Shannon's patience</p>
   </footer>
 
 </body>
 </html>
-
