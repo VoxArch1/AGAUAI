@@ -846,3 +846,15 @@ textarea.ds-text{background:#0f141a;color:#e8eef7;border:1px solid #1f2a36;borde
 
 /* Nav: prevent wrap jitter on wide screens */
 nav ul { justify-content: center; }
+
+/* === spacing fixes === */
+body, h1, h2, h3, p, .btn, .subtitle, .timer {
+  word-spacing: normal !important;
+  letter-spacing: normal !important;
+}
+
+/* keep the big background word readable but not spaced out */
+.ukraine-flyin { letter-spacing: .08em !important; }
+
+/* keep SAVE UKRAINE bold without big gaps */
+.save-ukraine-flyin { letter-spacing: .02em !important; }
