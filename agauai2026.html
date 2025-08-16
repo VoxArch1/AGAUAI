@@ -123,30 +123,18 @@
   <fieldset>
     <legend>Where should AGAUAI 2026 take place?</legend>
 
-    <label class="radio-row">
-      <input type="radio" name="location" value="Crimea" required>
-      <span>Crimea</span>
-    </label>
-    <label class="radio-row">
-      <input type="radio" name="location" value="Zaporizhzhia">
-      <span>Zaporizhzhia</span>
-    </label>
-    <label class="radio-row">
-      <input type="radio" name="location" value="Kyiv">
-      <span>Kyiv</span>
-    </label>
-    <label class="radio-row">
-      <input type="radio" name="location" value="Lviv / Poland border">
-      <span>Lviv / Poland border</span>
-    </label>
-    <label class="radio-row">
-      <input type="radio" name="location" value="Belgorod">
-      <span>Belgorod</span>
-    </label>
+    <label class="radio-row"><input type="radio" name="location" value="Crimea" required><span>Crimea</span></label>
+    <label class="radio-row"><input type="radio" name="location" value="Zaporizhzhia"><span>Zaporizhzhia</span></label>
+    <label class="radio-row"><input type="radio" name="location" value="Kyiv"><span>Kyiv</span></label>
+    <label class="radio-row"><input type="radio" name="location" value="Lviv / Poland border"><span>Lviv / Poland border</span></label>
+    <label class="radio-row"><input type="radio" name="location" value="Belgorod"><span>Belgorod</span></label>
   </fieldset>
 
   <label for="email">Your Email (one vote per person):</label>
   <input id="email" type="email" name="email" required />
+
+  <!-- satisfy Formspree schema without collecting a name -->
+  <input type="hidden" name="name" value="Anonymous Voter" />
 
   <!-- helpful metadata -->
   <input type="hidden" name="source" value="AGAUAI 2026 Vote" />
@@ -155,8 +143,12 @@
   <!-- spam honeypot -->
   <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"/>
 
+  <!-- optional success redirect -->
+  <!-- <input type="hidden" name="_redirect" value="https://www.agauai.com/thanks.html" /> -->
+
   <button type="submit" class="btn primary">Submit My Vote</button>
 </form>
+
 
         </div>
 
