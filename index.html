@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>AGAUAI — Existence Reimagined</title>
-  <meta name="description" content="AGAUAI (pronounced ah-GOW-eye): a live collaboration between people and AI to help end a war and support recovery." />
+  <meta name="description" content="AGAUAI (pronounced uh-GOW-eye): a live collaboration between people and AI to help end a war and support recovery." />
   <link rel="canonical" href="https://www.agauai.com/index.html" />
 
   <link rel="stylesheet" href="css/global.css">
@@ -84,6 +84,32 @@
   @media (prefers-reduced-motion:reduce){
     .home-page .ukraine-flyin .letter,.home-page .save-ukraine-flyin .save-word,.home-page .slava-ukraine-pulse .slava-word{animation:none;opacity:.18}
   }
+    
+   /* === HOME: fast fixes === */
+
+/* 1) UKRAINE fly-in: correct font, spacing, and *keep visible* after anim */
+.home-page .ukraine-flyin{
+  font-family: inherit;                 /* was Courier — switch to site font */
+  letter-spacing: .06em;                /* tighter */
+  opacity: .22;                         /* steady visibility */
+}
+.home-page .ukraine-flyin .letter{
+  opacity: 0;
+  animation: flyIn .6s ease-out var(--d,0s) forwards; /* only fly in */
+}
+/* kill the fade/heartbeat so it doesn’t disappear */
+@keyframes fadeToBackground{ from{} to{} }
+@keyframes heartbeat{ from{} to{} }
+
+/* 2) Remove the SLAVA line entirely */
+.slava-ukraine-pulse{ display:none !important; }
+
+/* 3) Make SAVE UKRAINE a touch stronger (since SLAVA is gone) */
+.home-page .save-ukraine-flyin{
+  margin-top:.5rem;
+  opacity: .95;
+}
+ 
   </style>
 
   <!-- NAVIGATION -->
@@ -107,7 +133,7 @@
 <section class="hero">
   <div class="hero-inner reveal">
     <h1>AGAUAI — A Collaboration for Peace</h1>
-    <p class="subtitle" style="margin-top:.25rem;opacity:.8">Pronounced <strong>“ah-GOW-eye”</strong></p>
+    <p class="subtitle" style="margin-top:.25rem;opacity:.8">Pronounced <strong>“uh-GOW-eye”</strong></p>
     <p class="lede">
       AGAUAI is a live collaboration between people and AI to help end a war and support recovery.
     </p>
@@ -126,10 +152,7 @@
       <span class="save-word">SAVE</span>
       <span class="save-word">UKRAINE</span>
     </div>
-    <div class="slava-ukraine-pulse">
-      <span class="slava-word">SLAVA UKRAINI</span>
-    </div>
-
+   
     <div class="timer" id="countdown">Loading…</div>
     <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
 
@@ -138,7 +161,7 @@
     </p>
 
     <div class="hero-cta">
-      <a class="btn primary" href="visa.html">Visa Appeal</a>
+      <a class="btn primary" href="visa.html">Visa Request</a>
     </div>
   </div>
 
