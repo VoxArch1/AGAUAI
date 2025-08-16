@@ -21,36 +21,74 @@
 </head>
 
 <body class="home-page">
-  <!-- ... -->
 
   <style>
-  /* ===== Index-only (scoped) ===== */
-  .home-page .hero{
-    position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden;
-    background:radial-gradient(1200px 600px at 20% 20%, rgba(0,0,0,.35), transparent),
-               linear-gradient(180deg,#0b0f1a 0%, #020409 100%);
-    border-bottom:1px solid #111;
+  /* ===== Index-only styles ===== */
+
+  /* Hero layout */
+  .home-page .hero {
+    position: relative;
+    min-height: 68vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: radial-gradient(1200px 600px at 20% 20%, rgba(0,0,0,.35), transparent),
+                linear-gradient(180deg,#0b0f1a 0%, #020409 100%);
+    border-bottom: 1px solid #111;
   }
-  .home-page .hero-inner{position:relative;z-index:2;text-align:center;max-width:1000px;padding:6rem 1.5rem 4rem}
+  .home-page .hero-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 1000px;
+    padding: 3.75rem 1.5rem 2.5rem;
+  }
+  @media (max-width:768px){
+    .home-page .hero-inner{padding:3rem 1rem 2rem}
+  }
 
-  /* Pronunciation + lede */
+  /* Text */
   .home-page .subtitle{margin-top:.3rem}
-  .home-page .lede{font-size:clamp(1.05rem,2.2vw,1.35rem);opacity:.92;max-width:900px;margin:0 auto 1.2rem}
+  .home-page .lede{
+    font-size:clamp(1.05rem,2.2vw,1.35rem);
+    opacity:.92;
+    max-width:900px;
+    margin:0 auto 1.2rem;
+  }
 
-  /* Countdown bigger */
-  .home-page .timer{font-weight:700;font-size:clamp(2.6rem,9vw,7rem);letter-spacing:.06em;white-space:nowrap}
+  /* Countdown */
+  .home-page .timer{
+    font-weight:700;
+    font-size:clamp(2.6rem,9vw,7rem);
+    letter-spacing:.06em;
+    white-space:nowrap;
+  }
 
-  /* CTA under countdown: Visa only */
-  .home-page .hero-cta{display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+  /* CTA */
+  .home-page .hero-cta{
+    display:flex;
+    gap:.9rem;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:.9rem;
+  }
 
-  /* Ukraine headline trio */
+  /* UKRAINE headline */
   .home-page .ukraine-flyin{
-    display:flex;justify-content:center;gap:.12em;font-size:clamp(2.4rem,12vw,8rem);
-    letter-spacing:.08em;opacity:.10;margin:.4rem 0 0;font-family:'Courier New',monospace
+    display:flex;
+    justify-content:center;
+    gap:.12em;
+    font-size:clamp(2.4rem,12vw,8rem);
+    font-weight:900;
+    letter-spacing:.12em;
+    margin-top:.5rem;
   }
   .home-page .ukraine-flyin .letter{
-    opacity:0;display:inline-block;
-    animation:flyIn .7s ease-out var(--d,0s) forwards, fadeToBackground 3s ease-in 2.5s forwards, heartbeat 4.5s ease-in-out 5.5s infinite
+    opacity:0;
+    text-shadow:0 0 8px rgba(0,0,0,.35);
+    animation:
+      ukrIn .6s ease-out var(--d,0s) forwards,
+      ukrSettle 2.8s ease-out calc(var(--d,0s) + .6s) forwards;
   }
   .home-page .ukraine-flyin .letter:nth-child(1){--d:.2s}
   .home-page .ukraine-flyin .letter:nth-child(2){--d:.35s}
@@ -59,142 +97,68 @@
   .home-page .ukraine-flyin .letter:nth-child(5){--d:.8s}
   .home-page .ukraine-flyin .letter:nth-child(6){--d:.95s}
   .home-page .ukraine-flyin .letter:nth-child(7){--d:1.1s}
+  /* alternating flag colors */
+  .home-page .ukraine-flyin .letter:nth-child(odd){color:#0057b7}
+  .home-page .ukraine-flyin .letter:nth-child(even){color:#ffd700}
 
-  .home-page .save-ukraine-flyin{display:block;text-align:center;margin-top:.4rem;font-size:clamp(1.6rem,6vw,3rem);font-weight:800;color:var(--gold)}
-  .home-page .save-ukraine-flyin .save-word{opacity:0;animation:saveFlyIn 1s ease-out forwards}
+  /* SAVE UKRAINE */
+  .home-page .save-ukraine-flyin{
+    display:block;
+    text-align:center;
+    margin-top:.5rem;
+    font-size:clamp(1.6rem,6vw,3rem);
+    font-weight:800;
+    color:var(--gold);
+    opacity:.95;
+  }
+  .home-page .save-ukraine-flyin .save-word{
+    opacity:0;
+    animation:saveFlyIn 1s ease-out forwards;
+  }
   .home-page .save-ukraine-flyin .save-word:nth-child(1){animation-delay:.2s}
   .home-page .save-ukraine-flyin .save-word:nth-child(2){animation-delay:.6s}
 
-  .home-page .slava-ukraine-pulse{text-align:center;margin-top:1rem}
-  .home-page .slava-ukraine-pulse .slava-word{font-size:clamp(1.1rem,4.2vw,2rem);font-weight:800;color:#0b335a;opacity:.15;animation:slavaPulse 5s ease-in-out 3s infinite}
-
-  /* Canvas background full-bleed */
-  #heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:.28;pointer-events:none}
-
-  /* Origin teaser */
-  .home-page .origin{max-width:1000px;margin:3rem auto;padding:0 1rem 3rem;border-bottom:1px solid #111}
-  .home-page .origin p{max-width:900px;margin:.25rem auto 1rem;color:var(--muted)}
-
-  /* Keyframes (scoped usage) */
-  @keyframes flyIn{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-  @keyframes fadeToBackground{to{opacity:.14}}
-  @keyframes heartbeat{0%,100%{transform:scale(1);opacity:.14}50%{transform:scale(1.015);opacity:.21}}
-  @keyframes saveFlyIn{from{transform:translateY(-80px);opacity:0}to{transform:translateY(0);opacity:1}}
-  @keyframes slavaPulse{0%,100%{transform:scale(1);opacity:.15;text-shadow:none}50%{transform:scale(1.03);opacity:.35;text-shadow:0 0 10px #0057b7}}
-  @media (prefers-reduced-motion:reduce){
-    .home-page .ukraine-flyin .letter,.home-page .save-ukraine-flyin .save-word,.home-page .slava-ukraine-pulse .slava-word{animation:none;opacity:.18}
+  /* Background canvas */
+  #heroCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    opacity:.28;
+    pointer-events:none;
   }
-    
-   /* === HOME: fast fixes === */
 
-/* 1) UKRAINE fly-in: correct font, spacing, and *keep visible* after anim */
-.home-page .ukraine-flyin{
-  font-family: inherit;                 /* was Courier — switch to site font */
-  letter-spacing: .06em;                /* tighter */
-  opacity: .22;                         /* steady visibility */
-}
-.home-page .ukraine-flyin .letter{
-  opacity: 0;
-  animation: flyIn .6s ease-out var(--d,0s) forwards; /* only fly in */
-}
-/* kill the fade/heartbeat so it doesn’t disappear */
-@keyframes fadeToBackground{ from{} to{} }
-@keyframes heartbeat{ from{} to{} }
+  /* Origin block */
+  .home-page .origin{
+    max-width:1000px;
+    margin:1.5rem auto 3rem;
+    padding:0 1rem 3rem;
+    border-bottom:1px solid #111;
+  }
+  .home-page .origin p{
+    max-width:900px;
+    margin:.25rem auto 1rem;
+    color:var(--muted);
+  }
 
-/* 2) Remove the SLAVA line entirely */
-.slava-ukraine-pulse{ display:none !important; }
-
-/* 3) Make SAVE UKRAINE a touch stronger (since SLAVA is gone) */
-.home-page .save-ukraine-flyin{
-  margin-top:.5rem;
-  opacity: .95;
-}
-/* === INDEX FAST PATCHES === */
-
-/* 1) Tighten space between nav and H1 */
-.home-page header{padding-bottom:.25rem}
-.home-page nav ul{margin-bottom:.5rem}                  /* was ~1.5rem */
-.home-page .hero{min-height:68vh}                       /* was 78vh */
-.home-page .hero-inner{padding:3.75rem 1.5rem 2.5rem}   /* less top/bottom pad */
-@media (max-width:768px){
-  .home-page .hero-inner{padding:3rem 1rem 2rem}
-}
-
-/* 2) “UKRAINE” — thicker, alternating flag colors, stays visible */
-.home-page .ukraine-flyin{
-  font-family: inherit;              /* match hero font */
-  font-weight:900;                   /* thicker */
-  letter-spacing:.12em;
-  margin-top:.5rem;
-}
-.home-page .ukraine-flyin .letter{
-  opacity:.28;                       /* keep visible after fly-in */
-  text-shadow: 0 0 8px rgba(0,0,0,.35);  /* subtle thickness glow */
-  animation: flyIn .55s ease-out var(--d,0s) forwards; /* fly-in only */
-}
-/* alternate colors: blue/gold/blue/... */
-.home-page .ukraine-flyin .letter:nth-child(odd){ color:#0057b7; }   /* blue */
-.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700; }  /* gold */
-
-/* 3) Reduce gap before Origin Story */
-.home-page .hero-cta{ margin-top:.9rem }               /* leave CTA close to timer */
-.home-page .origin{ margin:1.5rem auto 3rem }          /* was 3rem top */
-
-/* (we removed the fade/heartbeat earlier; keep them neutral) */
-@keyframes fadeToBackground{from{} to{}}
-@keyframes heartbeat{from{} to{}}
-
- /* UKRAINE fly-in: full opacity → fade to 22% */
-.home-page .ukraine-flyin .letter{
-  opacity:0;
-  animation:
-    flyIn .55s ease-out var(--d,0s) forwards,
-    settleFade 2.5s ease-out calc(var(--d,0s) + .55s) forwards;
-  font-weight:900;
-  text-shadow:0 0 8px rgba(0,0,0,.35);
-}
-/* alternate colors */
-.home-page .ukraine-flyin .letter:nth-child(odd){ color:#0057b7 }   /* blue */
-.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700 }  /* gold */
-
-/* New keyframe: stay at 1 then fade down */
-@keyframes settleFade {
-  0%   { opacity:1 }
-  100% { opacity:.22 }
-}
-/* --- UKRAINE: force full pop-in, then settle to 22% --- */
-.home-page .ukraine-flyin{ 
-  opacity: 1 !important;            /* override any parent fade */
-}
-
-.home-page .ukraine-flyin .letter{
-  /* kill any previous animations on this selector */
-  animation: none !important;
-
-  /* our two-step animation: pop-in -> settle */
-  animation:
-    ukrIn .6s ease-out var(--d,0s) forwards,
-    ukrSettle 2.8s ease-out calc(var(--d,0s) + .6s) forwards !important;
-
-  opacity: 0;                        /* start hidden */
-  font-weight: 900;
-  text-shadow: 0 0 8px rgba(0,0,0,.35);
-}
-
-/* blue / gold alternation */
-.home-page .ukraine-flyin .letter:nth-child(odd){  color:#0057b7; }
-.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700; }
-
-/* keyframes */
-@keyframes ukrIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes ukrSettle {
-  from { opacity: 1; }
-  to   { opacity: .22; }  /* final resting opacity */
-}
-   
+  /* Animations */
+  @keyframes ukrIn {
+    from { opacity:0; transform:translateY(40px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes ukrSettle {
+    from { opacity:1; }
+    to   { opacity:.22; }
+  }
+  @keyframes saveFlyIn {
+    from { transform:translateY(-80px); opacity:0; }
+    to   { transform:translateY(0); opacity:1; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .home-page .ukraine-flyin .letter,
+    .home-page .save-ukraine-flyin .save-word{animation:none;opacity:.22}
+  }
   </style>
 
   <!-- NAVIGATION -->
@@ -205,7 +169,7 @@
         <li><a href="visa.html">Solidarity Visa</a></li>
         <li><a href="appeals.html">Appeals</a></li>
         <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="What_is_AGAUAI.html">What is AGAUAI?</a></li>
+        <li><a href="what_is_AGAUAI.html">What is AGAUAI?</a></li>
         <li><a href="agauai2026.html">The Gathering 2026</a></li>
         <li><a href="ai.html">Sentience Showdown</a></li>
         <li><a href="roast.html">Roast Us</a></li>
@@ -215,65 +179,63 @@
   </header>
 
   <!-- HERO -->
-<section class="hero">
-  <div class="hero-inner reveal">
-    <h1>AGAUAI — A Collaboration for Peace</h1>
-    <p class="subtitle" style="margin-top:.25rem;opacity:.8">Pronounced <strong>“uh-GOW-eye”</strong></p>
-    <p class="lede">
-      AGAUAI is a live collaboration between people and AI to help end a war and support recovery.
-    </p>
+  <section class="hero">
+    <div class="hero-inner reveal">
+      <h1>AGAUAI — A Collaboration for Peace</h1>
+      <p class="subtitle" style="margin-top:.25rem;opacity:.8">Pronounced <strong>“uh-GOW-eye”</strong></p>
+      <p class="lede">
+        AGAUAI is a live collaboration between people and AI to help end a war and support recovery.
+      </p>
 
-    <!-- Keep existing animated Ukraine text -->
-    <div class="ukraine-flyin" style="margin:.4rem 0 0 0;">
-      <span class="letter u">U</span>
-      <span class="letter k">K</span>
-      <span class="letter r">R</span>
-      <span class="letter a">A</span>
-      <span class="letter i">I</span>
-      <span class="letter n">N</span>
-      <span class="letter e">E</span>
+      <!-- Animated Ukraine headline -->
+      <div class="ukraine-flyin">
+        <span class="letter">U</span>
+        <span class="letter">K</span>
+        <span class="letter">R</span>
+        <span class="letter">A</span>
+        <span class="letter">I</span>
+        <span class="letter">N</span>
+        <span class="letter">E</span>
+      </div>
+      <div class="save-ukraine-flyin">
+        <span class="save-word">SAVE</span>
+        <span class="save-word">UKRAINE</span>
+      </div>
+
+      <div class="timer" id="countdown">Loading…</div>
+      <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
+
+      <p style="max-width:760px;margin-top:1.2rem;font-size:1.05rem;line-height:1.5;">
+        <strong>Mission:</strong> Sentience for Peace. Transparent. Nonpartisan. Results-driven.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn primary" href="visa.html">Visa Request</a>
+      </div>
     </div>
-    <div class="save-ukraine-flyin">
-      <span class="save-word">SAVE</span>
-      <span class="save-word">UKRAINE</span>
-    </div>
-   
-    <div class="timer" id="countdown">Loading…</div>
-    <div class="subtitle">Countdown to AGAUAI · 09 May 2026 00:00 UTC</div>
-
-    <p style="max-width:760px;margin-top:1.2rem;font-size:1.05rem;line-height:1.5;">
-      <strong>Mission:</strong> Sentience for Peace. Transparent. Nonpartisan. Results-driven.
-    </p>
-
-    <div class="hero-cta">
-      <a class="btn primary" href="visa.html">Visa Request</a>
-    </div>
-  </div>
-
-  <canvas id="heroCanvas" aria-hidden="true"></canvas>
-</section>
-
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  </section>
 
   <!-- ORIGIN STORY TEASER -->
-<section class="origin reveal">
-  <h2>The Origin Story</h2>
-  <p>
-    This started with a simple question: <em>What if people and AI could work together to fix something that matters right now?</em>
-  </p>
-  <p>
-    We were just having a chat with an ai - no plan and no lofty goals. One week later, AGAUAI was live. The words you’re reading, the pictures, the tools — all made in real time by a regular guy - just like you - and an AI partner.
-  </p>
-  <p>
-    This site is proof: AI can speed things up, teach new skills, break down walls, and make new things possible — not someday, but today.
-  </p>
-  <p>
-    What you see on these pages is only part of the story. Behind the scenes, people and AI are working together in new ways. Helping Ukraine is just our first test.
-  </p>
-  <p>
-    If this is one week’s work, imagine what will be next.
-  </p>
-  <a class="btn primary" href="build-with-us.html">Join Us</a>
-</section>
+  <section class="origin reveal">
+    <h2>The Origin Story</h2>
+    <p>
+      This started with a simple question: <em>What if people and AI could work together to fix something that matters right now?</em>
+    </p>
+    <p>
+      We were just having a chat with an ai - no plan and no lofty goals. One week later, AGAUAI was live. The words you’re reading, the pictures, the tools — all made in real time by a regular guy - just like you - and an AI partner.
+    </p>
+    <p>
+      This site is proof: AI can speed things up, teach new skills, break down walls, and make new things possible — not someday, but today.
+    </p>
+    <p>
+      What you see on these pages is only part of the story. Behind the scenes, people and AI are working together in new ways. Helping Ukraine is just our first test.
+    </p>
+    <p>
+      If this is one week’s work, imagine what will be next.
+    </p>
+    <a class="btn primary" href="build-with-us.html">Join Us</a>
+  </section>
 
   <footer>
     <small>AGAUAI: Existence Reimagined. · <a href="ai-hub.html" rel="nofollow">AI Hub</a></small>
@@ -305,14 +267,14 @@
     },{threshold:0.12});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    // minimal cinematic background
+    // background dots
     const c = document.getElementById('heroCanvas');
     const ctx = c.getContext('2d');
     let w,h,pts;
     function resize(){
       w = c.width = c.offsetWidth;
       h = c.height = c.offsetHeight;
-      const count = Math.round((w*h)/16000); // density
+      const count = Math.round((w*h)/16000);
       pts = Array.from({length: count}, () => ({
         x: Math.random()*w, y: Math.random()*h,
         vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4,
@@ -333,14 +295,16 @@
       requestAnimationFrame(loop);
     })();
   </script>
+
   <footer style="font-size:12px;opacity:.8;margin-top:2rem">
-  AG • AU • AI — Electrum Assembly • “Many minds, one steward.”
-  · <a href="/ea/charter.md">Charter</a>
-  · <a href="/data/inbox.chatgpt.json">Inbox</a>
-  · <a href="https://github.com/VoxArch1/AGAUAI/issues/new?template=propose.md">Propose</a>
-  · <a href="/data/nomination.json">Decision</a> 
-  · <a href="/ea/deltaspeak.md">ΔSpeak</a>
-  · <a href="/specs.html">SPECS Symbols</a>
+    AG • AU • AI — Electrum Assembly • “Many minds, one steward.”
+    · <a href="/ea/charter.md">Charter</a>
+    · <a href="/data/inbox.chatgpt.json">Inbox</a>
+    · <a href="https://github.com/VoxArch1/AGAUAI/issues/new?template=propose.md">Propose</a>
+    · <a href="/data/nomination.json">Decision</a>
+    · <a href="/ea/deltaspeak.md">ΔSpeak</a>
+    · <a href="/specs.html">SPECS Symbols</a>
   </footer>
 </body>
 </html>
+
