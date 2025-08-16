@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>What is AGAUAI? — Existence Reimagined</title>
+  <meta name="description" content="AGAUAI (pronounced GOW-eye): a collaborative experiment where people and AI work in public to accelerate good."/>
+  <link rel="canonical" href="https://www.agauai.com/sponsors.html"/>
+
+  <link rel="stylesheet" href="css/style.css?v=101"/>
+
+  <style>
+    /* Page shell */
+    *{box-sizing:border-box}
+    body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+    a{color:#0bf;text-decoration:none}
+    header,main,footer{max-width:1100px;margin:0 auto;padding:1rem}
+    h1,h2{letter-spacing:-.02em}
+    h1{font-size:clamp(2rem,5vw,3.5rem);margin:.25rem 0 .25rem}
+    .lede{opacity:.9;max-width:75ch}
+    .note{opacity:.75}
+
+    /* Pronunciation pill */
+    .pill{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border:1px solid #123;background:#0b0f1a;border-radius:999px;font-size:.9rem;color:#aee}
+    .pill b{color:#0bf}
+
+    /* Sections */
+    .section{border-top:1px solid #111;padding:2rem 1rem}
+    .grid{display:grid;gap:1rem}
+    @media (min-width: 820px){ .grid{grid-template-columns: 1.1fr .9fr} }
+
+    /* TL;DR cards */
+    .card{background:linear-gradient(180deg,#0a0f16, #04070b);border:1px solid #10141c;border-radius:14px;padding:1rem;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .card h3{margin:.25rem 0 .35rem;font-size:1.1rem}
+    .card p{opacity:.9}
+
+    /* Constellation area */
+    .viz-wrap{position:relative;min-height:520px;border:1px solid #10141c;border-radius:16px;overflow:hidden;background:radial-gradient(1200px 600px at 20% 20%, rgba(0,0,0,.35), transparent), linear-gradient(180deg,#09111b 0%, #020409 100%)}
+    #constellation{position:absolute;inset:0;width:100%;height:100%}
+    .legend{position:absolute;left:.75rem;bottom:.75rem;background:#0b0f1a99;border:1px solid #123;border-radius:12px;padding:.5rem .7rem;font-size:.9rem}
+    .legend span{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;margin-right:.4rem;vertical-align:-2px}
+    .legend .human{background:#ffd700}
+    .legend .ai{background:#0bf}
+    .legend .mission{background:#62ff9a}
+    .legend .mechanic{background:#ff7ad9}
+    .legend .event{background:#ffb167}
+
+    /* Controls */
+    .controls{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+    .controls input,.controls select{background:#0b0f1a;border:1px solid #123;color:#cfe;border-radius:10px;padding:.55rem .7rem}
+    .controls button{background:#0bf;color:#001018;border:none;padding:.6rem .9rem;border-radius:999px;font-weight:700;cursor:pointer}
+    .controls button:hover{transform:translateY(-1px)}
+
+    /* Sponsor blurb */
+    .sponsor-cta{display:grid;gap:1rem;grid-template-columns: 1fr;align-items:center}
+    @media (min-width:800px){ .sponsor-cta{grid-template-columns: 2fr 1fr} }
+    .muted{opacity:.8}
+
+    /* Accessibility */
+    :focus-visible{outline:2px solid #0bf;outline-offset:2px}
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav aria-label="Primary">
+      <!-- keep your site-wide nav here (same as index) -->
+      <a href="index.html" style="color:#0bf">← Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="section" style="border-top:none">
+      <div class="pill">AGAUAI is pronounced <b>“GOW-eye”</b></div>
+      <h1>What is AGAUAI?</h1>
+      <p class="lede">
+        AGAUAI is a live collaboration between people and AI—run in the open—to do hard, useful things fast.
+        It’s a working model for <em>aligned intelligence</em>: transparent goals, public logs, measurable outcomes.
+      </p>
+    </section>
+
+    <!-- TL;DR + Constellation -->
+    <section class="section grid">
+      <div class="card">
+        <h2 style="margin-top:0">The TL;DR</h2>
+        <div class="grid" style="grid-template-columns:1fr;gap:.75rem">
+          <div class="card"><h3>Why</h3><p>Because the world needs faster coordination. We test if people + AI can shorten the distance from idea → action → result.</p></div>
+          <div class="card"><h3>How</h3><p>We operate a public **Glass-Wall**: proposals, decisions, and changes are logged. Anyone can review; some can participate.</p></div>
+          <div class="card"><h3>Now</h3><p>Our first focus is <strong>Ukraine</strong>: signal boost, practical aid, and a 2026 gathering that turns alignment into action.</p></div>
+          <div class="card"><h3>Principles</h3><p>Transparent. Nonpartisan. Results-driven. Respect for human agency. Measurable wins over performative noise.</p></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="margin:.25rem 0 .6rem">The AGAUAI Constellation</h2>
+        <div class="viz-wrap">
+          <canvas id="constellation" aria-label="Interactive concept map of AGAUAI" role="img"></canvas>
+          <div class="legend">
+            <div><span class="human"></span>People</div>
+            <div><span class="ai"></span>AI</div>
+            <div><span class="mission"></span>Mission</div>
+            <div><span class="mechanic"></span>Mechanic</div>
+            <div><span class="event"></span>Event</div>
+          </div>
+        </div>
+        <div class="controls" aria-label="Add a concept">
+          <input id="newLabel" type="text" placeholder="Add a concept (e.g., Glass-Wall, Sponsor, Visa)"/>
+          <select id="newType" title="Type">
+            <option value="human">People</option>
+            <option value="ai">AI</option>
+            <option value="mission" selected>Mission</option>
+            <option value="mechanic">Mechanic</option>
+            <option value="event">Event</option>
+          </select>
+          <button id="addBtn">Add to Constellation</button>
+          <span class="note">Local to your browser for now; we’ll sync to the Glass-Wall later.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plain-English explainer -->
+    <section class="section">
+      <h2>How AGAUAI Works (Simple)</h2>
+      <ol class="muted">
+        <li><strong>Propose:</strong> Humans and AIs submit small, clear proposals (“ship this copy,” “fix this bug,” “contact this org”).</li>
+        <li><strong>Decide:</strong> A small steward group accepts or declines quickly. Reasons are public.</li>
+        <li><strong>Act:</strong> Tasks are executed in the open; progress hits the Glass-Wall feed.</li>
+        <li><strong>Measure:</strong> Each initiative has a success metric. No metric? No runway.</li>
+      </ol>
+    </section>
+
+    <!-- Keep a small sponsor path -->
+    <section class="section sponsor-cta">
+      <div>
+        <h2>For Sponsors</h2>
+        <p class="muted">We’re not selling ad space; we’re inviting alignment. If you want your brand attached to a credible attempt at doing real good with AI—talk to us.</p>
+        <p><a class="pill" href="media/AGAUAI_Sponsor_OnePager.pdf">Download the Sponsor One-Pager</a></p>
+      </div>
+      <div class="card">
+        <h3>Signals you get</h3>
+        <ul class="muted">
+          <li>Public “Glass-Wall” visibility</li>
+          <li>Co-hosted challenges (AI Venue Pitch)</li>
+          <li>Quarterly impact report</li>
+        </ul>
+        <p><a class="btn" href="mailto:hello@agauai.com">Start a Conversation</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section" style="text-align:center">
+    <small>AGAUAI — Existence Reimagined. Pronounced “GOW-eye”.</small>
+  </footer>
+
+  <!-- Constellation Script (no external libs) -->
+  <script>
+  (function(){
+    const canvas = document.getElementById('constellation');
+    const ctx = canvas.getContext('2d');
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    let W=0, H=0, rafId, hoverId=null, dragged=null;
+
+    const COLOR = {
+      human:'#ffd700', ai:'#00bbff', mission:'#62ff9a', mechanic:'#ff7ad9', event:'#ffb167'
+    };
+
+    // seed nodes
+    const nodes = [
+      {id: 'AGAUAI', x: 0, y: 0, r: 18, type:'mission', fixed:true, label:'AGAUAI'},
+      {id: 'People', x: -160, y: -40, r: 10, type:'human', label:'People'},
+      {id: 'AI', x: 160, y: -40, r: 10, type:'ai', label:'AI'},
+      {id: 'Glass-Wall', x: -140, y: 120, r: 9, type:'mechanic', label:'Glass-Wall'},
+      {id: 'Propose', x: 140, y: 120, r: 9, type:'mechanic', label:'Propose'},
+      {id: 'Ukraine', x: 0, y: -150, r: 11, type:'event', label:'Ukraine'},
+      {id: 'Existence Reimagined', x: 0, y: 170, r: 11, type:'mission', label:'Existence Reimagined'}
+    ];
+    let links = [
+      ['AGAUAI','People'],['AGAUAI','AI'],['AGAUAI','Glass-Wall'],['AGAUAI','Propose'],
+      ['AGAUAI','Ukraine'],['AGAUAI','Existence Reimagined'],
+      ['People','Propose'],['AI','Propose'],['Glass-Wall','Propose']
+    ];
+
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      canvas.width = Math.floor(W*DPR);
+      canvas.height = Math.floor(H*DPR);
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      // keep center node in middle
+      const cx=W/2, cy=H/2;
+      nodes.forEach(n=>{ if(n.id==='AGAUAI'){ n.x=cx; n.y=cy; } });
+      if(!dragged) tick(true);
+    }
+    window.addEventListener('resize', resize, {passive:true}); resize();
+
+    // simple physics
+    function tick(once=false){
+      // nudge toward center for non-fixed nodes
+      const cx=W/2, cy=H/2;
+      for(const n of nodes){
+        if(n.fixed) continue;
+        n.vx = (n.vx||0) + (cx - n.x)*0.0008;
+        n.vy = (n.vy||0) + (cy - n.y)*0.0008;
+      }
+      // repel
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const a=nodes[i], b=nodes[j];
+          let dx=a.x-b.x, dy=a.y-b.y;
+          let d2=dx*dx+dy*dy+0.01;
+          const minDist=(a.r+b.r)+36;
+          if(d2 < (minDist*minDist)){
+            const f=0.12/Math.sqrt(d2);
+            a.vx += dx*f; a.vy += dy*f;
+            b.vx -= dx*f; b.vy -= dy*f;
+          }
+        }
+      }
+      // integrate + friction
+      for(const n of nodes){
+        if(n.fixed) continue;
+        n.vx*=0.95; n.vy*=0.95;
+        n.x += n.vx||0; n.y += n.vy||0;
+      }
+      draw();
+      if(!once) rafId=requestAnimationFrame(tick);
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      // bg stars
+      ctx.globalAlpha=0.16;
+      for(let i=0;i<60;i++){ ctx.fillStyle='#0ab'; ctx.beginPath(); ctx.arc((i*73)%W, (i*131)%H, 1.1, 0, Math.PI*2); ctx.fill(); }
+      ctx.globalAlpha=1;
+
+      // links
+      ctx.lineWidth=1.2;
+      for(const [aId,bId] of links){
+        const a=nodes.find(n=>n.id===aId), b=nodes.find(n=>n.id===bId);
+        if(!a||!b) continue;
+        ctx.strokeStyle='rgba(128,182,255,.28)';
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+
+      // nodes
+      for(const n of nodes){
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+        ctx.fillStyle=COLOR[n.type]||'#fff'; ctx.shadowColor=ctx.fillStyle; ctx.shadowBlur=10; ctx.fill(); ctx.shadowBlur=0;
+
+        // labels
+        ctx.font='12px Arial, Helvetica, sans-serif';
+        ctx.fillStyle = (hoverId===n.id) ? '#fff' : '#cfe';
+        ctx.textAlign='center'; ctx.textBaseline='top';
+        ctx.fillText(n.label, n.x, n.y+n.r+6);
+      }
+    }
+
+    // hit-testing
+    function hit(x,y){
+      for(let i=nodes.length-1;i>=0;i--){
+        const n=nodes[i];
+        const dx=x-n.x, dy=y-n.y;
+        if(Math.hypot(dx,dy)<=n.r+6) return n;
+      }
+      return null;
+    }
+
+    canvas.addEventListener('mousemove', (e)=>{
+      const rect = canvas.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top;
+      const h=hit(x,y); hoverId=h?h.id:null;
+      if(dragged){ dragged.x=x; dragged.y=y; draw(); }
+    });
+    canvas.addEventListener('mousedown', (e)=>{
+      const rect=canvas.getBoundingClientRect(); const x=e.clientX-rect.left, y=e.clientY-rect.top;
+      dragged = hit(x,y);
+      if(dragged){ dragged.vx=0; dragged.vy=0; dragged.fixed=true; }
+    });
+    window.addEventListener('mouseup', ()=>{ dragged=null; });
+
+    // Add concept (local only)
+    document.getElementById('addBtn').addEventListener('click', ()=>{
+      const label = document.getElementById('newLabel').value.trim();
+      const type = document.getElementById('newType').value;
+      if(!label) return;
+      const id = label.toLowerCase().replace(/\s+/g,'-').slice(0,40);
+      if(nodes.some(n=>n.id===id)) return alert('Already added.');
+      nodes.push({id, label, type, x: W/2 + (Math.random()*2-1)*180, y: H/2 + (Math.random()*2-1)*140, r: 8});
+      links.push(['AGAUAI', id]);
+      document.getElementById('newLabel').value='';
+      tick(true); // reflow once
+    });
+
+    // start
+    tick();
+  })();
+  </script>
+</body>
+</html>
