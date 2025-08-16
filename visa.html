@@ -5,73 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Solidarity Visa — AGAUAI</title>
 
-  <!-- Your site-wide styles; keep this -->
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Global styles -->
+  <link rel="stylesheet" href="css/global.css" />
 
-  <!-- Page-local styles just for the pinned video overlay -->
+  <!-- Page-local styles (scoped to .visa-page) -->
   <style>
-    /* Dark overlay on the palace background for readability */
+    /* Palace background + readability overlay */
+    body.visa-page{
+      background-image:url('images/Palace.jpg');
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+      color:#fff;
+    }
     body.visa-page::before{
       content:"";
       position:fixed; inset:0;
-      background: rgba(0,0,0,.60);
+      background:rgba(0,0,0,.60);
       z-index:-1;
     }
 
-    /* Pinned/cropped walk-in video ----------------------------- */
+    /* Layout polish */
+    main{max-width:1100px;margin:auto;padding:1rem}
+    h1{margin:.25rem 0 .75rem}
+    .tagline{opacity:.9;margin:.25rem 0 1rem;text-align:center}
+
+    /* Form: readable on dark bg */
+    form{margin-top:.75rem}
+    form label{display:block;margin:.5rem 0 .15rem;opacity:.85}
+    form input, form textarea, form button{
+      width:100%; max-width:520px;
+      background:#111; color:#fff; border:1px solid #444;
+      padding:.6rem .7rem; border-radius:8px;
+    }
+    form textarea{min-height:100px}
+    form button{
+      margin-top:.6rem; background:var(--accent); color:var(--ink);
+      font-weight:700; border:none; cursor:pointer; transition:transform .15s ease
+    }
+    form button:hover{transform:translateY(-2px)}
+
+    /* Pinned/cropped walk-in video */
     .zel-stick{
-      position:fixed;
-      left:50%;
-      bottom:1.2rem;
-      transform:translateX(-50%);
-      z-index:1000;
-      pointer-events:none;        /* let page be clickable underneath */
-      opacity:1;
-      transition:opacity .7s ease;
+      position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%);
+      z-index:1000; pointer-events:none; opacity:1; transition:opacity .7s ease;
     }
-    .zel-stick.is-out{
-      opacity:0;
-      pointer-events:none;
-    }
-
+    .zel-stick.is-out{opacity:0; pointer-events:none;}
     .zel-crop{
-      width: clamp(240px, 32vw, 560px);
-      height: clamp(360px, 62vh, 820px);
-      overflow:hidden;
-      border-radius:12px;
+      width:clamp(240px, 32vw, 560px); height:clamp(360px, 62vh, 820px);
+      overflow:hidden; border-radius:12px; pointer-events:auto;
+      box-shadow:0 14px 40px rgba(0,0,0,.55);
       background:transparent;
-      pointer-events:auto;        /* re-enable inside */
-      box-shadow: 0 14px 40px rgba(0,0,0,.55);
     }
-
     .zel-crop video{
-      width:100%;
-      height:100%;
-      object-fit:cover;           /* zoom & crop side bars */
-      object-position:50% 100%;   /* keep feet near bottom */
-      display:block;
-      background:transparent;
+      width:100%; height:100%; object-fit:cover; object-position:50% 100%; display:block;
     }
-
     #unmuteBtn{
-      position:absolute;
-      right:.6rem;
-      bottom:.6rem;
-      background:rgba(15,17,21,.78);
-      color:#fff;
-      padding:.45rem .7rem;
-      font-size:.9rem;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:8px;
-      cursor:pointer;
-      backdrop-filter: blur(6px);
+      position:absolute; right:.6rem; bottom:.6rem;
+      background:rgba(15,17,21,.78); color:#fff; padding:.45rem .7rem; font-size:.9rem;
+      border:1px solid rgba(255,255,255,.18); border-radius:8px; cursor:pointer; backdrop-filter:blur(6px);
     }
-    #unmuteBtn:hover{ background:rgba(15,17,21,.92); }
-
-    @media (max-width:560px){
-      .zel-stick{ bottom:.6rem; }
-      .zel-crop{ width:70vw; height:58vh; }
-    }
+    #unmuteBtn:hover{background:rgba(15,17,21,.92)}
+    @media (max-width:560px){ .zel-stick{bottom:.6rem} .zel-crop{width:70vw; height:58vh} }
   </style>
 </head>
 
@@ -85,7 +80,7 @@
         <li><a href="visa.html" class="active">Solidarity Visa</a></li>
         <li><a href="appeals.html">Appeals</a></li>
         <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="What_is_AGAUAI.html">What is AGAUAI?</a></li>
+        <li><a href="what_is_AGAUAI.html">What is AGAUAI?</a></li>
         <li><a href="agauai2026.html">The Gathering 2026</a></li>
         <li><a href="ai.html">Sentience Showdown</a></li>
         <li><a href="roast.html">Roast Us</a></li>
@@ -107,10 +102,12 @@
 
   <!-- MAIN CONTENT -->
   <main>
-    <section>
+    <section class="center">
       <h1>Global Solidarity Visa</h1>
       <p class="tagline"><strong>“We need citizens, not spectators.”</strong></p>
+    </section>
 
+    <section>
       <p>Show the Ukrainian people they have our support.</p>
       <p>By including your name below, you join a global community in support of Ukraine.</p>
       <p>This offer is in the hands of the Ukrainian people. What this visa may entitle is up to them.</p>
@@ -132,21 +129,25 @@
     <section>
       <h2>Add Your Name Below to be included on the APPEAL to the Ukrainian Parliament</h2>
 
+      <!-- Formspree: name your email field 'email' to satisfy validation -->
       <form action="https://formspree.io/f/xqalgbez" method="POST">
-        <label for="name">Name:</label><br />
-        <input id="name" type="text" name="name" required><br /><br />
+        <label for="name">Name</label>
+        <input id="name" type="text" name="name" required>
 
-        <label for="email">Email (not public):</label><br />
-        <input id="email" type="email" name="_replyto" required><br /><br />
+        <label for="email">Email (not public)</label>
+        <input id="email" type="email" name="email" required>
 
-        <label for="country">Country:</label><br />
-        <input id="country" type="text" name="country" required><br /><br />
+        <label for="country">Country</label>
+        <input id="country" type="text" name="country" required>
 
-        <label for="suggestion">Optional Suggestion (What should this visa entitle?):</label><br />
-        <textarea id="suggestion" name="suggestion" rows="3" maxlength="200"></textarea><br /><br />
-        <input type="hidden" name="source" value="Visa Page"/>
+        <label for="suggestion">Optional Suggestion (What should this visa entitle?)</label>
+        <textarea id="suggestion" name="suggestion" rows="3" maxlength="200"></textarea>
 
-        <button type="submit">Submit Name</button>
+        <!-- helpful metadata -->
+        <input type="hidden" name="source" value="Visa Page">
+        <input type="hidden" name="_subject" value="AGAUAI Solidarity Visa submission">
+
+        <button type="submit" class="btn primary">Submit Name</button>
       </form>
 
       <p><em>One voice is a whisper; together we roar.</em></p>
@@ -154,36 +155,30 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>
+  <footer class="center">
     <p>© 2025 AGAUAI</p>
   </footer>
 
-  <!-- Logic: sync voice, start it at t=3s, mute/unmute both, fade out on end -->
+  <!-- Logic: sync voice, start around t≈2s, mute/unmute both, fade out on end -->
   <script>
     (function () {
       const stick = document.querySelector('.zel-stick');
       const vid   = document.getElementById('zelenskyVideo');
       const btn   = document.getElementById('unmuteBtn');
 
-      // Voice track (in your repo): /videos/ai/zelensky-tts-file.wav
+      // Optional voice track (keep file if you want audio)
       const voice = new Audio('/videos/ai/zelensky-tts-file.wav');
       voice.preload = 'auto';
-      voice.muted   = true;        // start muted to satisfy autoplay policies
-      let voicePrimed  = false;
-      let voiceStarted = false;
+      voice.muted   = true;  // start muted for autoplay policies
+      let voicePrimed=false, voiceStarted=false;
 
       function primeVoice() {
         if (voicePrimed) return;
         voicePrimed = true;
-        // A tiny play/pause while muted helps future play() succeed everywhere
-        voice.play().then(() => {
-          voice.pause();
-          voice.currentTime = 0;
-        }).catch(() => {});
+        voice.play().then(()=>{ voice.pause(); voice.currentTime=0; }).catch(()=>{});
       }
 
-      // Try to start the voice exactly when the video time passes 3.0s
-      function maybeStartVoiceAt3s() {
+      function maybeStartVoiceAt2s() {
         primeVoice();
         if (!voiceStarted && vid.currentTime >= 2) {
           voice.currentTime = 0;
@@ -191,45 +186,25 @@
           voice.play().catch(()=>{});
         }
       }
-      vid.addEventListener('timeupdate', maybeStartVoiceAt3s);
+      vid.addEventListener('timeupdate', maybeStartVoiceAt2s);
 
-      // Keep voice in lockstep with the video
-      vid.addEventListener('play',  () => { if (voiceStarted) voice.play().catch(()=>{}); });
-      vid.addEventListener('pause', () => { if (voiceStarted) voice.pause(); });
+      vid.addEventListener('play',  ()=>{ if (voiceStarted) voice.play().catch(()=>{}); });
+      vid.addEventListener('pause', ()=>{ if (voiceStarted) voice.pause(); });
 
-      // Fade the overlay away when the walk-in finishes
-      vid.addEventListener('ended', () => {
+      vid.addEventListener('ended', ()=>{
         if (voiceStarted) { voice.pause(); voice.currentTime = 0; }
-        setTimeout(() => {
-          stick.classList.add('is-out');
-          setTimeout(() => stick.remove(), 800);  // matches .7s CSS transition + buffer
-        }, 150);
+        setTimeout(()=>{ stick.classList.add('is-out'); setTimeout(()=>stick.remove(), 800); }, 150);
       });
 
-      // Kickstart on first interaction for stricter browsers
-      const kickstart = () => {
-        vid.play().catch(()=>{});
-        primeVoice();
-        window.removeEventListener('pointerdown', kickstart);
-      };
+      // Ensure autoplay works after first interaction on strict browsers
+      const kickstart = () => { vid.play().catch(()=>{}); primeVoice(); window.removeEventListener('pointerdown', kickstart); };
       window.addEventListener('pointerdown', kickstart, { once:true });
 
-      // Mute/unmute toggles both video and voice
+      // Mute/unmute both
       btn.addEventListener('click', () => {
-        const willUnmute = vid.muted;    // current state before toggling
-        vid.muted   = !willUnmute;
+        const willUnmute = vid.muted;
+        vid.muted = !willUnmute;
         voice.muted = vid.muted;
-
         btn.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
         btn.setAttribute('aria-pressed', String(willUnmute));
-
-        // ensure playback if the user just unmuted
-        if (willUnmute) {
-          vid.play().catch(()=>{});
-          if (voiceStarted) voice.play().catch(()=>{});
-        }
-      });
-    })();
-  </script>
-</body>
-</html>
+        if (willUnmu
