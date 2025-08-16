@@ -119,31 +119,45 @@
           <h2>Cast Your Vote · Choose the Ground</h2>
 
           <!-- Formspree: use your working endpoint + email field named 'email' -->
-          <form class="vote-form" action="https://formspree.io/f/xqalgbez" method="POST">
-            <fieldset>
-              <legend>Where should AGAUAI 2026 take place?</legend>
+         <form class="vote-form" action="https://formspree.io/f/xqalgbez" method="POST">
+  <fieldset>
+    <legend>Where should AGAUAI 2026 take place?</legend>
 
-              <label class="radio-row"><input type="radio" name="location" value="Crimea" required aria-label="Crimea"><span>Crimea</span></label>
-              <label class="radio-row"><input type="radio" name="location" value="Zaporizhzhia" aria-label="Zaporizhzhia"><span>Zaporizhzhia</span></label>
-              <label class="radio-row"><input type="radio" name="location" value="Kyiv" aria-label="Kyiv"><span>Kyiv</span></label>
-              <label class="radio-row"><input type="radio" name="location" value="Lviv / Poland border" aria-label="Lviv or Poland border"><span>Lviv / Poland border</span></label>
-              <label class="radio-row"><input type="radio" name="location" value="Belgorod" aria-label="Belgorod"><span>Belgorod</span></label>
-            </fieldset>
+    <label class="radio-row">
+      <input type="radio" name="location" value="Crimea" required>
+      <span>Crimea</span>
+    </label>
+    <label class="radio-row">
+      <input type="radio" name="location" value="Zaporizhzhia">
+      <span>Zaporizhzhia</span>
+    </label>
+    <label class="radio-row">
+      <input type="radio" name="location" value="Kyiv">
+      <span>Kyiv</span>
+    </label>
+    <label class="radio-row">
+      <input type="radio" name="location" value="Lviv / Poland border">
+      <span>Lviv / Poland border</span>
+    </label>
+    <label class="radio-row">
+      <input type="radio" name="location" value="Belgorod">
+      <span>Belgorod</span>
+    </label>
+  </fieldset>
 
-            <label for="email">Your Email (one vote per person):</label>
-            <input id="email" type="email" name="email" required />
+  <label for="email">Your Email (one vote per person):</label>
+  <input id="email" type="email" name="email" required />
 
-            <!-- helpful metadata -->
-            <input type="hidden" name="source" value="AGAUAI 2026 Vote" />
-            <input type="hidden" name="_subject" value="AGAUAI 2026 — Vote submission" />
-            <!-- optional success redirect -->
-            <!-- <input type="hidden" name="_redirect" value="https://www.agauai.com/thanks.html" /> -->
+  <!-- helpful metadata -->
+  <input type="hidden" name="source" value="AGAUAI 2026 Vote" />
+  <input type="hidden" name="_subject" value="AGAUAI 2026 — Vote submission" />
 
-            <!-- honeypot (spam trap) -->
-            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"/>
+  <!-- spam honeypot -->
+  <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"/>
 
-            <button type="submit" class="btn primary">Submit My Vote</button>
-          </form>
+  <button type="submit" class="btn primary">Submit My Vote</button>
+</form>
+
         </div>
 
         <div class="image-col">
