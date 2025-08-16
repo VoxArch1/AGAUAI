@@ -4,72 +4,109 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery — AGAUAI</title>
-  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Global baseline -->
+  <link rel="stylesheet" href="css/global.css" />
+
+  <!-- Page-local styles (Gallery only) -->
+  <style>
+    /* Responsive media grid */
+    .gallery-grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: clamp(14px, 2.5vw, 22px);
+      align-items:start;
+      margin-top: 1.5rem;
+    }
+    /* Card */
+    .gallery-item{
+      grid-column: span 6;            /* 2-up on desktop */
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,.28);
+    }
+    .gallery-media{ display:block; width:100%; }
+    .caption{
+      font-style: italic; color: #ccc; font-size:.95rem;
+      padding:.75rem .9rem 1rem;
+    }
+    /* Full-width hero tile option (unused now, handy later) */
+    .gallery-item.wide{ grid-column: 1 / -1; }
+
+    /* Mobile: single column */
+    @media (max-width:900px){
+      .gallery-item{ grid-column: 1 / -1; }
+    }
+  </style>
 </head>
 <body>
 
- <!-- NAVIGATION -->
-  <header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="visa.html">Solidarity Visa</a></li>
-      <li><a href="appeals.html">Appeals</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="sponsors.html">What is AGAUAI?</a></li>
-      <li><a href="agauai2026.html">The Gathering 2026</a></li>
-      <li><a href="ai.html">Sentience Showdown</a></li>
-      <li><a href="roast.html">Roast Us</a></li>
-      <li><a href="build-with-us.html" class="active">Join Us</a></li>
-    </ul>
-  </nav>
-</header>
-
-
+  <!-- NAVIGATION -->
+  <header class="container">
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visa.html">Solidarity Visa</a></li>
+        <li><a href="appeals.html">Appeals</a></li>
+        <li><a href="gallery.html" class="active" aria-current="page">Gallery</a></li>
+        <li><a href="what_is_AGAUAI.html">What is AGAUAI?</a></li>
+        <li><a href="agauai2026.html">The Gathering 2026</a></li>
+        <li><a href="ai.html">Sentience Showdown</a></li>
+        <li><a href="roast.html">Roast Us</a></li>
+        <li><a href="build-with-us.html">Join Us</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- MAIN CONTENT -->
-  <main>
+  <main class="container">
     <section>
       <h1>Faces and Places Worth Saving</h1>
       <p class="tagline"><strong>“See the beauty to know the stakes.”</strong></p>
 
       <p>This gallery features real people, places, and hopes that war puts at risk. It also highlights visions of peace, possibility, and rebirth.</p>
-
       <p>Soon we will display curated submissions — photographs, AI artworks, digital recreations, and stories from those affected by this war.</p>
-
       <p>Want to submit an image or story? <a href="build-with-us.html">Join the mission.</a></p>
 
-      <div class="placeholder" style="margin-top:2rem;">
-   <section class="gallery-grid">
-      <div class="gallery-item">
-      <img src="https://tse4.mm.bing.net/th/id/OIP.tW47ckM95CQpY7EGDEcOhAHaE6?r=0&pid=Api" alt="Mountain landscape in Ukraine">
-      <p class="caption">The Carpathian Mountains — ancient, silent witnesses to Ukraine’s strength and serenity.</p>
-      </div>
-      <!-- Ukrainian Girl Image -->
-<div class="gallery-item">
-  <img src="images/dev/ukrainianflowergirl.jpg" alt="Ukrainian girl in traditional dress" style="max-width: 100%; border-radius: 8px; box-shadow: 0 0 10px #222;">
-  <p class="caption">
-    A Ukrainian girl adorned in traditional dress and vinok — symbols of purity, pride, and peaceful identity.
-  </p>
-</div>
+      <section class="gallery-grid" aria-label="Image and video gallery">
+        <!-- Carpathians -->
+        <figure class="gallery-item">
+          <img class="gallery-media"
+               src="https://tse4.mm.bing.net/th/id/OIP.tW47ckM95CQpY7EGDEcOhAHaE6?r=0&pid=Api"
+               alt="Mountain landscape in Ukraine"/>
+          <figcaption class="caption">
+            The Carpathian Mountains — ancient, silent witnesses to Ukraine’s strength and serenity.
+          </figcaption>
+        </figure>
 
-<!-- Ukrainian Girl Video -->
-<div class="gallery-item" style="margin-top: 2rem;">
-  <video controls autoplay muted loop playsinline style="max-width: 100%; border-radius: 8px; box-shadow: 0 0 10px #222;">
-    <source src="videos/ai/Ukrainiangirl(1).mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <p class="caption">
-    Animated tribute — A new generation of Ukrainian daughters rising from tradition into the future.
-  </p>
-</div>
+        <!-- Ukrainian Girl (photo) -->
+        <figure class="gallery-item">
+          <img class="gallery-media"
+               src="images/dev/ukrainianflowergirl.jpg"
+               alt="Ukrainian girl in traditional dress with vinok wreath"/>
+          <figcaption class="caption">
+            A Ukrainian girl adorned in traditional dress and vinok — symbols of purity, pride, and peaceful identity.
+          </figcaption>
+        </figure>
 
-   </section>
-      </div>
+        <!-- Ukrainian Girl (video) -->
+        <figure class="gallery-item">
+          <video class="gallery-media" controls autoplay muted loop playsinline
+                 poster="images/appeals-poster.jpg">
+            <source src="videos/ai/Ukrainiangirl(1).mp4" type="video/mp4"/>
+            Your browser does not support the video tag.
+          </video>
+          <figcaption class="caption">
+            Animated tribute — A new generation of Ukrainian daughters rising from tradition into the future.
+          </figcaption>
+        </figure>
+      </section>
     </section>
   </main>
 
-  <footer>
+  <footer class="center">
     <p>© 2025 AGAUAI</p>
   </footer>
 
