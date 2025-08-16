@@ -109,6 +109,40 @@
   margin-top:.5rem;
   opacity: .95;
 }
+/* === INDEX FAST PATCHES === */
+
+/* 1) Tighten space between nav and H1 */
+.home-page header{padding-bottom:.25rem}
+.home-page nav ul{margin-bottom:.5rem}                  /* was ~1.5rem */
+.home-page .hero{min-height:68vh}                       /* was 78vh */
+.home-page .hero-inner{padding:3.75rem 1.5rem 2.5rem}   /* less top/bottom pad */
+@media (max-width:768px){
+  .home-page .hero-inner{padding:3rem 1rem 2rem}
+}
+
+/* 2) “UKRAINE” — thicker, alternating flag colors, stays visible */
+.home-page .ukraine-flyin{
+  font-family: inherit;              /* match hero font */
+  font-weight:900;                   /* thicker */
+  letter-spacing:.12em;
+  margin-top:.5rem;
+}
+.home-page .ukraine-flyin .letter{
+  opacity:.28;                       /* keep visible after fly-in */
+  text-shadow: 0 0 8px rgba(0,0,0,.35);  /* subtle thickness glow */
+  animation: flyIn .55s ease-out var(--d,0s) forwards; /* fly-in only */
+}
+/* alternate colors: blue/gold/blue/... */
+.home-page .ukraine-flyin .letter:nth-child(odd){ color:#0057b7; }   /* blue */
+.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700; }  /* gold */
+
+/* 3) Reduce gap before Origin Story */
+.home-page .hero-cta{ margin-top:.9rem }               /* leave CTA close to timer */
+.home-page .origin{ margin:1.5rem auto 3rem }          /* was 3rem top */
+
+/* (we removed the fade/heartbeat earlier; keep them neutral) */
+@keyframes fadeToBackground{from{} to{}}
+@keyframes heartbeat{from{} to{}}
  
   </style>
 
