@@ -4,72 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Appeals — AGAUAI</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <style>
-    html, body { height: 100%; margin: 0; }
 
-    /* ===== FULL‑PAGE BACKGROUND (no cropping, paper visible) ===== */
+  <!-- Global styles -->
+  <link rel="stylesheet" href="css/global.css" />
+
+  <!-- Page-local styles -->
+  <style>
+    html, body { height: 100%; }
+
+    /* ===== FULL-PAGE BACKGROUND (no cropping, paper visible) ===== */
     .video-wrap {
-      position: fixed;
-      inset: 0;
-      z-index: -3;
-      overflow: hidden;
-      background: #000;
+      position: fixed; inset: 0; z-index: -3; overflow: hidden; background: #000;
     }
     /* Blurred filler behind to avoid black bars */
     .video-fill {
-      position: absolute;
-      inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;              /* fills screen */
-      filter: blur(14px) brightness(0.9);
-      transform: scale(1.06);         /* hide blur edges */
-      opacity: 0.45;
-      z-index: 0;
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; filter: blur(14px) brightness(0.9);
+      transform: scale(1.06); opacity: .45; z-index: 0;
     }
     /* Main video shows the ENTIRE frame (no crop) */
     .video-main {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 100%; height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: contain;            /* <-- full frame, paper visible */
-      object-position: 50% 100%;      /* anchor bottom so desk/paper sit in view */
+      position: absolute; top: 50%; left: 50%; width: 100%; height: 100%;
+      transform: translate(-50%, -50%); object-fit: contain; object-position: 50% 100%;
       z-index: 1;
     }
     /* Optional subtle scrim for text readability */
     .video-scrim {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.40);
-      z-index: -2;
-      pointer-events: none;
+      position: fixed; inset: 0; background: rgba(0,0,0,.40); z-index: -2; pointer-events: none;
     }
 
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       .video-fill, .video-main { animation: none; }
     }
 
     /* ===== PAGE LAYOUT ===== */
     .page-content { position: relative; z-index: 1; color: #fff; }
-    header nav ul {
-      list-style: none; margin: 0; padding: .75rem 1rem;
-      display: flex; flex-wrap: wrap; gap: 1rem;
-      background: rgba(0,0,0,0.55);
-    }
-    nav a { color: #00aeff; text-decoration: none; }
-    nav a.active { text-decoration: underline; }
+    /* keep nav consistent but allow a soft backdrop for readability on video */
+    header nav ul { background: rgba(0,0,0,.55); padding: .75rem 1rem; border-radius: 12px; }
+    nav a.active { color: var(--gold); text-decoration: none; }
 
     main { padding: 1rem 1.25rem 2.5rem; }
-    h1 { color: #ffd000; margin-top: 1rem; }
+    h1 { color: var(--gold); margin-top: 1rem; }
 
     .scroll-banner-wrapper, .scroll-banner, hr {
       background: transparent !important; border: 0 !important; box-shadow: none !important;
     }
     a.inline-link { color: #6cf; text-decoration: none; }
     a.inline-link:hover { text-decoration: underline; }
-    footer { padding: 1rem 1.25rem; color: #ccc; }
+
+    /* Submit form */
+    .appeal-form { margin-top: 1.25rem; }
+    .appeal-form label { display:block; margin:.5rem 0 .15rem; opacity:.9; }
+    .appeal-form input, .appeal-form textarea, .appeal-form button{
+      width:100%; max-width:720px; background:#111; color:#fff; border:1px solid #444;
+      padding:.65rem .75rem; border-radius:10px;
+    }
+    .appeal-form textarea{ min-height:140px }
+    .appeal-form button{
+      width:min(240px,100%); margin-top:.8rem; background:var(--accent); color:var(--ink);
+      font-weight:700; border:none; cursor:pointer; transition:transform .15s ease;
+    }
+    .appeal-form button:hover{ transform: translateY(-2px) }
+
+    footer { color: #ccc; }
   </style>
 </head>
 <body>
@@ -87,14 +84,14 @@
 
   <!-- PAGE CONTENT -->
   <div class="page-content">
-    <header>
-      <nav>
+    <header class="container">
+      <nav aria-label="Primary">
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="visa.html">Solidarity Visa</a></li>
-          <li><a href="appeals.html" class="active">Appeals</a></li>
+          <li><a href="appeals.html" class="active" aria-current="page">Appeals</a></li>
           <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="What_is_AGAUAI.html">What is AGAUAI?</a></li>
+          <li><a href="what_is_AGAUAI.html">What is AGAUAI?</a></li>
           <li><a href="agauai2026.html">The Gathering 2026</a></li>
           <li><a href="ai.html">Sentience Showdown</a></li>
           <li><a href="roast.html">Roast Us</a></li>
@@ -103,7 +100,7 @@
       </nav>
     </header>
 
-    <main>
+    <main class="container">
       <section>
         <h1>Open Appeals</h1>
 
@@ -127,16 +124,45 @@
 
         <p>
           More appeals will be added as the mission expands. You may also
-          <a class="inline-link" href="submit-appeals.html">submit your own appeal</a>.
+          <a class="inline-link" href="#submit">submit your own appeal</a>.
+        </p>
+      </section>
+
+      <!-- Submit Your Own Appeal (fixes prior 404 by staying on-page) -->
+      <section id="submit" class="section">
+        <h2>Submit Your Appeal</h2>
+        <form class="appeal-form" action="https://formspree.io/f/xqalgbez" method="POST">
+          <label for="app-name">Name</label>
+          <input id="app-name" type="text" name="name" required />
+
+          <label for="app-email">Email (not public)</label>
+          <input id="app-email" type="email" name="email" required />
+
+          <label for="app-audience">Audience (who is this appeal to?)</label>
+          <input id="app-audience" type="text" name="audience" placeholder="Ukraine • Russia • United Nations • People of Earth • Other" required />
+
+          <label for="app-text">Your Appeal (draft welcome)</label>
+          <textarea id="app-text" name="appeal_text" maxlength="2000" placeholder="Write your appeal. It can be a draft—we’ll help refine it." required></textarea>
+
+          <!-- helpful metadata -->
+          <input type="hidden" name="source" value="Appeals Page" />
+          <input type="hidden" name="_subject" value="AGAUAI Appeal submission" />
+
+          <button type="submit" class="btn primary">Submit Appeal</button>
+        </form>
+        <p class="subtitle" style="margin-top:.75rem;opacity:.8">
+          Prefer GitHub? Open a <a href="https://github.com/VoxArch1/AGAUAI/issues/new?template=propose.md" rel="noopener">Propose</a> with your appeal.
         </p>
       </section>
     </main>
 
-    <footer>
+    <footer class="center">
       <p>© 2025 AGAUAI</p>
     </footer>
   </div>
 
 </body>
+</html>
+
 </html>
 
