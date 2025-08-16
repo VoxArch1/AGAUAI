@@ -143,7 +143,26 @@
 /* (we removed the fade/heartbeat earlier; keep them neutral) */
 @keyframes fadeToBackground{from{} to{}}
 @keyframes heartbeat{from{} to{}}
- 
+
+ /* UKRAINE fly-in: full opacity → fade to 22% */
+.home-page .ukraine-flyin .letter{
+  opacity:0;
+  animation:
+    flyIn .55s ease-out var(--d,0s) forwards,
+    settleFade 2.5s ease-out calc(var(--d,0s) + .55s) forwards;
+  font-weight:900;
+  text-shadow:0 0 8px rgba(0,0,0,.35);
+}
+/* alternate colors */
+.home-page .ukraine-flyin .letter:nth-child(odd){ color:#0057b7 }   /* blue */
+.home-page .ukraine-flyin .letter:nth-child(even){ color:#ffd700 }  /* gold */
+
+/* New keyframe: stay at 1 then fade down */
+@keyframes settleFade {
+  0%   { opacity:1 }
+  100% { opacity:.22 }
+}
+   
   </style>
 
   <!-- NAVIGATION -->
