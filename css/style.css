@@ -792,3 +792,57 @@ iframe { width: 100%; max-width: 680px; border: none; }
 .ds-ok{background:#0f3a1f;color:#9ef0b1;border-radius:8px;padding:10px}
 .ds-err{background:#3a1212;color:#ffb3b3;border-radius:8px;padding:10px}
 textarea.ds-text{background:#0f141a;color:#e8eef7;border:1px solid #1f2a36;border-radius:10px;padding:12px}
+
+/* ==== HERO QUICK FIX OVERRIDES ==== */
+.hero { padding: 2rem 0; }
+.hero-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+
+/* Center the countdown + subtitle + CTAs */
+#countdown, .subtitle, .hero-cta { margin-left: auto; margin-right: auto; text-align: center; }
+
+/* Tame the big background word + keep it centered */
+.ukraine-flyin {
+  display: flex; justify-content: center; gap: .12em;
+  font-size: clamp(2.4rem, 12vw, 8rem);
+  letter-spacing: .18em;
+  opacity: .10;                 /* was too strong */
+  filter: saturate(90%);
+  margin: .4rem 0 0 0;
+}
+
+/* Keep SAVE UKRAINE boldly centered without pushing layout */
+.save-ukraine-flyin {
+  display: block;
+  text-align: center;
+  margin-top: .4rem;
+  font-size: clamp(1.6rem, 6vw, 3rem);
+  font-weight: 800;
+  color: #ffd700;
+}
+
+/* Calmer SLAVA line */
+.slava-ukraine-pulse {
+  display: block;
+  text-align: center;
+  font-size: clamp(1.1rem, 4.2vw, 2rem);
+  color: #0b335a;
+  opacity: .85;
+}
+
+/* Ensure letters don’t have weird per-letter positioning from legacy CSS */
+.ukraine-flyin .letter,
+.save-ukraine-flyin .save-word,
+.slava-ukraine-pulse .slava-word {
+  position: static !important;
+  transform: none !important;
+}
+
+/* Countdown typography looks tiny on desktop in your screenshot */
+.timer { font-weight: 700; font-size: clamp(1.4rem, 5.5vw, 4rem); letter-spacing: .12em; white-space: nowrap; }
+.subtitle { margin-top: .35rem; font-size: clamp(.95rem, 2.2vw, 1.15rem); opacity: .8; }
+
+/* Guard against any global left-aligns leaking in */
+.hero .lede, .hero h1 { text-align: center; }
+
+/* Nav: prevent wrap jitter on wide screens */
+nav ul { justify-content: center; }
