@@ -380,6 +380,52 @@ form button{
   });
 })();
 </script>
+<style>
+  /* Fullscreen overlay video above the page; disappears smoothly at the end */
+  #intro-wrap {
+    position: fixed; inset: 0;
+    z-index: 9999;           /* above everything */
+    background: black;       /* hides page until video draws */
+    transition: opacity .8s ease;
+  }
+  #intro-wrap.is-hidden { opacity: 0; pointer-events: none; }
+  #intro-video {
+    width: 100%; height: 100%;
+    object-fit: cover;       /* fills screen without letterbox */
+    display: block;
+  }
+</style>
+
+<div id="intro-wrap">
+  <video id="intro-video"
+         autoplay muted playsinline
+         preload="auto"
+         poster="images/palace.jpg">
+    <source src="media/palace_zelensky.mp4" type="video/mp4">
+  </video>
+</div>
+
+<script>
+  (function () {
+    const wrap = document.getElementById('intro-wrap');
+    const vid  = document.getElementById('intro-video');
+
+    const hide = () => {
+      wrap.classList.add('is-hidden');
+      // Optional: fully remove from DOM after fade to free memory
+      wrap.addEventListener('transitionend', () => wrap.remove(), { once: true });
+    };
+
+    // Fade out when video ends
+    vid.addEventListener('ended', hide);
+
+    // If autoplay is blocked, let user tap anywhere on the overlay to start
+    vid.play().catch(() => wrap.addEventListener('click', () => vid.play(), { once: true }));
+
+    // Safety: if the file is very short, also hide on stall/error after 8s
+    setTimeout(() => { if (!vid.ended) hide(); }, 8000);
+  })();
+</script>
 
 </body>
 </html>
