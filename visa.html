@@ -8,162 +8,79 @@
   <!-- Global styles -->
   <link rel="stylesheet" href="css/global.css" />
 
-  <!-- Page-local styles (scoped to .visa-page) -->
   <style>
-    /* Palace background (starts bright) */
-    body.visa-page {
-  position: relative;
-  background-image:url('images/Palace.jpg');
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-  z-index: 0;            /* baseline */
-}
-
-body.visa-page::before {
-  content:"";
-  position: fixed;
-  inset:0;
-  background: rgba(0,0,0,.5);   /* start at 5% dark */
-  transition: background 1s ease;
-  z-index: 1;                    /* sits above photo */
-}
-
-body.visa-page.is-dark::before {
-  background: rgba(0,0,0,.70);   /* end darker */
-}
+    /* ---- Page background (palace) with subtle dark overlay ---- */
+    body.visa-page{
+      position: relative;
+      background: url("images/palace.jpg") center/cover fixed no-repeat;
+      color: #fff;
+    }
+    body.visa-page::before{
+      content:"";
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.60);     /* keeps content readable; doesn't cover content */
+      z-index: -1;                     /* sits behind all page content */
+      pointer-events: none;
+    }
 
     /* Layout polish */
-    main{max-width:1100px;margin:auto;padding:1rem}
-    h1{margin:.25rem 0 .75rem}
-    .tagline{opacity:.9;margin:.25rem 0 1rem;text-align:center}
+    header, main, footer { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+    header nav ul { display:flex; flex-wrap:wrap; gap:.75rem; list-style:none; padding:1rem 0; margin:0; }
+    header nav a { color:#fff; text-decoration:none; opacity:.9; }
+    header nav a.active, header nav a:hover { opacity:1; text-decoration:underline; }
+    h1 { margin:.25rem 0 .75rem }
+    .center { text-align:center }
+    .tagline { opacity:.9; margin:.25rem 0 1rem }
 
-    /* Form: readable on dark bg */
-    form{margin-top:.75rem}
-    form label{display:block;margin:.5rem 0 .15rem;opacity:.85}
+    /* Form */
+    form { margin-top:.75rem }
+    form label { display:block; margin:.5rem 0 .15rem; opacity:.9 }
     form input, form textarea, form button{
       width:100%; max-width:520px;
       background:#111; color:#fff; border:1px solid #444;
       padding:.6rem .7rem; border-radius:8px;
     }
-    form textarea{min-height:100px}
+    form textarea{ min-height:100px }
     form button{
-      margin-top:.6rem; background:var(--accent); color:var(--ink);
+      margin-top:.6rem; background:var(--accent,#fff); color:var(--ink,#111);
       font-weight:700; border:none; cursor:pointer; transition:transform .15s ease
     }
-    form button:hover{transform:translateY(-2px)}
+    form button:hover{ transform:translateY(-2px) }
+    .actions { margin-top:.4rem }
 
-    /* Pinned/cropped walk-in video */
-    .zel-stick{
-      position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%);
-      z-index:1000; pointer-events:none; opacity:1; transition:opacity .7s ease;
+    /* ---- Fullscreen intro video overlay (plays once, then fades) ---- */
+    #intro-wrap{
+      position: fixed; inset: 0;
+      z-index: 9999;                /* above everything */
+      background: black;            /* hides the page until first frame draws */
+      transition: opacity .8s ease;
     }
-    .zel-stick.is-out{opacity:0; pointer-events:none;}
-    .zel-crop{
-      width:clamp(240px, 32vw, 560px); height:clamp(360px, 62vh, 820px);
-      overflow:hidden; border-radius:12px; pointer-events:auto;
-      box-shadow:0 14px 40px rgba(0,0,0,.55); background:transparent;
+    #intro-wrap.is-hidden{ opacity:0; pointer-events:none; }
+    #intro-video{
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;            /* fills the screen without letterboxing */
     }
-    .zel-crop video{
-      width:100%; height:100%; object-fit:cover; object-position:50% 100%; display:block;
-    }
-    #unmuteBtn{
-      position:absolute; right:.6rem; bottom:.6rem;
-      background:rgba(15,17,21,.78); color:#fff; padding:.45rem .7rem; font-size:.9rem;
-      border:1px solid rgba(255,255,255,.18); border-radius:8px; cursor:pointer; backdrop-filter:blur(6px);
-    }
-    #unmuteBtn:hover{background:rgba(15,17,21,.92)}
-    @media (max-width:560px){ .zel-stick{bottom:.6rem} .zel-crop{width:70vw; height:58vh} }
-
-  /* --- Overlay layering: behind content, above background --- */
-body.visa-page{
-  position: relative;                      /* stacking context */
-  z-index: 0;
-  background-image:url('images/Palace.jpg');
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
-}
-body.visa-page::before{
-  content:"";
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.55);             /* readable at load */
-  transition: background 1s ease;
-  z-index: 0;                               /* sits UNDER content, OVER bg */
-  pointer-events: none;
-}
-body.visa-page.is-dark::before{
-  background: rgba(0,0,0,.75);              /* darker after video fades */
-}
-
-/* IMPORTANT: raise page content above overlay (NOT the video) */
-header, main, footer{ position: relative; z-index: 1; }
-
-/* Keep the walk-in overlay fixed & centered above everything */
-.zel-stick{
-  position: fixed;
-  left: 50%;
-  bottom: 1.2rem;
-  transform: translateX(-50%);
-  z-index: 3;                               /* above overlay + content */
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity .7s ease;
-}
-.zel-stick.is-out{ opacity:0; pointer-events:none; }
-
-.zel-crop{
-  width: clamp(240px, 32vw, 560px);
-  height: clamp(360px, 62vh, 820px);
-  overflow: hidden;
-  border-radius: 12px;
-  pointer-events: auto;                     /* button clickable */
-  box-shadow: 0 14px 40px rgba(0,0,0,.55);
-  background: transparent;
-}
-.zel-crop video{
-  width:100%; height:100%;
-  object-fit: cover; object-position: 50% 100%;
-  display:block;
-}
-
-/* Hear/replay buttons */
-#unmuteBtn{
-  position:absolute; right:.6rem; bottom:.6rem;
-  background:rgba(15,17,21,.78); color:#fff; padding:.45rem .7rem; font-size:.9rem;
-  border:1px solid rgba(255,255,255,.18); border-radius:8px; cursor:pointer; backdrop-filter:blur(6px);
-}
-#unmuteBtn:hover{ background:rgba(15,17,21,.92) }
-
-#replayBtn{
-  position: fixed;
-  left: 50%; bottom: 1rem; transform: translateX(-50%);
-  z-index: 2;                               /* above content, below .zel-stick */
-  display: none;                            /* shown after video ends */
-  background: rgba(15,17,21,.78);
-  color:#fff; font-weight:700; border:1px solid rgba(255,255,255,.18);
-  border-radius: 999px; padding:.5rem .9rem; cursor:pointer; backdrop-filter: blur(6px);
-}
-#replayBtn:hover{ background: rgba(15,17,21,.92); }
-
-/* Button below fields */
-form button{
-  display:block;
-  width: min(220px, 100%);
-  margin-top: .8rem;
-}
-
- 
   </style>
 </head>
-  
-<button id="replayBtn" aria-label="Replay Video">▶ Replay video</button>
 
 <body class="visa-page">
 
+  <!-- Fullscreen intro: palace+Zelensky baked into the MP4 -->
+  <div id="intro-wrap" aria-label="Intro video">
+    <video id="intro-video"
+           autoplay muted playsinline preload="auto"
+           poster="images/palace.jpg">
+      <source src="videos/Palacezelensky.mp4" type="video/mp4">
+    </video>
+    <noscript>
+      <style>#intro-wrap{display:none}</style>
+    </noscript>
+  </div>
+
   <!-- NAVIGATION -->
   <header>
-    <nav>
+    <nav aria-label="Primary">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="visa.html" class="active">Solidarity Visa</a></li>
@@ -176,17 +93,6 @@ form button{
       </ul>
     </nav>
   </header>
-
-  <!-- Zelensky Walk-In (fixed at bottom-center, cropped) -->
-  <div class="zel-stick" role="region" aria-label="Message from President Zelenskyy">
-    <div class="zel-crop">
-      <video id="zelenskyVideo" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-        <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4"/>
-        Your browser does not support the video tag.
-      </video>
-      <button id="unmuteBtn" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
-    </div>
-  </div>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -238,7 +144,6 @@ form button{
         <div class="actions">
           <button type="submit" class="btn primary">Submit Name</button>
         </div>
-
       </form>
 
       <p><em>One voice is a whisper; together we roar.</em></p>
@@ -250,183 +155,30 @@ form button{
     <p>© 2025 AGAUAI</p>
   </footer>
 
-  <!-- Logic: sync voice, fade out reliably, darken bg after fade -->
+  <!-- Intro overlay logic -->
   <script>
-(function () {
-  const body   = document.body;
-  const stick  = document.querySelector('.zel-stick');
-  const vid    = document.getElementById('zelenskyVideo');
-  const hear   = document.getElementById('unmuteBtn');
-  const replay = document.getElementById('replayBtn');
+    (function () {
+      const wrap = document.getElementById('intro-wrap');
+      const vid  = document.getElementById('intro-video');
 
-  // Optional voice track
-  const voice = new Audio('/videos/ai/zelensky-tts-file.wav');
-  voice.preload = 'auto';
-  voice.muted   = true;
+      const hide = () => {
+        wrap.classList.add('is-hidden');
+        wrap.addEventListener('transitionend', () => wrap.remove(), { once: true });
+      };
 
-  let voicePrimed=false, voiceStarted=false, overlayGone=false;
+      // Fade out when video ends
+      vid.addEventListener('ended', hide);
 
-  function primeVoice() {
-    if (voicePrimed) return;
-    voicePrimed = true;
-    voice.play().then(()=>{ voice.pause(); voice.currentTime=0; }).catch(()=>{});
-  }
+      // If autoplay is blocked, let user tap anywhere on the overlay to start
+      vid.play().catch(() => {
+        wrap.addEventListener('click', () => vid.play(), { once: true });
+      });
 
-  function maybeStartVoiceAt2s() {
-    primeVoice();
-    if (!voiceStarted && vid.currentTime >= 2) {
-      voice.currentTime = 0;
-      voiceStarted = true;
-      voice.play().catch(()=>{});
-    }
-    // Safety: detect natural end if 'ended' event is missed
-    if (vid.duration && !overlayGone && vid.currentTime >= vid.duration - 0.2) {
-      endOverlay();
-    }
-  }
-  vid.addEventListener('timeupdate', maybeStartVoiceAt2s);
-
-  vid.addEventListener('play',  ()=>{ if (voiceStarted) voice.play().catch(()=>{}); });
-  vid.addEventListener('pause', ()=>{ if (voiceStarted) voice.pause(); });
-  vid.addEventListener('ended', endOverlay);
-
-  // Hard timeout fallback (e.g., decode stalls)
-  const MAX_PLAY_MS = 25000;
-  const forceFade = setTimeout(endOverlay, MAX_PLAY_MS);
-
-  function endOverlay(){
-    if (overlayGone) return;
-    overlayGone = true;
-    clearTimeout(forceFade);
-
-    try { voice.pause(); } catch(e){}
-    try { vid.pause(); } catch(e){}
-    voice.currentTime = 0;
-
-    // Fade overlay, then darken bg and show replay
-    stick.classList.add('is-out');
-    body.classList.add('is-dark');
-    setTimeout(()=>{ stick.remove(); replay.style.display='inline-block'; }, 850);
-  }
-
-  // Ensure autoplay after first interaction (strict mobiles)
-  const kickstart = () => { vid.play().catch(()=>{}); primeVoice(); window.removeEventListener('pointerdown', kickstart); };
-  window.addEventListener('pointerdown', kickstart, { once:true });
-
-  // Hear/Mute toggle
-  hear.addEventListener('click', () => {
-    const willUnmute = vid.muted;
-    vid.muted = !willUnmute;
-    voice.muted = vid.muted;
-    hear.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
-    hear.setAttribute('aria-pressed', String(willUnmute));
-    if (willUnmute) {
-      vid.play().catch(()=>{});
-      if (voiceStarted) voice.play().catch(()=>{});
-    }
-  });
-
-  // Replay: recreate overlay, undarken bg, restart media
-  replay.addEventListener('click', () => {
-    // Rebuild the overlay DOM (simple way to replay with same layout)
-    const shell = document.createElement('div');
-    shell.className = 'zel-stick';
-    shell.innerHTML = `
-      <div class="zel-crop">
-        <video id="zelenskyVideo2" autoplay muted playsinline preload="auto" poster="images/zelensky-poster.jpg">
-          <source src="/videos/ai/zelenskyalpha.mp4" type="video/mp4"/>
-        </video>
-        <button id="unmuteBtn2" aria-pressed="false" aria-label="Hear Message">🔊 Hear Message</button>
-      </div>`;
-    document.body.appendChild(shell);
-
-    // Reset state / bg
-    body.classList.remove('is-dark');
-    replay.style.display = 'none';
-    overlayGone = false;
-    voiceStarted = false;
-    primeVoice();
-
-    const v2   = shell.querySelector('#zelenskyVideo2');
-    const btn2 = shell.querySelector('#unmuteBtn2');
-
-    // Wire the minimal listeners for replay instance
-    v2.addEventListener('timeupdate', () => {
-      if (!voiceStarted && v2.currentTime >= 2) {
-        voice.currentTime = 0; voiceStarted = true; voice.play().catch(()=>{});
-      }
-    });
-    v2.addEventListener('play',  ()=>{ if (voiceStarted) voice.play().catch(()=>{}); });
-    v2.addEventListener('pause', ()=>{ if (voiceStarted) voice.pause(); });
-    v2.addEventListener('ended', () => {
-      try { voice.pause(); } catch(e){}
-      voice.currentTime = 0;
-      shell.classList.add('is-out');
-      body.classList.add('is-dark');
-      setTimeout(()=>{ shell.remove(); replay.style.display='inline-block'; }, 850);
-    });
-
-    btn2.addEventListener('click', () => {
-      const willUnmute = v2.muted;
-      v2.muted = !willUnmute;
-      voice.muted = v2.muted;
-      btn2.textContent = willUnmute ? '🔇 Mute' : '🔊 Hear Message';
-      btn2.setAttribute('aria-pressed', String(willUnmute));
-      if (willUnmute) {
-        v2.play().catch(()=>{});
-        if (voiceStarted) voice.play().catch(()=>{});
-      }
-    });
-  });
-})();
-</script>
-<style>
-  /* Fullscreen overlay video above the page; disappears smoothly at the end */
-  #intro-wrap {
-    position: fixed; inset: 0;
-    z-index: 9999;           /* above everything */
-    background: black;       /* hides page until video draws */
-    transition: opacity .8s ease;
-  }
-  #intro-wrap.is-hidden { opacity: 0; pointer-events: none; }
-  #intro-video {
-    width: 100%; height: 100%;
-    object-fit: cover;       /* fills screen without letterbox */
-    display: block;
-  }
-</style>
-
-<div id="intro-wrap">
-  <video id="intro-video"
-         autoplay muted playsinline
-         preload="auto"
-         poster="images/palace.jpg">
-    <source src="videos/Palacezelensky.mp4" type="video/mp4">
-  </video>
-</div>
-
-<script>
-  (function () {
-    const wrap = document.getElementById('intro-wrap');
-    const vid  = document.getElementById('intro-video');
-
-    const hide = () => {
-      wrap.classList.add('is-hidden');
-      // Optional: fully remove from DOM after fade to free memory
-      wrap.addEventListener('transitionend', () => wrap.remove(), { once: true });
-    };
-
-    // Fade out when video ends
-    vid.addEventListener('ended', hide);
-
-    // If autoplay is blocked, let user tap anywhere on the overlay to start
-    vid.play().catch(() => wrap.addEventListener('click', () => vid.play(), { once: true }));
-
-    // Safety: if the file is very short, also hide on stall/error after 8s
-    setTimeout(() => { if (!vid.ended) hide(); }, 8000);
-  })();
-</script>
-
+      // Safety: if the file stalls/short, also hide after 8s
+      setTimeout(() => { if (!vid.ended) hide(); }, 8000);
+    })();
+  </script>
 </body>
 </html>
+
 
