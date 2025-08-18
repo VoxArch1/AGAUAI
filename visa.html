@@ -54,6 +54,17 @@
       z-index: 9999;                /* above everything */
       background: black;            /* hides the page until first frame draws */
       transition: opacity .8s ease;
+
+<div id="intro-wrap" aria-label="Intro video">
+  <video id="intro-video"
+         autoplay muted playsinline preload="auto"
+         poster="images/palace.jpg">
+    <source src="videos/palace-zelensky.mp4" type="video/mp4">
+  </video>
+  <!-- Dramatic caption overlay -->
+  <div id="intro-caption">I NEED CITIZENS, NOT SPECTATORS!</div>
+</div>
+      
     }
     #intro-wrap.is-hidden{ opacity:0; pointer-events:none; }
     #intro-video{
