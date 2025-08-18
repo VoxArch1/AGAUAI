@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/global.css" />
 
   <style>
-    /* ---- Page background (palace) with subtle dark overlay ---- */
+    /* ---- Page background (palace) with dark overlay BELOW content ---- */
     body.visa-page{
       position: relative;
       background: url("images/Palace.jpg") center/cover fixed no-repeat;
@@ -18,12 +18,13 @@
     body.visa-page::before{
       content:"";
       position: fixed; inset: 0;
-      background: rgba(0,0,0,.60);     /* keeps content readable; doesn't cover content */
-      z-index: -1;                     /* sits behind all page content */
+      background: rgba(0,0,0,.72); /* bump darkness for legibility */
+      z-index: 0;                  /* sits above background, below content */
       pointer-events: none;
     }
+    header, main, footer{ position: relative; z-index: 1; }
 
-    /* Layout polish */
+    /* ---- Layout polish ---- */
     header, main, footer { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
     header nav ul { display:flex; flex-wrap:wrap; gap:.75rem; list-style:none; padding:1rem 0; margin:0; }
     header nav a { color:#fff; text-decoration:none; opacity:.9; }
@@ -32,7 +33,7 @@
     .center { text-align:center }
     .tagline { opacity:.9; margin:.25rem 0 1rem }
 
-    /* Form */
+    /* ---- Form ---- */
     form { margin-top:.75rem }
     form label { display:block; margin:.5rem 0 .15rem; opacity:.9 }
     form input, form textarea, form button{
@@ -54,44 +55,57 @@
       z-index: 9999;                /* above everything */
       background: black;            /* hides the page until first frame draws */
       transition: opacity .8s ease;
-
-<div id="intro-wrap" aria-label="Intro video">
-  <video id="intro-video"
-         autoplay muted playsinline preload="auto"
-         poster="images/palace.jpg">
-    <source src="videos/palace-zelensky.mp4" type="video/mp4">
-  </video>
-  <!-- Dramatic caption overlay -->
-  <div id="intro-caption">I NEED CITIZENS, NOT SPECTATORS!</div>
-</div>
-      
     }
     #intro-wrap.is-hidden{ opacity:0; pointer-events:none; }
+
     #intro-video{
       width: 100%; height: 100%;
       display: block;
       object-fit: cover;            /* fills the screen without letterboxing */
     }
 
-   #intro-caption {
-  position: absolute;
-  bottom: 20%; left: 50%;
-  transform: translateX(-50%) scale(0.8);
-  font-size: clamp(1.8rem, 4vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #fff;
-  text-align: center;
-  opacity: 0;
-  text-shadow: 0 4px 18px rgba(0,0,0,0.75);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  z-index: 2;
-}
-#intro-caption.show {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-   
+    /* Skip button */
+    #intro-skip{
+      position: absolute; top: 16px; right: 16px;
+      padding: .45rem .8rem;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(15,17,21,.78);
+      color: #fff; cursor: pointer;
+      backdrop-filter: blur(6px);
+      z-index: 2;
+    }
+    #intro-skip:hover{ background: rgba(15,17,21,.92); }
+
+    /* Dramatic caption */
+    #intro-caption{
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%) scale(.85);
+      width: min(90vw, 1000px);
+      text-align: center;
+      font-size: clamp(1.8rem, 4.6vw, 3.75rem);
+      font-weight: 900;
+      letter-spacing: .5px;
+      color: #fff;
+      opacity: 0;
+      text-shadow: 0 6px 26px rgba(0,0,0,0.8);
+      transition: opacity .6s ease, transform .6s ease;
+      z-index: 2;
+      pointer-events: none;
+    }
+    #intro-caption.show{
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* Respect reduced motion users */
+    @media (prefers-reduced-motion: reduce){
+      #intro-wrap{ transition: none; }
+      #intro-caption{ transition: none; }
+    }
   </style>
 </head>
 
@@ -101,12 +115,16 @@
   <div id="intro-wrap" aria-label="Intro video">
     <video id="intro-video"
            autoplay muted playsinline preload="auto"
-           poster="images/Palace.jpg">
+           poster="images/palace.jpg">
+      <!-- Make sure this EXACT path/name exists in your repo -->
       <source src="videos/Palacezelenksy.mp4" type="video/mp4">
     </video>
-    <noscript>
-      <style>#intro-wrap{display:none}</style>
-    </noscript>
+
+    <!-- Skip and caption overlay -->
+    <button id="intro-skip" aria-label="Skip intro">Skip</button>
+    <div id="intro-caption">I NEED CITIZENS, NOT SPECTATORS!</div>
+
+    <noscript><style>#intro-wrap{display:none}</style></noscript>
   </div>
 
   <!-- NAVIGATION -->
@@ -189,24 +207,43 @@
   <!-- Intro overlay logic -->
   <script>
     (function () {
-      const wrap = document.getElementById('intro-wrap');
-      const vid  = document.getElementById('intro-video');
+      const wrap    = document.getElementById('intro-wrap');
+      const vid     = document.getElementById('intro-video');
+      const skipBtn = document.getElementById('intro-skip');
+      const caption = document.getElementById('intro-caption');
 
+      // CONFIG
+      const CAPTION_AT_SEC = 2.0;      // when to pop the caption
+      const HARD_TIMEOUT   = 10000;    // ms; guaranteed escape
+
+      let captionShown = false;
+      let hidden = false;
       const hide = () => {
+        if (hidden) return;
+        hidden = true;
         wrap.classList.add('is-hidden');
         wrap.addEventListener('transitionend', () => wrap.remove(), { once: true });
       };
 
-      // Fade out when video ends
-      vid.addEventListener('ended', hide);
+      // Show caption when time threshold is crossed
+      const onTime = () => {
+        if (!captionShown && vid.currentTime >= CAPTION_AT_SEC) {
+          captionShown = true;
+          caption.classList.add('show');
+        }
+      };
+      vid.addEventListener('timeupdate', onTime);
 
-      // If autoplay is blocked, let user tap anywhere on the overlay to start
+      // End/skip/error/timeouts all hide the overlay
+      vid.addEventListener('ended', hide);
+      vid.addEventListener('error', hide);
+      skipBtn.addEventListener('click', hide);
+      setTimeout(hide, HARD_TIMEOUT);
+
+      // Try autoplay; if blocked, allow a click to start
       vid.play().catch(() => {
         wrap.addEventListener('click', () => vid.play(), { once: true });
       });
-
-      // Safety: if the file stalls/short, also hide after 8s
-      setTimeout(() => { if (!vid.ended) hide(); }, 8000);
     })();
   </script>
 </body>
