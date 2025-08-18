@@ -81,6 +81,18 @@
     <noscript><style>#intro-wrap{display:none}</style></noscript>
   </div>
 
+  <div id="intro-wrap" aria-label="Intro video">
+  <video id="intro-video" autoplay muted playsinline preload="auto" poster="images/Palace.jpg">
+    <!-- Ensure this EXACT filename exists in /videos -->
+    <source src="videos/Palacezelenksy.mp4" type="video/mp4">
+  </video>
+
+  <button id="intro-skip" aria-label="Skip intro">Skip</button>
+  <div id="intro-caption">I NEED CITIZENS, NOT SPECTATORS!</div>
+
+  <noscript><style>#intro-wrap{display:none}</style></noscript>
+</div>
+
   <header>
     <nav aria-label="Primary">
       <ul>
@@ -109,43 +121,51 @@
   </footer>
 
   <script>
-    (function () {
-      const wrap    = document.getElementById('intro-wrap');
-      const vid     = document.getElementById('intro-video');
-      const skipBtn = document.getElementById('intro-skip');
-      const caption = document.getElementById('intro-caption');
+(function () {
+  const wrap    = document.getElementById('intro-wrap');
+  const vid     = document.getElementById('intro-video');
+  const skipBtn = document.getElementById('intro-skip');
+  const caption = document.getElementById('intro-caption');
 
-      const CAPTION_AT_SEC = 2;   // when to reveal text
-      const HARD_TIMEOUT   = 10000;
+  const CAPTION_AT_SEC = 2;    // seconds in to show caption
+  const HARD_TIMEOUT   = 8000; // 8s max overlay
 
-      let captionShown = false, hidden = false;
+  let captionShown = false, hidden = false;
 
-      function showCaption(){
-        if (captionShown) return;
-        captionShown = true;
-        caption.classList.add('show');
-      }
-      function hide(){
-        if (hidden) return;
-        hidden = true;
-        wrap.classList.add('is-hidden');
-        wrap.addEventListener('transitionend', () => wrap.remove(), { once:true });
-      }
+  function showCaption(){
+    if (!captionShown) {
+      captionShown = true;
+      caption.classList.add('show');
+    }
+  }
 
-      vid.addEventListener('timeupdate', () => {
-        if (!captionShown && vid.currentTime >= CAPTION_AT_SEC) showCaption();
-      });
+  function hideOverlay(){
+    if (hidden) return;
+    hidden = true;
+    wrap.classList.add('is-hidden');
+    wrap.addEventListener('transitionend', () => wrap.remove(), { once:true });
+  }
 
-      vid.addEventListener('ended', hide);
-      vid.addEventListener('error', hide);
-      skipBtn.addEventListener('click', hide);
-      setTimeout(hide, HARD_TIMEOUT);
+  // Show caption after N seconds
+  vid.addEventListener('timeupdate', () => {
+    if (!captionShown && vid.currentTime >= CAPTION_AT_SEC) showCaption();
+  });
 
-      vid.play().catch(() => {
-        wrap.addEventListener('click', () => vid.play(), { once:true });
-      });
-    })();
-  </script>
+  // End/skip/error all hide overlay
+  vid.addEventListener('ended', hideOverlay);
+  vid.addEventListener('error', hideOverlay);
+  skipBtn.addEventListener('click', hideOverlay);
+
+  // Failsafe
+  setTimeout(hideOverlay, HARD_TIMEOUT);
+
+  // Handle autoplay restrictions
+  vid.play().catch(() => {
+    wrap.addEventListener('click', () => vid.play(), { once:true });
+  });
+})();
+</script>
+
 </body>
 </html>
 
