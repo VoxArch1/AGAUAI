@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/global.css" />
 
   <style>
+    /* Page background + readable overlay (below content) */
     body.visa-page{
       position: relative;
       background: url("images/Palace.jpg") center/cover fixed no-repeat;
@@ -17,7 +18,7 @@
       content:"";
       position: fixed; inset: 0;
       background: rgba(0,0,0,.60);
-      z-index: 0;
+      z-index: 0;  /* under content */
       pointer-events: none;
     }
     header, main, footer{ position: relative; z-index: 1; }
@@ -52,31 +53,54 @@
     }
     #intro-skip:hover{ background: rgba(15,17,21,.92); }
 
-    /* Caption (pops in as a whole line) */
-    #intro-caption {
+    /* Caption (shows as a whole line) */
+    #intro-caption{
       position: absolute;
       bottom: 20%; left: 50%;
-      transform: translateX(-50%) scale(0.9);
+      transform: translateX(-50%) scale(.9);
       font-size: clamp(1.8rem, 4vw, 3.5rem);
       font-weight: 900;
       letter-spacing: 1px;
       color: #fff;
       text-align: center;
       opacity: 0;
-      text-shadow: 0 4px 18px rgba(0,0,0,0.75);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      text-shadow: 0 4px 18px rgba(0,0,0,.75);
+      transition: opacity .6s ease, transform .6s ease;
       z-index: 2;
+      pointer-events: none;
     }
-    #intro-caption.show {
-      opacity: 1;
-      transform: translateX(-50%) scale(1);
+    #intro-caption.show{ opacity:1; transform: translateX(-50%) scale(1); }
+
+    /* Simple layout polish */
+    header, main, footer { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+    header nav ul { display:flex; flex-wrap:wrap; gap:.75rem; list-style:none; padding:1rem 0; margin:0; }
+    header nav a { color:#fff; text-decoration:none; opacity:.9; }
+    header nav a.active, header nav a:hover { opacity:1; text-decoration:underline; }
+    h1 { margin:.25rem 0 .75rem }
+    .center { text-align:center }
+    .tagline { opacity:.9; margin:.25rem 0 1rem }
+
+    /* Form */
+    form { margin-top:.75rem }
+    form label { display:block; margin:.5rem 0 .15rem; opacity:.9 }
+    form input, form textarea, form button{
+      width:100%; max-width:520px;
+      background:#111; color:#fff; border:1px solid #444;
+      padding:.6rem .7rem; border-radius:8px;
     }
+    form textarea{ min-height:100px }
+    form button{
+      margin-top:.6rem; background:var(--accent,#fff); color:var(--ink,#111);
+      font-weight:700; border:none; cursor:pointer; transition:transform .15s ease
+    }
+    form button:hover{ transform:translateY(-2px) }
+    .actions { margin-top:.4rem }
   </style>
 </head>
 
 <body class="visa-page">
 
-  <!-- SINGLE intro overlay -->
+  <!-- SINGLE intro overlay (KEEP ONLY THIS ONE) -->
   <div id="intro-wrap" aria-label="Intro video">
     <video id="intro-video" autoplay muted playsinline preload="auto" poster="images/Palace.jpg">
       <source src="videos/Palacezelenksy.mp4" type="video/mp4">
@@ -144,7 +168,6 @@
         <label for="suggestion">Optional Suggestion (What should this visa entitle?)</label>
         <textarea id="suggestion" name="suggestion" rows="3" maxlength="200"></textarea>
 
-        <!-- helpful metadata -->
         <input type="hidden" name="source" value="Visa Page">
         <input type="hidden" name="_subject" value="AGAUAI Solidarity Visa submission">
 
@@ -162,50 +185,55 @@
     <p>© 2025 AGAUAI</p>
   </footer>
 
-  <!-- Script to control overlay -->
+  <!-- Overlay control (defensive: also cleans up accidental duplicates) -->
   <script>
   (function () {
-    const wrap    = document.getElementById('intro-wrap');
-    const vid     = document.getElementById('intro-video');
-    const skipBtn = document.getElementById('intro-skip');
-    const caption = document.getElementById('intro-caption');
+    const CAPTION_AT_SEC = 2;     // when to show caption
+    const HARD_TIMEOUT   = 8000;  // max overlay time (ms)
 
-    const CAPTION_AT_SEC = 2;    // seconds in to show caption
-    const HARD_TIMEOUT   = 8000; // 8s max overlay
+    // If duplicates ever slip in, hide them all
+    const overlays = Array.from(document.querySelectorAll('[id="intro-wrap"]'));
+    overlays.forEach((wrap, index) => {
+      const vid     = wrap.querySelector('#intro-video');   // local to this wrap
+      const skipBtn = wrap.querySelector('#intro-skip');
+      const caption = wrap.querySelector('#intro-caption');
 
-    let captionShown = false, hidden = false;
+      let captionShown = false, hidden = false;
 
-    function showCaption(){
-      if (!captionShown) {
-        captionShown = true;
-        caption.classList.add('show');
+      function showCaption(){
+        if (!captionShown && caption) {
+          captionShown = true;
+          caption.classList.add('show');
+        }
       }
-    }
+      function hideOverlay(){
+        if (hidden) return;
+        hidden = true;
+        wrap.classList.add('is-hidden');
+        wrap.addEventListener('transitionend', () => wrap.remove(), { once:true });
+      }
 
-    function hideOverlay(){
-      if (hidden) return;
-      hidden = true;
-      wrap.classList.add('is-hidden');
-      wrap.addEventListener('transitionend', () => wrap.remove(), { once:true });
-    }
+      if (vid) {
+        vid.addEventListener('timeupdate', () => {
+          if (!captionShown && vid.currentTime >= CAPTION_AT_SEC) showCaption();
+        });
+        vid.addEventListener('ended', hideOverlay);
+        vid.addEventListener('error', hideOverlay);
+        // autoplay handling
+        vid.play().catch(() => {
+          wrap.addEventListener('click', () => vid.play(), { once:true });
+        });
+      }
 
-    vid.addEventListener('timeupdate', () => {
-      if (!captionShown && vid.currentTime >= CAPTION_AT_SEC) showCaption();
-    });
+      if (skipBtn) skipBtn.addEventListener('click', hideOverlay);
 
-    vid.addEventListener('ended', hideOverlay);
-    vid.addEventListener('error', hideOverlay);
-    skipBtn.addEventListener('click', hideOverlay);
+      // failsafe
+      setTimeout(hideOverlay, HARD_TIMEOUT);
 
-    setTimeout(hideOverlay, HARD_TIMEOUT);
-
-    vid.play().catch(() => {
-      wrap.addEventListener('click', () => vid.play(), { once:true });
+      // For duplicates beyond the first, hide immediately
+      if (index > 0) hideOverlay();
     });
   })();
   </script>
 </body>
 </html>
-
-
-
