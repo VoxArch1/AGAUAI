@@ -120,14 +120,22 @@
           <!-- Formspree: use your working endpoint + email field named 'email' -->
          <form class="vote-form" action="https://formspree.io/f/xqalgbez" method="POST">
   <fieldset>
-    <legend>Where should AGAUAI 2026 take place?</legend>
+  <legend>Where should AGAUAI 2026 take place?</legend>
 
-    <label class="radio-row"><input type="radio" name="location" value="Crimea" required><span>Crimea</span></label>
-    <label class="radio-row"><input type="radio" name="location" value="Zaporizhzhia"><span>Zaporizhzhia</span></label>
-    <label class="radio-row"><input type="radio" name="location" value="Kyiv"><span>Kyiv</span></label>
-    <label class="radio-row"><input type="radio" name="location" value="Lviv / Poland border"><span>Lviv / Poland border</span></label>
-    <label class="radio-row"><input type="radio" name="location" value="Belgorod"><span>Belgorod</span></label>
-  </fieldset>
+  <label class="radio-row"><input type="radio" name="location" value="Crimea" required><span>Crimea</span></label>
+  <label class="radio-row"><input type="radio" name="location" value="Zaporizhzhia"><span>Zaporizhzhia</span></label>
+  <label class="radio-row"><input type="radio" name="location" value="Kyiv"><span>Kyiv</span></label>
+  <label class="radio-row"><input type="radio" name="location" value="Lviv / Poland border"><span>Lviv / Poland border</span></label>
+  <label class="radio-row"><input type="radio" name="location" value="Belgorod"><span>Belgorod</span></label>
+
+  <!-- NEW: custom entry -->
+  <label class="radio-row">
+    <input type="radio" name="location" value="Other">
+    <span>Other (please specify):</span>
+  </label>
+  <input type="text" name="custom_location" placeholder="Enter your own location" style="width:100%; max-width:420px; margin-top:.5rem;"/>
+</fieldset>
+
 
   <label for="email">Your Email (one vote per person):</label>
   <input id="email" type="email" name="email" required />
