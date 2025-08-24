@@ -112,6 +112,133 @@
         <p><strong>Anyone can participate:</strong> attend, submit music, sponsor infrastructure, suggest performers, or vote on the location.</p>
         <p>Each week, a new vision arrives — imagined by AI. Each one a possible future waiting to be chosen.</p>
       </section>
+<!-- === AI SHOWDOWN: PICK THE HOST CITY =================================== -->
+<section id="ai-showdown" class="reveal" style="max-width:1000px;margin:2rem auto;padding:0 1rem 2rem;border-top:1px solid #111;">
+  <header style="margin:1.25rem 0 1rem;">
+    <h2 style="margin:0;font-size:clamp(1.4rem,3.2vw,2rem);font-weight:800;">AI Showdown — Choose the Host City</h2>
+    <p style="margin:.4rem 0 0;opacity:.9">Four AIs. Four proposals. Click a name to see the pitch, then cast your vote.</p>
+  </header>
+
+  <!-- Tabs -->
+  <div role="tablist" aria-label="AI Proposals" style="display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1rem 0;">
+    <button class="ai-tab btn primary" data-ai="grok" aria-selected="true">Grok 3</button>
+    <button class="ai-tab btn" data-ai="gemini">Gemini</button>
+    <button class="ai-tab btn" data-ai="chatgpt">ChatGPT</button>
+    <button class="ai-tab btn" data-ai="agauai">AGAUAI</button>
+  </div>
+
+  <!-- Panels -->
+  <div id="ai-panels" style="display:grid;grid-template-columns:1fr;gap:1rem;">
+    <!-- GROK -->
+    <article class="ai-panel card" data-ai="grok" style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
+      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">Grok 3 recommends: <strong>Dnipro</strong></h3>
+      <p style="opacity:.9;margin:0 0 .5rem 0;">Bold, leverage‑focused choice near the eastern front; pair the festival with a UN‑backed 30‑day ceasefire window.</p>
+      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
+        <li><strong>Why:</strong> Big‑city capacity (10k+), symbolic proximity, strong logistics.</li>
+        <li><strong>How to secure:</strong> Peacekeeper perimeter, ISR/drones, satellite monitoring, media scrutiny.</li>
+        <li><strong>Risk:</strong> Strike range → buffer zone, hardened venues, dynamic reroute plan.</li>
+      </ul>
+      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <button class="btn primary vote-city" data-city="Dnipro">Vote Dnipro (Grok)</button>
+        <a class="btn" href="#vote">Review & Vote on All</a>
+      </div>
+    </article>
+
+    <!-- GEMINI -->
+    <article class="ai-panel card" data-ai="gemini" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
+      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">Gemini recommends: <strong>Kyiv</strong></h3>
+      <p style="opacity:.9;margin:0 0 .5rem 0;">Maximize safety & international participation while keeping the signal strong at the capital’s cultural core.</p>
+      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
+        <li><strong>Why:</strong> Iconic venues (e.g., Sofia Square), global media magnet, diplomatic access.</li>
+        <li><strong>Security:</strong> Centralized policing, layered checkpoints, resilient power/comms.</li>
+        <li><strong>Trade‑off:</strong> Less direct ceasefire leverage vs. frontline‑adjacent sites.</li>
+      </ul>
+      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <button class="btn primary vote-city" data-city="Kyiv">Vote Kyiv (Gemini)</button>
+        <a class="btn" href="#vote">Review & Vote on All</a>
+      </div>
+    </article>
+
+    <!-- CHATGPT -->
+    <article class="ai-panel card" data-ai="chatgpt" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
+      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">ChatGPT recommends: <strong>Odesa</strong></h3>
+      <p style="opacity:.9;margin:0 0 .5rem 0;">Port city = logistics win; maritime access enables rapid humanitarian staging and international security presence.</p>
+      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
+        <li><strong>Why:</strong> Sea lanes, diversified ingress, large spaces for stages & aid corridors.</li>
+        <li><strong>Security:</strong> Naval coordination, coastal radar, airspace deconfliction plans.</li>
+        <li><strong>Trade‑off:</strong> Farther from frontline → less coercive pressure for ceasefire.</li>
+      </ul>
+      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <button class="btn primary vote-city" data-city="Odesa">Vote Odesa (ChatGPT)</button>
+        <a class="btn" href="#vote">Review & Vote on All</a>
+      </div>
+    </article>
+
+    <!-- AGAUAI (YOU) -->
+    <article class="ai-panel card" data-ai="agauai" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
+      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">AGAUAI recommends: <strong>Lviv</strong></h3>
+      <p style="opacity:.9;margin:0 0 .5rem 0;">High turnout, strong cultural backbone, and safer western staging for global artists & attendees.</p>
+      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
+        <li><strong>Why:</strong> Robust hospitality, EU‑adjacent access, predictable ops.</li>
+        <li><strong>Security:</strong> Layered city policing, integrated EMS/triage, backup power.</li>
+        <li><strong>Trade‑off:</strong> Lowest ceasefire leverage vs. Dnipro/Kyiv, but maximizes participation.</li>
+      </ul>
+      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <button class="btn primary vote-city" data-city="Lviv">Vote Lviv (AGAUAI)</button>
+        <a class="btn" href="#vote">Review & Vote on All</a>
+      </div>
+    </article>
+  </div>
+</section>
+<!-- === /AI SHOWDOWN ======================================================== -->
+
+<script>
+  // Simple tab switcher
+  (function(){
+    var tabs = document.querySelectorAll('#ai-showdown .ai-tab');
+    var panels = document.querySelectorAll('#ai-showdown .ai-panel');
+    function show(ai){
+      panels.forEach(function(p){ p.hidden = p.getAttribute('data-ai') !== ai; });
+      tabs.forEach(function(t){
+        var on = t.getAttribute('data-ai') === ai;
+        t.classList.toggle('primary', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+    tabs.forEach(function(t){
+      t.addEventListener('click', function(){ show(t.getAttribute('data-ai')); });
+    });
+    show('grok'); // default
+  })();
+
+  // Prefill + scroll to existing vote form
+  (function(){
+    function setCity(city){
+      // select dropdown
+      var sel = document.querySelector('select[name="location"], select#location');
+      if (sel) {
+        var matched = false;
+        Array.from(sel.options).forEach(function(opt){
+          if ((opt.value || '').toLowerCase().includes(city.toLowerCase())) { sel.value = opt.value; matched = true; }
+        });
+        if (!matched) sel.value = city;
+      }
+      // radio group
+      var radios = document.querySelectorAll('input[type="radio"][name="location"]');
+      if (radios.length){
+        Array.from(radios).forEach(function(r){
+          if ((r.value || '').toLowerCase().includes(city.toLowerCase())) r.checked = true;
+        });
+      }
+      // scroll
+      var voteAnchor = document.getElementById('vote') || document.querySelector('[data-vote-form]') || document.querySelector('form[action*="formspree"]');
+      if (voteAnchor) voteAnchor.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    document.querySelectorAll('.vote-city').forEach(function(btn){
+      btn.addEventListener('click', function(){ setCity(btn.getAttribute('data-city')); });
+    });
+  })();
+</script>
 
       <section class="vote-wrap">
         <div class="vote-col">
