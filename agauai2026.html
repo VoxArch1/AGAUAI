@@ -179,3 +179,22 @@
   </div>
 </body>
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const otherRadio = document.querySelector('input[name="location"][value="Other"]');
+  const customInput = document.querySelector('input[name="custom_location"]');
+  const radios = document.querySelectorAll('input[name="location"]');
+
+  function toggleRequirement() {
+    if (otherRadio.checked) {
+      customInput.required = true;
+    } else {
+      customInput.required = false;
+    }
+  }
+
+  radios.forEach(r => r.addEventListener("change", toggleRequirement));
+  toggleRequirement(); // run once at start
+});
+</script>
