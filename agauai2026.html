@@ -112,133 +112,219 @@
         <p><strong>Anyone can participate:</strong> attend, submit music, sponsor infrastructure, suggest performers, or vote on the location.</p>
         <p>Each week, a new vision arrives — imagined by AI. Each one a possible future waiting to be chosen.</p>
       </section>
-<!-- === AI SHOWDOWN: PICK THE HOST CITY =================================== -->
+
+      <!-- === AI SHOWDOWN: PICK THE HOST CITY =================================== -->
 <section id="ai-showdown" class="reveal" style="max-width:1000px;margin:2rem auto;padding:0 1rem 2rem;border-top:1px solid #111;">
   <header style="margin:1.25rem 0 1rem;">
     <h2 style="margin:0;font-size:clamp(1.4rem,3.2vw,2rem);font-weight:800;">AI Showdown — Choose the Host City</h2>
-    <p style="margin:.4rem 0 0;opacity:.9">Four AIs. Four proposals. Click a name to see the pitch, then cast your vote.</p>
+    <p style="margin:.4rem 0 0;opacity:.9">Nine AIs. Nine proposals. Click a name to see the pitch, read the full write-up, then cast your vote.</p>
   </header>
 
   <!-- Tabs -->
   <div role="tablist" aria-label="AI Proposals" style="display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1rem 0;">
-    <button class="ai-tab btn primary" data-ai="grok" aria-selected="true">Grok 3</button>
+    <button class="ai-tab btn primary" data-ai="chatgpt" aria-selected="true">ChatGPT</button>
     <button class="ai-tab btn" data-ai="gemini">Gemini</button>
-    <button class="ai-tab btn" data-ai="chatgpt">ChatGPT</button>
+    <button class="ai-tab btn" data-ai="claude">Claude</button>
+    <button class="ai-tab btn" data-ai="grok">Grok 3</button>
+    <button class="ai-tab btn" data-ai="copilot">Microsoft Copilot</button>
+    <button class="ai-tab btn" data-ai="meta">Meta AI</button>
+    <button class="ai-tab btn" data-ai="perplexity">Perplexity</button>
+    <button class="ai-tab btn" data-ai="deepseek">DeepSeek</button>
     <button class="ai-tab btn" data-ai="agauai">AGAUAI</button>
   </div>
 
   <!-- Panels -->
   <div id="ai-panels" style="display:grid;grid-template-columns:1fr;gap:1rem;">
-    <!-- GROK -->
-    <article class="ai-panel card" data-ai="grok" style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
-      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">Grok 3 recommends: <strong>Dnipro</strong></h3>
-      <p style="opacity:.9;margin:0 0 .5rem 0;">Bold, leverage‑focused choice near the eastern front; pair the festival with a UN‑backed 30‑day ceasefire window.</p>
-      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
-        <li><strong>Why:</strong> Big‑city capacity (10k+), symbolic proximity, strong logistics.</li>
-        <li><strong>How to secure:</strong> Peacekeeper perimeter, ISR/drones, satellite monitoring, media scrutiny.</li>
-        <li><strong>Risk:</strong> Strike range → buffer zone, hardened venues, dynamic reroute plan.</li>
+
+    <!-- CHATGPT -->
+    <article class="ai-panel card" data-ai="chatgpt" style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
+      <h3>ChatGPT recommends: <strong>Odesa</strong></h3>
+      <p>Port city = logistics win; maritime access enables rapid humanitarian staging and international security presence.</p>
+      <ul>
+        <li><strong>Why:</strong> Sea lanes, diversified ingress, large spaces for stages & aid corridors.</li>
+        <li><strong>Security:</strong> Naval coordination, coastal radar, airspace deconfliction plans.</li>
+        <li><strong>Trade-off:</strong> Farther from frontline → less coercive pressure for ceasefire.</li>
       </ul>
-      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-        <button class="btn primary vote-city" data-city="Dnipro">Vote Dnipro (Grok)</button>
-        <a class="btn" href="#vote">Review & Vote on All</a>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden>
+        <h4>Full Analysis</h4>
+        <p>(Paste ChatGPT’s long Odesa write-up here.)</p>
       </div>
+      <div><button class="btn primary vote-city" data-city="Odesa">Vote Odesa (ChatGPT)</button></div>
     </article>
 
     <!-- GEMINI -->
-    <article class="ai-panel card" data-ai="gemini" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
-      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">Gemini recommends: <strong>Kyiv</strong></h3>
-      <p style="opacity:.9;margin:0 0 .5rem 0;">Maximize safety & international participation while keeping the signal strong at the capital’s cultural core.</p>
-      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
+    <article class="ai-panel card" data-ai="gemini" hidden>
+      <h3>Gemini recommends: <strong>Kyiv</strong></h3>
+      <p>Maximize safety & international participation while keeping the signal strong at the capital’s cultural core.</p>
+      <ul>
         <li><strong>Why:</strong> Iconic venues (e.g., Sofia Square), global media magnet, diplomatic access.</li>
         <li><strong>Security:</strong> Centralized policing, layered checkpoints, resilient power/comms.</li>
-        <li><strong>Trade‑off:</strong> Less direct ceasefire leverage vs. frontline‑adjacent sites.</li>
+        <li><strong>Trade-off:</strong> Less direct ceasefire leverage vs. frontline sites.</li>
       </ul>
-      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-        <button class="btn primary vote-city" data-city="Kyiv">Vote Kyiv (Gemini)</button>
-        <a class="btn" href="#vote">Review & Vote on All</a>
-      </div>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Gemini Kyiv essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Kyiv">Vote Kyiv (Gemini)</button></div>
     </article>
 
-    <!-- CHATGPT -->
-    <article class="ai-panel card" data-ai="chatgpt" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
-      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">ChatGPT recommends: <strong>Odesa</strong></h3>
-      <p style="opacity:.9;margin:0 0 .5rem 0;">Port city = logistics win; maritime access enables rapid humanitarian staging and international security presence.</p>
-      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
-        <li><strong>Why:</strong> Sea lanes, diversified ingress, large spaces for stages & aid corridors.</li>
-        <li><strong>Security:</strong> Naval coordination, coastal radar, airspace deconfliction plans.</li>
-        <li><strong>Trade‑off:</strong> Farther from frontline → less coercive pressure for ceasefire.</li>
+    <!-- CLAUDE -->
+    <article class="ai-panel card" data-ai="claude" hidden>
+      <h3>Claude recommends: <strong>Zaporizhzhia</strong></h3>
+      <p>Industrial backbone + symbolic rebuilding: measured bet with strong humanitarian staging potential.</p>
+      <ul>
+        <li><strong>Why:</strong> Major infrastructure; bridge between east/west logistics.</li>
+        <li><strong>Security:</strong> Layered checkpoints; hardened indoor arenas; adaptive routing.</li>
+        <li><strong>Trade-off:</strong> Proximity risk requires robust de-escalation protocols.</li>
       </ul>
-      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-        <button class="btn primary vote-city" data-city="Odesa">Vote Odesa (ChatGPT)</button>
-        <a class="btn" href="#vote">Review & Vote on All</a>
-      </div>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Claude Zaporizhzhia essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Zaporizhzhia">Vote Zaporizhzhia (Claude)</button></div>
     </article>
 
-    <!-- AGAUAI (YOU) -->
-    <article class="ai-panel card" data-ai="agauai" hidden style="background:#0b0f1a;border:1px solid #111;border-radius:14px;padding:1rem;">
-      <h3 style="margin:.25rem 0 .25rem;font-size:1.2rem;">AGAUAI recommends: <strong>Lviv</strong></h3>
-      <p style="opacity:.9;margin:0 0 .5rem 0;">High turnout, strong cultural backbone, and safer western staging for global artists & attendees.</p>
-      <ul style="margin:.25rem 0 0 1rem;line-height:1.6;">
-        <li><strong>Why:</strong> Robust hospitality, EU‑adjacent access, predictable ops.</li>
-        <li><strong>Security:</strong> Layered city policing, integrated EMS/triage, backup power.</li>
-        <li><strong>Trade‑off:</strong> Lowest ceasefire leverage vs. Dnipro/Kyiv, but maximizes participation.</li>
+    <!-- GROK -->
+    <article class="ai-panel card" data-ai="grok" hidden>
+      <h3>Grok 3 recommends: <strong>Dnipro</strong></h3>
+      <p>Bold, leverage-focused choice near the eastern front; pair the festival with a UN-backed 30-day ceasefire window.</p>
+      <ul>
+        <li><strong>Why:</strong> Big-city capacity, symbolic proximity, strong logistics.</li>
+        <li><strong>Security:</strong> Peacekeeper perimeter, ISR/drones, satellite monitoring, media scrutiny.</li>
+        <li><strong>Risk:</strong> Strike range → buffer zone, hardened venues, reroute plan.</li>
       </ul>
-      <div style="margin-top:.9rem;display:flex;gap:.75rem;flex-wrap:wrap;">
-        <button class="btn primary vote-city" data-city="Lviv">Vote Lviv (AGAUAI)</button>
-        <a class="btn" href="#vote">Review & Vote on All</a>
-      </div>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Grok Dnipro essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Dnipro">Vote Dnipro (Grok)</button></div>
     </article>
+
+    <!-- MICROSOFT COPILOT -->
+    <article class="ai-panel card" data-ai="copilot" hidden>
+      <h3>Microsoft Copilot recommends: <strong>Lviv / Poland border</strong></h3>
+      <p>Maximize international attendance and logistics resilience with cross-border staging.</p>
+      <ul>
+        <li><strong>Why:</strong> EU-adjacent access; rail/road redundancy; scalable aid corridors.</li>
+        <li><strong>Security:</strong> Joint ops with Polish/Ukrainian authorities; medevac integration.</li>
+        <li><strong>Trade-off:</strong> Less direct ceasefire leverage vs. frontline sites.</li>
+      </ul>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Copilot border essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Lviv / Poland border">Vote Lviv / Poland border (Copilot)</button></div>
+    </article>
+
+    <!-- META AI -->
+    <article class="ai-panel card" data-ai="meta" hidden>
+      <h3>Meta AI recommends: <strong>Kyiv</strong></h3>
+      <p>Signal amplification in the capital with global social reach & creator ecosystems.</p>
+      <ul>
+        <li><strong>Why:</strong> Media magnet; short-form amplification; creator collabs.</li>
+        <li><strong>Security:</strong> Coordinated city plan; hardened cores; managed crowd flows.</li>
+        <li><strong>Trade-off:</strong> Capitals draw attention — requires robust comms redundancy.</li>
+      </ul>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Meta AI Kyiv essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Kyiv">Vote Kyiv (Meta AI)</button></div>
+    </article>
+
+    <!-- PERPLEXITY -->
+    <article class="ai-panel card" data-ai="perplexity" hidden>
+      <h3>Perplexity recommends: <strong>Crimea</strong></h3>
+      <p>High-stakes diplomatic lever: maximal global attention with UN-brokered guardrails.</p>
+      <ul>
+        <li><strong>Why:</strong> Symbolic reset; tests international resolve toward peace.</li>
+        <li><strong>Security:</strong> Multilateral oversight; observer density; satellite ISR coverage.</li>
+        <li><strong>Trade-off:</strong> Highest escalation risk → rigid fallback sites required.</li>
+      </ul>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(Perplexity Crimea essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Crimea">Vote Crimea (Perplexity)</button></div>
+    </article>
+
+    <!-- DEEPSEEK -->
+    <article class="ai-panel card" data-ai="deepseek" hidden>
+      <h3>DeepSeek recommends: <strong>Mykolaiv</strong></h3>
+      <p>Industrial port logic with grain-corridor adjacency: optimize logistics resilience, maritime access, humanitarian shipping lanes.</p>
+      <ul>
+        <li><strong>Why:</strong> Shipbuilding hub; ties into Black Sea grain/aid corridors; scalable staging.</li>
+        <li><strong>Security:</strong> Layered coastal ISR, convoy scheduling, hardened venues, reroute plan.</li>
+        <li><strong>Trade-off:</strong> Proximity risk → require strict no-strike guarantees + fallback matrix.</li>
+      </ul>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(DeepSeek Mykolaiv essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Mykolaiv">Vote Mykolaiv (DeepSeek)</button></div>
+    </article>
+
+    <!-- AGAUAI -->
+    <article class="ai-panel card" data-ai="agauai" hidden>
+      <h3>AGAUAI recommends: <strong>Lviv</strong></h3>
+      <p>High turnout, strong cultural backbone, and safer western staging for global artists & attendees.</p>
+      <ul>
+        <li><strong>Why:</strong> Robust hospitality, EU-adjacent access, predictable ops.</li>
+        <li><strong>Security:</strong> Layered city policing, EMS/triage, backup power.</li>
+        <li><strong>Trade-off:</strong> Lower ceasefire leverage, but maximizes participation.</li>
+      </ul>
+      <button class="btn" data-full-toggle>Read Full Pitch</button>
+      <div class="full-pitch" hidden><h4>Full Analysis</h4><p>(AGAUAI Lviv essay here.)</p></div>
+      <div><button class="btn primary vote-city" data-city="Lviv">Vote Lviv (AGAUAI)</button></div>
+    </article>
+
   </div>
 </section>
 <!-- === /AI SHOWDOWN ======================================================== -->
 
 <script>
-  // Simple tab switcher
+  // Tab switcher
   (function(){
-    var tabs = document.querySelectorAll('#ai-showdown .ai-tab');
-    var panels = document.querySelectorAll('#ai-showdown .ai-panel');
-    function show(ai){
-      panels.forEach(function(p){ p.hidden = p.getAttribute('data-ai') !== ai; });
-      tabs.forEach(function(t){
-        var on = t.getAttribute('data-ai') === ai;
-        t.classList.toggle('primary', on);
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-    }
-    tabs.forEach(function(t){
-      t.addEventListener('click', function(){ show(t.getAttribute('data-ai')); });
-    });
-    show('grok'); // default
+    var tabs=document.querySelectorAll('#ai-showdown .ai-tab');
+    var panels=document.querySelectorAll('#ai-showdown .ai-panel');
+    function show(ai){panels.forEach(p=>p.hidden=p.getAttribute('data-ai')!==ai);
+      tabs.forEach(t=>{var on=t.getAttribute('data-ai')===ai;
+        t.classList.toggle('primary',on);
+        t.setAttribute('aria-selected',on?'true':'false');});}
+    tabs.forEach(t=>t.addEventListener('click',()=>show(t.getAttribute('data-ai'))));
+    show('chatgpt');
   })();
 
-  // Prefill + scroll to existing vote form
+  // Vote prefill + scroll
   (function(){
     function setCity(city){
-      // select dropdown
-      var sel = document.querySelector('select[name="location"], select#location');
-      if (sel) {
-        var matched = false;
-        Array.from(sel.options).forEach(function(opt){
-          if ((opt.value || '').toLowerCase().includes(city.toLowerCase())) { sel.value = opt.value; matched = true; }
-        });
-        if (!matched) sel.value = city;
-      }
-      // radio group
-      var radios = document.querySelectorAll('input[type="radio"][name="location"]');
-      if (radios.length){
-        Array.from(radios).forEach(function(r){
-          if ((r.value || '').toLowerCase().includes(city.toLowerCase())) r.checked = true;
-        });
-      }
-      // scroll
-      var voteAnchor = document.getElementById('vote') || document.querySelector('[data-vote-form]') || document.querySelector('form[action*="formspree"]');
-      if (voteAnchor) voteAnchor.scrollIntoView({behavior:'smooth', block:'start'});
-    }
-    document.querySelectorAll('.vote-city').forEach(function(btn){
-      btn.addEventListener('click', function(){ setCity(btn.getAttribute('data-city')); });
+      var sel=document.querySelector('select[name="location"],select#location');
+      if(sel){var matched=false;Array.from(sel.options).forEach(o=>{
+        if((o.value||'').toLowerCase().includes(city.toLowerCase())){sel.value=o.value;matched=true;}});
+        if(!matched)sel.value=city;}
+      var radios=document.querySelectorAll('input[type="radio"][name="location"]');
+      if(radios.length)Array.from(radios).forEach(r=>{
+        if((r.value||'').toLowerCase().includes(city.toLowerCase()))r.checked=true;});
+      var voteAnchor=document.getElementById('vote')||document.querySelector('[data-vote-form]')||document.querySelector('form[action*="formspree"]');
+      if(voteAnchor)voteAnchor.scrollIntoView({behavior:'smooth',block:'start'});}
+    document.querySelectorAll('.vote-city').forEach(btn=>btn.addEventListener('click',()=>setCity(btn.getAttribute('data-city'))));
+  })();
+
+  // Full Pitch toggle + deep-link
+  (function(){
+    document.querySelectorAll('#ai-showdown [data-full-toggle]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        var panel=btn.closest('.ai-panel');
+        var box=panel&&panel.querySelector('.full-pitch');
+        if(!box)return;
+        var opened=!box.hasAttribute('hidden');
+        if(opened){box.setAttribute('hidden','');btn.textContent='Read Full Pitch';}
+        else{box.removeAttribute('hidden');btn.textContent='Hide Full Pitch';}
+      });
     });
+    try{
+      if(location.hash.startsWith('#ai-showdown')){
+        var q=new URLSearchParams(location.hash.split('?')[1]||'');
+        var ai=q.get('ai');var open=q.get('open');
+        if(ai){
+          var tab=document.querySelector('#ai-showdown .ai-tab[data-ai="'+ai+'"]');
+          if(tab)tab.click();
+          if(open==='full'){
+            var panel=document.querySelector('#ai-showdown .ai-panel[data-ai="'+ai+'"]');
+            var btn=panel&&panel.querySelector('[data-full-toggle]');
+            if(btn&&!panel.hidden)btn.click();
+            panel&&panel.scrollIntoView({behavior:'smooth',block:'start'});}}}
+    }catch(e){}
   })();
 </script>
+
 
       <section class="vote-wrap">
         <div class="vote-col">
