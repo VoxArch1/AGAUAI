@@ -1,0 +1,12 @@
+{
+  "//": "Central place to manage all form endpoints. Swap providers here.",
+  "provider": "formspree",
+  "endpoints": {
+    "default": "https://formspree.io/f/xqalgbez",
+    "volunteer": "https://formspree.io/f/manbljjz"
+  },
+  "guards": {
+    "minSubmitMillis": 3000,
+    "honeypotName": "website"
+  }
+}
