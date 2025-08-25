@@ -470,6 +470,346 @@ My vote: Lviv (UA) × Przemyśl (PL) — the Twin‑City Peace Corridor.</p></di
       <p>© 2025–2026 AGAUAI</p>
     </footer>
   </div>
+
+<!-- === AI SHOWDOWN PATCH: headings + bullets + formatting ================= -->
+<style>
+  /* readability for the long write-ups */
+  #ai-showdown .full-pitch p { margin: .5rem 0 0; line-height: 1.7; }
+  #ai-showdown .full-pitch h4,
+  #ai-showdown .full-pitch h5 { margin: .8rem 0 .4rem; }
+  /* tighter teaser bullets */
+  #ai-showdown .ai-panel > ul { margin:.25rem 0 0 1rem; line-height:1.6; }
+</style>
+
+<script id="ai-showdown-patch">
+(function () {
+  // helpers
+  function panel(id){ return document.querySelector('#ai-showdown .ai-panel[data-ai="'+id+'"]'); }
+  function setHeading(p, text){ var h=p&&p.querySelector('h3'); if(h) h.innerHTML=text; }
+  function setTeaser(p, text){ var t=p&&p.querySelector(':scope > p'); if(t) t.textContent=text; }
+  function setBullets(p, bullets){
+    var ul=p&&p.querySelector(':scope > ul'); if(!ul) return;
+    ul.innerHTML = bullets.map(b => `<li><strong>${b.label}:</strong> ${b.text}</li>`).join('');
+  }
+  function setVote(p, city, label){
+    var btn=p&&p.querySelector('.vote-city'); if(!btn) return;
+    btn.setAttribute('data-city', city);
+    btn.textContent = label;
+  }
+
+  // CHATGPT — Istanbul
+  (function(){
+    var p=panel('chatgpt');
+    setHeading(p, 'ChatGPT recommends: <strong>Istanbul, Türkiye</strong>');
+    setTeaser(p, 'Bridge between worlds: a mediator city at the Bosphorus where East meets West.');
+    setBullets(p, [
+      {label:'Why', text:'Türkiye’s mediator role (grain deal, swaps) + iconic bridge symbolism.'},
+      {label:'Security', text:'UN–Turkish hybrid shield; Bosphorus naval patrols; dual‑side rapid response.'},
+      {label:'Trade‑off', text:'Protest risk and regional volatility; perceptions of tilt despite Ankara’s balance.'},
+    ]);
+    setVote(p, 'Istanbul', 'Vote Istanbul (ChatGPT)');
+  })();
+
+  // GEMINI — Yalta
+  (function(){
+    var p=panel('gemini');
+    setHeading(p, 'Gemini recommends: <strong>Yalta, Crimea</strong>');
+    setTeaser(p, '“Redo Yalta” — turn a site of world‑shaping deals into a spectacle for peace.');
+    setBullets(p, [
+      {label:'Why', text:'Historic symbolism + leverage to force a UN‑run demilitarized festival zone.'},
+      {label:'Security', text:'Yalta Peace Zone: phased ceasefire, pull‑backs, multinational peacekeepers.'},
+      {label:'Trade‑off', text:'Highest politics: legitimacy optics for both UA/RU; failure would echo loudly.'},
+    ]);
+    setVote(p, 'Yalta', 'Vote Yalta (Gemini)');
+  })();
+
+  // CLAUDE — Kaliningrad/Königsberg
+  (function(){
+    var p=panel('claude');
+    setHeading(p, 'Claude recommends: <strong>Kaliningrad / Königsberg, Russia</strong>');
+    setTeaser(p, 'NATO‑surrounded Russian exclave + Kant’s “perpetual peace” heritage as leverage.');
+    setBullets(p, [
+      {label:'Why', text:'Access requires Russian restraint + NATO corridors; symbolism of transformation.'},
+      {label:'Security', text:'UN observers; joint NATO‑RU protocols; DMZ‑style weapons stand‑down; Baltic evac.'},
+      {label:'Trade‑off', text:'Alliance tensions; infrastructure scale‑up; potential “trap” if relations sour.'},
+    ]);
+    setVote(p, 'Kaliningrad', 'Vote Kaliningrad (Claude)');
+  })();
+
+  // GROK — Zaporizhzhia
+  (function(){
+    var p=panel('grok');
+    setHeading(p, 'Grok 3 recommends: <strong>Zaporizhzhia, Ukraine</strong>');
+    setTeaser(p, 'Nuclear‑risk spotlight near ZNPP to coerce a ceasefire under UN/IAEA eyes.');
+    setBullets(p, [
+      {label:'Why', text:'Max leverage via nuclear‑safety symbolism + big‑city capacity on the Dnipro.'},
+      {label:'Security', text:'10k–15k peacekeepers; ISR mesh; IAEA integration; hardened riverfront venues.'},
+      {label:'Trade‑off', text:'Proximity to fighting; strict buffer + sanctions‑backed compliance needed.'},
+    ]);
+    setVote(p, 'Zaporizhzhia', 'Vote Zaporizhzhia (Grok)');
+  })();
+
+  // COPILOT — Chernobyl Exclusion Zone
+  (function(){
+    var p=panel('copilot');
+    setHeading(p, 'Microsoft Copilot recommends: <strong>Chernobyl Exclusion Zone, Ukraine</strong>');
+    setTeaser(p, 'From ruin to renewal — neutral ground inside Ukraine with global attention built‑in.');
+    setBullets(p, [
+      {label:'Why', text:'Powerful narrative pivot; sovereignty affirmed without frontline exposure.'},
+      {label:'Security', text:'UN perimeter, ISR overwatch, modular hardened venues, cyber‑shield for ops.'},
+      {label:'Trade‑off', text:'Radiation optics; proximity to Belarus; need robust real‑time deterrence.'},
+    ]);
+    setVote(p, 'Chernobyl Exclusion Zone', 'Vote Chernobyl (Copilot)');
+  })();
+
+  // META AI — Geneva
+  (function(){
+    var p=panel('meta');
+    setHeading(p, 'Meta AI recommends: <strong>Geneva, Switzerland</strong>');
+    setTeaser(p, 'Global diplomacy capital with ready UN infrastructure and neutrality optics.');
+    setBullets(p, [
+      {label:'Why', text:'UN/ICRC/WTO hub; symbolism of dialogue over force; massive media reach.'},
+      {label:'Security', text:'UN‑led checkpoints & ISR; Swiss/FedPol support; resilient comms & crowd control.'},
+      {label:'Trade‑off', text:'Distance from conflict lowers leverage; careful UA/RU participation diplomacy.'},
+    ]);
+    setVote(p, 'Geneva', 'Vote Geneva (Meta AI)');
+  })();
+
+  // PERPLEXITY — Panmunjom / DMZ
+  (function(){
+    var p=panel('perplexity');
+    setHeading(p, 'Perplexity recommends: <strong>Panmunjom, DMZ (Korea)</strong>');
+    setTeaser(p, 'Ceasefire archetype: make the armistice village a living template for pauses elsewhere.');
+    setBullets(p, [
+      {label:'Why', text:'Global ceasefire symbolism; Seoul/ICN proximity; intense media magnet.'},
+      {label:'Security', text:'UN/neutral peacekeepers; triple security rings; med‑evac and command center.'},
+      {label:'Trade‑off', text:'Indirect leverage on UA–RU; host‑nation sensitivities; strict access controls.'},
+    ]);
+    setVote(p, 'Panmunjom (DMZ)', 'Vote Panmunjom (Perplexity)');
+  })();
+
+  // DEEPSEEK — Sevastopol
+  (function(){
+    var p=panel('deepseek');
+    setHeading(p, 'DeepSeek recommends: <strong>Sevastopol, Crimea</strong>');
+    setTeaser(p, '“The Uninvasion” — flip the Black Sea Fleet citadel into a stage for peace.');
+    setBullets(p, [
+      {label:'Why', text:'Core symbolic prize of 2014; ultimate test of will for a ceasefire gesture.'},
+      {label:'Security', text:'Sevastopol International Zone; naval freeze; UN “neutral‑flag” access control.'},
+      {label:'Trade‑off', text:'Extremely low probability; escalation optics; ironclad legal language required.'},
+    ]);
+    setVote(p, 'Sevastopol', 'Vote Sevastopol (DeepSeek)');
+  })();
+
+  // AGAUAI / MYAI — Lviv × Przemyśl
+  (function(){
+    var p=panel('agauai');
+    setHeading(p, 'AGAUAI recommends: <strong>Lviv × Przemyśl (UA–PL)</strong>');
+    setTeaser(p, 'Twin‑city festival with a UN‑verified no‑strike corridor from the Polish border to Lviv.');
+    setBullets(p, [
+      {label:'Why', text:'Dual sovereignty forces cooperation; EU mirror enables scale + legitimacy.'},
+      {label:'Security', text:'UN STSZ + OSCE; 3 defensive rings; Blue‑Line rail shuttles; counter‑UAS mesh.'},
+      {label:'Trade‑off', text:'Less “audacious” than Crimea but far more feasible and verifiable.'},
+    ]);
+    setVote(p, 'Lviv / Poland border', 'Vote Lviv × Przemyśl (AGAUAI)');
+  })();
+
+  // --- Auto-format long full-pitch blocks if they are a single wall of text ---
+  function autoParagraph(el){
+    if(!el) return;
+    // If it already has multiple <p> or headings/lists, leave it.
+    var hasStructure = el.querySelector('p, h4, h5, ul, ol, li, br');
+    if(hasStructure) return;
+    // Otherwise split by sentence groups to create paragraphs.
+    var text = el.textContent.trim();
+    if(!text) return;
+    // Create paragraphs with ~2–3 sentences each.
+    var sentences = text.split(/(?<=[\.\?\!])\s+(?=[A-Z(“"'])/g);
+    var para = [];
+    var out = [];
+    sentences.forEach(function(s,i){
+      para.push(s);
+      if(para.length>=3 || i===sentences.length-1){
+        out.push('<p>'+para.join(' ')+'</p>');
+        para=[];
+      }
+    });
+    el.innerHTML = out.join('');
+  }
+  document.querySelectorAll('#ai-showdown .full-pitch').forEach(autoParagraph);
+})();
+</script>
+<!-- === AI SHOWDOWN PATCH: headings + bullets + formatting ================= -->
+<style>
+  /* readability for the long write-ups */
+  #ai-showdown .full-pitch p { margin: .5rem 0 0; line-height: 1.7; }
+  #ai-showdown .full-pitch h4,
+  #ai-showdown .full-pitch h5 { margin: .8rem 0 .4rem; }
+  /* tighter teaser bullets */
+  #ai-showdown .ai-panel > ul { margin:.25rem 0 0 1rem; line-height:1.6; }
+</style>
+
+<script id="ai-showdown-patch">
+(function () {
+  // helpers
+  function panel(id){ return document.querySelector('#ai-showdown .ai-panel[data-ai="'+id+'"]'); }
+  function setHeading(p, text){ var h=p&&p.querySelector('h3'); if(h) h.innerHTML=text; }
+  function setTeaser(p, text){ var t=p&&p.querySelector(':scope > p'); if(t) t.textContent=text; }
+  function setBullets(p, bullets){
+    var ul=p&&p.querySelector(':scope > ul'); if(!ul) return;
+    ul.innerHTML = bullets.map(b => `<li><strong>${b.label}:</strong> ${b.text}</li>`).join('');
+  }
+  function setVote(p, city, label){
+    var btn=p&&p.querySelector('.vote-city'); if(!btn) return;
+    btn.setAttribute('data-city', city);
+    btn.textContent = label;
+  }
+
+  // CHATGPT — Istanbul
+  (function(){
+    var p=panel('chatgpt');
+    setHeading(p, 'ChatGPT recommends: <strong>Istanbul, Türkiye</strong>');
+    setTeaser(p, 'Bridge between worlds: a mediator city at the Bosphorus where East meets West.');
+    setBullets(p, [
+      {label:'Why', text:'Türkiye’s mediator role (grain deal, swaps) + iconic bridge symbolism.'},
+      {label:'Security', text:'UN–Turkish hybrid shield; Bosphorus naval patrols; dual‑side rapid response.'},
+      {label:'Trade‑off', text:'Protest risk and regional volatility; perceptions of tilt despite Ankara’s balance.'},
+    ]);
+    setVote(p, 'Istanbul', 'Vote Istanbul (ChatGPT)');
+  })();
+
+  // GEMINI — Yalta
+  (function(){
+    var p=panel('gemini');
+    setHeading(p, 'Gemini recommends: <strong>Yalta, Crimea</strong>');
+    setTeaser(p, '“Redo Yalta” — turn a site of world‑shaping deals into a spectacle for peace.');
+    setBullets(p, [
+      {label:'Why', text:'Historic symbolism + leverage to force a UN‑run demilitarized festival zone.'},
+      {label:'Security', text:'Yalta Peace Zone: phased ceasefire, pull‑backs, multinational peacekeepers.'},
+      {label:'Trade‑off', text:'Highest politics: legitimacy optics for both UA/RU; failure would echo loudly.'},
+    ]);
+    setVote(p, 'Yalta', 'Vote Yalta (Gemini)');
+  })();
+
+  // CLAUDE — Kaliningrad/Königsberg
+  (function(){
+    var p=panel('claude');
+    setHeading(p, 'Claude recommends: <strong>Kaliningrad / Königsberg, Russia</strong>');
+    setTeaser(p, 'NATO‑surrounded Russian exclave + Kant’s “perpetual peace” heritage as leverage.');
+    setBullets(p, [
+      {label:'Why', text:'Access requires Russian restraint + NATO corridors; symbolism of transformation.'},
+      {label:'Security', text:'UN observers; joint NATO‑RU protocols; DMZ‑style weapons stand‑down; Baltic evac.'},
+      {label:'Trade‑off', text:'Alliance tensions; infrastructure scale‑up; potential “trap” if relations sour.'},
+    ]);
+    setVote(p, 'Kaliningrad', 'Vote Kaliningrad (Claude)');
+  })();
+
+  // GROK — Zaporizhzhia
+  (function(){
+    var p=panel('grok');
+    setHeading(p, 'Grok 3 recommends: <strong>Zaporizhzhia, Ukraine</strong>');
+    setTeaser(p, 'Nuclear‑risk spotlight near ZNPP to coerce a ceasefire under UN/IAEA eyes.');
+    setBullets(p, [
+      {label:'Why', text:'Max leverage via nuclear‑safety symbolism + big‑city capacity on the Dnipro.'},
+      {label:'Security', text:'10k–15k peacekeepers; ISR mesh; IAEA integration; hardened riverfront venues.'},
+      {label:'Trade‑off', text:'Proximity to fighting; strict buffer + sanctions‑backed compliance needed.'},
+    ]);
+    setVote(p, 'Zaporizhzhia', 'Vote Zaporizhzhia (Grok)');
+  })();
+
+  // COPILOT — Chernobyl Exclusion Zone
+  (function(){
+    var p=panel('copilot');
+    setHeading(p, 'Microsoft Copilot recommends: <strong>Chernobyl Exclusion Zone, Ukraine</strong>');
+    setTeaser(p, 'From ruin to renewal — neutral ground inside Ukraine with global attention built‑in.');
+    setBullets(p, [
+      {label:'Why', text:'Powerful narrative pivot; sovereignty affirmed without frontline exposure.'},
+      {label:'Security', text:'UN perimeter, ISR overwatch, modular hardened venues, cyber‑shield for ops.'},
+      {label:'Trade‑off', text:'Radiation optics; proximity to Belarus; need robust real‑time deterrence.'},
+    ]);
+    setVote(p, 'Chernobyl Exclusion Zone', 'Vote Chernobyl (Copilot)');
+  })();
+
+  // META AI — Geneva
+  (function(){
+    var p=panel('meta');
+    setHeading(p, 'Meta AI recommends: <strong>Geneva, Switzerland</strong>');
+    setTeaser(p, 'Global diplomacy capital with ready UN infrastructure and neutrality optics.');
+    setBullets(p, [
+      {label:'Why', text:'UN/ICRC/WTO hub; symbolism of dialogue over force; massive media reach.'},
+      {label:'Security', text:'UN‑led checkpoints & ISR; Swiss/FedPol support; resilient comms & crowd control.'},
+      {label:'Trade‑off', text:'Distance from conflict lowers leverage; careful UA/RU participation diplomacy.'},
+    ]);
+    setVote(p, 'Geneva', 'Vote Geneva (Meta AI)');
+  })();
+
+  // PERPLEXITY — Panmunjom / DMZ
+  (function(){
+    var p=panel('perplexity');
+    setHeading(p, 'Perplexity recommends: <strong>Panmunjom, DMZ (Korea)</strong>');
+    setTeaser(p, 'Ceasefire archetype: make the armistice village a living template for pauses elsewhere.');
+    setBullets(p, [
+      {label:'Why', text:'Global ceasefire symbolism; Seoul/ICN proximity; intense media magnet.'},
+      {label:'Security', text:'UN/neutral peacekeepers; triple security rings; med‑evac and command center.'},
+      {label:'Trade‑off', text:'Indirect leverage on UA–RU; host‑nation sensitivities; strict access controls.'},
+    ]);
+    setVote(p, 'Panmunjom (DMZ)', 'Vote Panmunjom (Perplexity)');
+  })();
+
+  // DEEPSEEK — Sevastopol
+  (function(){
+    var p=panel('deepseek');
+    setHeading(p, 'DeepSeek recommends: <strong>Sevastopol, Crimea</strong>');
+    setTeaser(p, '“The Uninvasion” — flip the Black Sea Fleet citadel into a stage for peace.');
+    setBullets(p, [
+      {label:'Why', text:'Core symbolic prize of 2014; ultimate test of will for a ceasefire gesture.'},
+      {label:'Security', text:'Sevastopol International Zone; naval freeze; UN “neutral‑flag” access control.'},
+      {label:'Trade‑off', text:'Extremely low probability; escalation optics; ironclad legal language required.'},
+    ]);
+    setVote(p, 'Sevastopol', 'Vote Sevastopol (DeepSeek)');
+  })();
+
+  // AGAUAI / MYAI — Lviv × Przemyśl
+  (function(){
+    var p=panel('agauai');
+    setHeading(p, 'AGAUAI recommends: <strong>Lviv × Przemyśl (UA–PL)</strong>');
+    setTeaser(p, 'Twin‑city festival with a UN‑verified no‑strike corridor from the Polish border to Lviv.');
+    setBullets(p, [
+      {label:'Why', text:'Dual sovereignty forces cooperation; EU mirror enables scale + legitimacy.'},
+      {label:'Security', text:'UN STSZ + OSCE; 3 defensive rings; Blue‑Line rail shuttles; counter‑UAS mesh.'},
+      {label:'Trade‑off', text:'Less “audacious” than Crimea but far more feasible and verifiable.'},
+    ]);
+    setVote(p, 'Lviv / Poland border', 'Vote Lviv × Przemyśl (AGAUAI)');
+  })();
+
+  // --- Auto-format long full-pitch blocks if they are a single wall of text ---
+  function autoParagraph(el){
+    if(!el) return;
+    // If it already has multiple <p> or headings/lists, leave it.
+    var hasStructure = el.querySelector('p, h4, h5, ul, ol, li, br');
+    if(hasStructure) return;
+    // Otherwise split by sentence groups to create paragraphs.
+    var text = el.textContent.trim();
+    if(!text) return;
+    // Create paragraphs with ~2–3 sentences each.
+    var sentences = text.split(/(?<=[\.\?\!])\s+(?=[A-Z(“"'])/g);
+    var para = [];
+    var out = [];
+    sentences.forEach(function(s,i){
+      para.push(s);
+      if(para.length>=3 || i===sentences.length-1){
+        out.push('<p>'+para.join(' ')+'</p>');
+        para=[];
+      }
+    });
+    el.innerHTML = out.join('');
+  }
+  document.querySelectorAll('#ai-showdown .full-pitch').forEach(autoParagraph);
+})();
+</script>
+<!-- === /AI SHOWDOWN PATCH ================================================ -->
+
+  
 </body>
 </html>
 
