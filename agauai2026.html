@@ -970,7 +970,71 @@ My vote: Lviv (UA) × Przemyśl (PL) — the Twin‑City Peace Corridor.</p></di
 </script>
 <!-- === /Improved Modal + Formatter ======================================= -->
 
- 
+ <!-- === AI SHOWDOWN: button color + close behavior fix ==================== -->
+<style>
+  /* Read Full Pitch: black on blue */
+  #ai-showdown [data-full-toggle]{
+    background:#43a3ff;          /* blue */
+    color:#000;                   /* black text */
+    border:1px solid #2a7dd6;
+  }
+  #ai-showdown [data-full-toggle]:hover{
+    filter:brightness(0.98);
+    box-shadow:0 0 0 2px rgba(67,163,255,.25) inset;
+  }
+  #ai-showdown [data-full-toggle]:focus{
+    outline:2px solid rgba(67,163,255,.55);
+    outline-offset:2px;
+  }
+</style>
+
+<script>
+(() => {
+  const backdrop = document.getElementById('pitchModalBackdrop');
+
+  // Ensure inline panels are always hidden (useful if someone expanded before the modal upgrade)
+  function hideAllInlineFullPitches(){
+    document.querySelectorAll('#ai-showdown .full-pitch').forEach(el => {
+      // put it back to collapsed state
+      el.setAttribute('hidden','');
+    });
+    // also reset any toggle button text if you changed it elsewhere
+    document.querySelectorAll('#ai-showdown [data-full-toggle]').forEach(btn=>{
+      btn.textContent = 'Read Full Pitch';
+    });
+  }
+
+  // On modal open: also collapse any inline full-pitch behind it
+  document.querySelectorAll('#ai-showdown [data-full-toggle]').forEach(btn=>{
+    btn.addEventListener('click', () => {
+      hideAllInlineFullPitches();
+    }, {capture:true}); // run before other handlers
+  });
+
+  // On modal close: hide inline full-pitch content as well
+  function wireClose(){
+    const closeBtn = document.getElementById('pitchModalClose');
+    if (!closeBtn) return;
+
+    const closeAll = () => {
+      // hide modal
+      backdrop?.setAttribute('aria-hidden','true');
+      // hide any inline expanded text
+      hideAllInlineFullPitches();
+    };
+
+    // replace previous handlers (if any) with ours
+    closeBtn.addEventListener('click', closeAll);
+    backdrop?.addEventListener('click', (e)=>{ if (e.target === backdrop) closeAll(); });
+    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeAll(); });
+  }
+
+  // run once on load (or after your modal is injected)
+  wireClose();
+})();
+</script>
+<!-- === /AI SHOWDOWN patch =============================================== -->
+
 </body>
 </html>
 
