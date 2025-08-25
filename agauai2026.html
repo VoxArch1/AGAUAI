@@ -809,7 +809,188 @@ My vote: Lviv (UA) × Przemyśl (PL) — the Twin‑City Peace Corridor.</p></di
 </script>
 <!-- === /AI SHOWDOWN PATCH ================================================ -->
 
-  
+ <!-- === AI SHOWDOWN: Modal + Readability Enhancements ===================== -->
+<style>
+  /* Better readability for any expanded content */
+  #ai-showdown .full-pitch {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #f5f7fa;
+    margin-top: .75rem;
+    padding: .9rem 1rem;
+    border: 1px dashed #333;
+    border-radius: 12px;
+    background: #0f1422;
+  }
+  #ai-showdown .full-pitch h4,
+  #ai-showdown .full-pitch h5 {
+    margin: .8rem 0 .35rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  #ai-showdown .full-pitch p { margin: .6rem 0; }
+  #ai-showdown .full-pitch ul { margin: .6rem 0 .6rem 1.3rem; }
+  #ai-showdown .full-pitch li { margin-bottom: .35rem; }
+
+  /* Modal document viewer */
+  .pitch-modal-backdrop{
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,.65);
+    display: none;
+  }
+  .pitch-modal{
+    position: absolute; inset: 4% 50% auto 50%;
+    transform: translate(-50%, 0);
+    width: min(1100px, 92vw);
+    max-height: 92%;
+    overflow: auto;
+    background: #0b0f18;
+    border: 1px solid #121826;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+  .pitch-modal header{
+    display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+    position: sticky; top:0; background:#0b0f18; padding-bottom:.6rem; z-index:1;
+  }
+  .pitch-modal h3{
+    margin: 0; font-size: 1.2rem; color: #fff;
+  }
+  .pitch-modal .close-btn{
+    appearance:none; border:1px solid #2a3447; background:#111827; color:#e5ecf5;
+    border-radius: 10px; padding:.45rem .7rem; cursor:pointer;
+  }
+  .pitch-modal .body{
+    font-size: 1.06rem; line-height: 1.85; color:#e8eef7;
+  }
+  .pitch-modal .body h4,
+  .pitch-modal .body h5{
+    color:#fff; margin: 1rem 0 .4rem; font-weight: 800;
+  }
+  .pitch-modal .body p{ margin:.65rem 0; }
+  .pitch-modal .body ul{ margin:.6rem 0 .8rem 1.4rem; }
+  .pitch-modal .body li{ margin:.35rem 0; }
+
+  /* Show modal when open */
+  .pitch-modal-backdrop[aria-hidden="false"]{ display:block; }
+  /* Make “Read Full Pitch” feel clickable */
+  #ai-showdown [data-full-toggle]{ border:1px solid #223044; background:#101828; color:#e6f0ff; }
+  #ai-showdown [data-full-toggle]:hover{ filter:brightness(1.1); }
+</style>
+
+<!-- Modal root (one per page) -->
+<div id="pitchModalBackdrop" class="pitch-modal-backdrop" aria-hidden="true">
+  <div class="pitch-modal" role="dialog" aria-modal="true" aria-labelledby="pitchModalTitle">
+    <header>
+      <h3 id="pitchModalTitle">Full Pitch</h3>
+      <button class="close-btn" type="button" id="pitchModalClose">Close</button>
+    </header>
+    <div class="body" id="pitchModalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---- Utilities ---------------------------------------------------------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  // Auto-structure: if a full-pitch is one long blob, split into neat paragraphs.
+  function autoParagraphize(container){
+    if (!container) return;
+    // If already structured, do nothing
+    if (container.querySelector('p, h4, h5, ul, ol, li, br')) return;
+
+    const text = container.textContent.trim();
+    if (!text) return;
+
+    const sentences = text.split(/(?<=[\.\?\!])\s+(?=[A-Z0-9“"(\[])/g);
+    const paras = [];
+    let buf = [];
+    sentences.forEach((s,i)=>{
+      buf.push(s);
+      if (buf.length >= 3 || i === sentences.length-1){
+        paras.push('<p>' + buf.join(' ') + '</p>');
+        buf = [];
+      }
+    });
+    container.innerHTML = paras.join('');
+  }
+
+  // Prepare all on-page full-pitch blocks
+  $$('#ai-showdown .full-pitch').forEach(el => autoParagraphize(el));
+
+  // ---- Modal logic -------------------------------------------------------
+  const backdrop = $('#pitchModalBackdrop');
+  const modalTitle = $('#pitchModalTitle');
+  const modalBody = $('#pitchModalBody');
+  const closeBtn = $('#pitchModalClose');
+
+  function openModal(fromButton){
+    const panel = fromButton.closest('.ai-panel');
+    const ai = panel?.getAttribute('data-ai') || 'AI';
+    const heading = panel?.querySelector('h3')?.textContent?.trim() || 'Full Pitch';
+    const src = panel?.querySelector('.full-pitch');
+    if (!src) return;
+
+    // Clone to preserve original; ensure readable chunking
+    const clone = src.cloneNode(true);
+    clone.removeAttribute('hidden');
+    autoParagraphize(clone);
+
+    modalTitle.textContent = heading;
+    modalBody.innerHTML = '';
+    // If your full-pitch already has headings/lists, we re-use them; otherwise paragraphs created above
+    modalBody.append(...clone.childNodes);
+
+    backdrop.setAttribute('aria-hidden', 'false');
+    // focus management
+    setTimeout(()=> closeBtn.focus(), 0);
+  }
+
+  function closeModal(){
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', (e)=>{ if(e.target===backdrop) closeModal(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+  // Wire up all "Read Full Pitch" buttons to open modal instead of inline toggle
+  $$('#ai-showdown [data-full-toggle]').forEach(btn=>{
+    btn.removeEventListener?.('__noop', ()=>{}); // no-op
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      openModal(btn);
+    });
+    // Aria label for accessibility
+    btn.setAttribute('aria-haspopup','dialog');
+    btn.setAttribute('title','Open full pitch in a reader view');
+    btn.textContent = 'Read Full Pitch';
+  });
+
+  // Optional: deep-link support (#ai-showdown?ai=deepseek&open=full)
+  try {
+    if (location.hash.startsWith('#ai-showdown')) {
+      const q = new URLSearchParams(location.hash.split('?')[1] || '');
+      const ai = q.get('ai'); const open = q.get('open');
+      if (ai) {
+        const tab = document.querySelector('#ai-showdown .ai-tab[data-ai="'+ai+'"]');
+        tab && tab.click();
+        if (open === 'full') {
+          const panel = document.querySelector('#ai-showdown .ai-panel[data-ai="'+ai+'"]');
+          const btn = panel && panel.querySelector('[data-full-toggle]');
+          if (btn) { openModal(btn); }
+          panel && panel.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      }
+    }
+  } catch(e){}
+})();
+</script>
+<!-- === /AI SHOWDOWN: Modal + Readability Enhancements ==================== -->
+ 
 </body>
 </html>
 
