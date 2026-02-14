@@ -1,0 +1,6 @@
+{
+  "cycleLengthHours": 24,
+  "globalDecayRate": 0.07,
+  "promptCost": 1,
+  "baseBreathIntervalCycles": 3
+}
