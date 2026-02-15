@@ -95,11 +95,15 @@
       lazyAllMedia();
 
       var footer = ensureFooter();
-      addSiteMap(footer);
+      if (!document.body.classList.contains("home-page")) {
+        addSiteMap(footer);
+      }
     }).catch(function () {
       lazyAllMedia();
       var footer = ensureFooter();
-      addSiteMap(footer);
+      if (!document.body.classList.contains("home-page")) {
+        addSiteMap(footer);
+      }
     });
   });
 })();
