@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "switchboard": "node scripts/switchboard.mjs"
+    "switchboard": "node scripts/switchboard.mjs",
+    "build:worlds": "node scripts/build-worlds-index.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.26.0",
