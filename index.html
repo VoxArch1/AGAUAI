@@ -119,6 +119,26 @@
       color: rgba(233, 237, 255, 0.72);
     }
 
+    .sigil-footer {
+      margin-top: clamp(2rem, 4vw, 3rem);
+      text-align: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(233, 237, 255, 0.56);
+      text-transform: uppercase;
+    }
+
+    .sigil-footer a {
+      color: rgba(233, 237, 255, 0.72);
+      text-decoration: none;
+    }
+
+    .sigil-footer a:focus-visible,
+    .sigil-footer a:hover {
+      color: rgba(245, 247, 255, 0.9);
+      text-decoration: underline;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .sigil-tile {
         transition: none;
@@ -140,6 +160,10 @@
     <section aria-label="Sigil worlds">
       <div id="sigilGrid" class="sigil-grid" aria-live="polite"></div>
     </section>
+
+    <footer class="sigil-footer">
+      <a href="https://github.com/VoxArch1/AGAUAI">GitHub</a>
+    </footer>
   </main>
 
   <script src="assets/js/sigil-field.js" defer></script>
