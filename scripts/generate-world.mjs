@@ -50,18 +50,13 @@ function toIntOrDefault(value, fallback = 10) {
   return Math.max(0, Math.round(num));
 }
 
-function parseStrictJson(text) {
-  const raw = String(text || '').trim();
-  if (!raw.startsWith('{') || !raw.endsWith('}')) {
+function extractJson(text) {
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start === -1 || end === -1 || end <= start) {
     throw new Error('Model returned non-JSON output.');
   }
-
-  const parsed = JSON.parse(raw);
-  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    throw new Error('Model returned JSON, but not an object.');
-  }
-
-  return parsed;
+  return JSON.parse(text.slice(start, end + 1));
 }
 
 function runBuildWorlds() {
@@ -101,7 +96,7 @@ async function generateWorldPayload() {
     throw new Error('No model content returned.');
   }
 
-  const parsed = parseStrictJson(content);
+  const parsed = extractJson(content);
 
   return {
     worldId: normalizeWorldId(parsed.worldId),

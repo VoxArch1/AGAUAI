@@ -15,28 +15,7 @@
   }
 
   function renderState(message) {
-    container.innerHTML = '';
-    const state = document.createElement('p');
-    state.className = 'world-state';
-    state.textContent = message;
-    container.appendChild(state);
-  }
-
-  function createCopySection(title, value) {
-    if (!value) return null;
-
-    const section = document.createElement('section');
-    section.className = 'world-section';
-
-    const heading = document.createElement('h2');
-    heading.textContent = title;
-
-    const copy = document.createElement('p');
-    copy.className = 'world-copy';
-    copy.textContent = value;
-
-    section.append(heading, copy);
-    return section;
+    container.innerHTML = `<p class="world-state">${message}</p>`;
   }
 
   function renderWorld(id, worldJson, electrumJson) {
@@ -48,54 +27,41 @@
     const breathsAvailable = numberOrNull(electrumJson?.breathsAvailable);
     const cycle = numberOrNull(electrumJson?.cycle ?? worldJson?.cycle);
 
-    container.innerHTML = '';
+    container.innerHTML = `
+      <article class="world-card">
+        <h1 class="world-name">${stewardName}</h1>
+        <div class="world-viewport" aria-hidden="true">
+          <span class="world-glyph">✶</span>
+          <img class="world-sigil" alt="${stewardName} sigil" loading="lazy" src="/worlds/${encodeURIComponent(id)}/sigil.png" />
+        </div>
+        <p class="world-stats">ELECTRUM: ${currentElectrum ?? '—'} • BREATHS: ${breathsAvailable ?? '—'} • CYCLE: ${cycle ?? '—'}</p>
+        ${sigilPrompt ? `<section class="world-section"><h2>Sigil Prompt</h2><p class="world-copy"></p></section>` : ''}
+        ${strategy ? `<section class="world-section"><h2>Strategy / Intention</h2><p class="world-copy"></p></section>` : ''}
+      </article>
+    `;
 
-    const article = document.createElement('article');
-    article.className = 'world-card';
+    const sigil = container.querySelector('.world-sigil');
+    const glyph = container.querySelector('.world-glyph');
+    if (sigil && glyph) {
+      sigil.addEventListener('load', () => {
+        sigil.classList.add('is-ready');
+        glyph.setAttribute('hidden', 'hidden');
+      });
+      sigil.addEventListener('error', () => {
+        sigil.remove();
+        glyph.removeAttribute('hidden');
+      });
+    }
 
-    const name = document.createElement('h1');
-    name.className = 'world-name';
-    name.textContent = stewardName;
-
-    const viewport = document.createElement('div');
-    viewport.className = 'world-viewport';
-    viewport.setAttribute('aria-hidden', 'true');
-
-    const glyph = document.createElement('span');
-    glyph.className = 'world-glyph';
-    glyph.textContent = '✶';
-
-    const sigil = document.createElement('img');
-    sigil.className = 'world-sigil';
-    sigil.alt = `${stewardName} sigil`;
-    sigil.loading = 'lazy';
-    sigil.src = `/worlds/${encodeURIComponent(id)}/sigil.png`;
-
-    sigil.addEventListener('load', () => {
-      sigil.classList.add('is-ready');
-      glyph.setAttribute('hidden', 'hidden');
-    });
-
-    sigil.addEventListener('error', () => {
-      sigil.remove();
-      glyph.removeAttribute('hidden');
-    });
-
-    viewport.append(glyph, sigil);
-
-    const stats = document.createElement('p');
-    stats.className = 'world-stats';
-    stats.textContent = `ELECTRUM: ${currentElectrum ?? '—'} • BREATHS: ${breathsAvailable ?? '—'} • CYCLE: ${cycle ?? '—'}`;
-
-    article.append(name, viewport, stats);
-
-    const sigilSection = createCopySection('Sigil Prompt', sigilPrompt);
-    if (sigilSection) article.appendChild(sigilSection);
-
-    const strategySection = createCopySection('Strategy / Intention', strategy);
-    if (strategySection) article.appendChild(strategySection);
-
-    container.appendChild(article);
+    const copies = container.querySelectorAll('.world-copy');
+    let copyIndex = 0;
+    if (sigilPrompt && copies[copyIndex]) {
+      copies[copyIndex].textContent = sigilPrompt;
+      copyIndex += 1;
+    }
+    if (strategy && copies[copyIndex]) {
+      copies[copyIndex].textContent = strategy;
+    }
   }
 
   async function main() {
