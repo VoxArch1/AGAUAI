@@ -34,17 +34,34 @@
     const statsLine = worldStats(world);
 
     card.className = 'sigil-tile';
-    card.href = `/worlds/${encodeURIComponent(world.id)}/`;
+    card.href = `/world.html?id=${encodeURIComponent(world.id)}`;
     card.setAttribute('aria-label', `${world.stewardName}. ${statsLine}`);
 
     const viewport = document.createElement('div');
     viewport.className = 'sigil-viewport';
-    viewport.setAttribute('aria-hidden', 'true');
 
     const glyph = document.createElement('span');
     glyph.className = 'sigil-glyph';
     glyph.textContent = '✶';
     viewport.appendChild(glyph);
+
+    const sigilImg = document.createElement('img');
+    sigilImg.className = 'sigil-image';
+    sigilImg.loading = 'lazy';
+    sigilImg.alt = `${world.stewardName} sigil`;
+    sigilImg.src = `/worlds/${encodeURIComponent(world.id)}/sigil.png`;
+
+    sigilImg.addEventListener('load', () => {
+      sigilImg.classList.add('is-ready');
+      glyph.setAttribute('hidden', 'hidden');
+    });
+
+    sigilImg.addEventListener('error', () => {
+      sigilImg.remove();
+      glyph.removeAttribute('hidden');
+    });
+
+    viewport.appendChild(sigilImg);
 
     const name = document.createElement('h2');
     name.className = 'sigil-name';

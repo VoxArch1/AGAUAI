@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "switchboard": "node scripts/switchboard.mjs",
-    "build:worlds": "node scripts/build-worlds-index.mjs"
+    "build:worlds": "node scripts/build-worlds-index.mjs",
+    "gen:world": "node scripts/generate-world.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.26.0",
