@@ -1,0 +1,48 @@
+name: World Tick
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  world-tick:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run world tick script
+        run: node scripts/world-tick.mjs
+
+      - name: Commit and push updated world JSON files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          shopt -s globstar nullglob
+          files=(public/worlds/**/*.json)
+
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No JSON files found under public/worlds."
+            exit 0
+          fi
+
+          git add "${files[@]}"
+
+          if git diff --cached --quiet; then
+            echo "No world JSON changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update world data"
+          git push
