@@ -5,7 +5,8 @@
   "scripts": {
     "switchboard": "node scripts/switchboard.mjs",
     "build:worlds": "node scripts/build-worlds-index.mjs",
-    "gen:world": "node scripts/generate-world.mjs"
+    "gen:world": "node scripts/generate-world.mjs",
+    "birth": "node scripts/birth-steward.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.26.0",
