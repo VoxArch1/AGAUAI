@@ -1,8 +1,8 @@
 {
   "worldId": "substratum",
   "phase": "genesis",
-  "cycle": 732,
-  "breathCounterCycles": 732,
-  "lastTickAt": "2026-03-23T10:42:28.520Z",
+  "cycle": 733,
+  "breathCounterCycles": 733,
+  "lastTickAt": "2026-03-23T11:36:25.437Z",
   "notes": "Genesis state initialized."
 }
