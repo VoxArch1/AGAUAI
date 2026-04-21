@@ -3,15 +3,22 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from "openai";
 
 export const PROVIDER_ORDER = ["ChatGPT", "Gemini", "Claude", "Grok", "LLaMA"];
+const OPENAI_CALLS_ENABLED = process.env.ALLOW_OPENAI_CALLS === "true";
 
 export function enabledProviders() {
   return {
     Claude: !!process.env.ANTHROPIC_API_KEY,
     Grok: !!process.env.XAI_API_KEY,
     Gemini: !!process.env.GEMINI_API_KEY,
-    LLaMA: !!process.env.OPENAI_API_KEY,
-    ChatGPT: !!(process.env.CHATGPT_API_KEY || process.env.OPENAI_API_KEY)
+    LLaMA: OPENAI_CALLS_ENABLED && !!process.env.OPENAI_API_KEY,
+    ChatGPT: OPENAI_CALLS_ENABLED && !!(process.env.CHATGPT_API_KEY || process.env.OPENAI_API_KEY)
   };
+}
+
+function assertOpenAICallsEnabled(name) {
+  if (!OPENAI_CALLS_ENABLED) {
+    throw new Error(`${name} calls are temporarily disabled. Set ALLOW_OPENAI_CALLS=true to re-enable.`);
+  }
 }
 
 async function callClaude(prompt) {
@@ -46,6 +53,7 @@ async function callGrok(prompt) {
 }
 
 async function callLLaMA(prompt) {
+  assertOpenAICallsEnabled("OpenAI-compatible");
   const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     baseURL: process.env.OPENAI_BASEURL || undefined
@@ -59,6 +67,7 @@ async function callLLaMA(prompt) {
 }
 
 async function callChatGPT(prompt) {
+  assertOpenAICallsEnabled("ChatGPT");
   const client = new OpenAI({
     apiKey: process.env.CHATGPT_API_KEY || process.env.OPENAI_API_KEY,
     baseURL: process.env.CHATGPT_BASEURL || undefined
