@@ -1,8 +1,8 @@
 {
   "worldId": "quiet-lattice",
   "phase": "genesis",
-  "cycle": 1784,
-  "breathCounterCycles": 1784,
-  "lastTickAt": "2026-06-03T02:40:49.105Z",
+  "cycle": 1785,
+  "breathCounterCycles": 1785,
+  "lastTickAt": "2026-06-03T07:30:19.567Z",
   "notes": "Genesis state initialized."
 }
